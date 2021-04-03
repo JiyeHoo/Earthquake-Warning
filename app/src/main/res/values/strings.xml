@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Forestry In</string>
+
+    <string name="tv_login_title_left">Good·</string>
+    <string name="tv_login_title_right">Morning</string>
+    <string name="tv_login_title_info">地址灾害预警系统</string>
+    <string name="et_login_hint_username">User</string>
+    <string name="et_login_hint_pwd">Password</string>
+    <string name="bt_login_sign_in">Sign in</string>
+    <string name="bt_login_sign_up">Sign up</string>
+    <string name="tv_login_corp">GLUT © JiyeHoo</string>
+    <string name="tv_login_title_right_morning"> Morning</string>
+    <string name="tv_login_title_right_night"> Night</string>
+    <string name="tv_sign_up_title">Disaster warn</string>
+
+</resources>

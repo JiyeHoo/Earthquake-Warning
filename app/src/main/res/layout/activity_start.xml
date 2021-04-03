@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#03557A">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:foreground="#75000000"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/back_main" />-->
+
+        <me.wangyuwei.particleview.ParticleView
+            android:id="@+id/pv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:pv_background_color="#03557A"
+            app:pv_host_text="Disaster"
+            app:pv_host_text_anim_time="1000"
+            app:pv_host_text_size="60sp"
+            app:pv_particle_text="warn"
+            app:pv_particle_text_size="60sp"
+            app:pv_spread_anim_time="1000"
+            app:pv_text_anim_time="1000"
+            app:pv_text_color="#BAF4EF" />
+    </FrameLayout>
+
+
+</LinearLayout>

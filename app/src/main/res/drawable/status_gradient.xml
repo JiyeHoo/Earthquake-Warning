@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="270"
+        android:endColor="@android:color/transparent"
+        android:startColor="#CC000000" />
+    <!-- shape节点中, 可以通过android:shape来设置形状, 默认是矩形.
+    gradient节点中angle的值270是从上到下，0是从左到右，90是从下到上。
+    此处的效果就是从下向上, 颜色逐渐由纯透明慢慢变成黑透色-->
+</shape>

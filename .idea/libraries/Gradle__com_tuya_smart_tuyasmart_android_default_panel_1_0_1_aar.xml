@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.tuya.smart:tuyasmart-android-default-panel:1.0.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5c3f1f15df862440d1c3fa1debfe8d96/jetified-tuyasmart-android-default-panel-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5c3f1f15df862440d1c3fa1debfe8d96/jetified-tuyasmart-android-default-panel-1.0.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5c3f1f15df862440d1c3fa1debfe8d96/jetified-tuyasmart-android-default-panel-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5c3f1f15df862440d1c3fa1debfe8d96/jetified-tuyasmart-android-default-panel-1.0.1/jars/libs/r-classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tuya.smart/tuyasmart-android-default-panel/1.0.1/313f962558578100d2b7a84cc4a53e6165f7575f/tuyasmart-android-default-panel-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

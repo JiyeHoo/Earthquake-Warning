@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mxn.soul.flowingdrawer_core.FlowingDrawer
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:edPosition="1"
+    app:edMenuSize="260dp"
+    app:edMenuBackground="#70000000">
+
+    <!--content-->
+    <RelativeLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#03557A">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/back_main_2"
+                        android:foreground="#30000000" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="一起变得更美好！"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/gotham"
+                android:layout_marginTop="50dp" />
+
+            <TextView
+                android:id="@+id/one_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您想要从那个目标开始完成？"
+                android:fontFamily="@font/gotham"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:textColor="@color/white"/>
+
+            <include layout="@layout/item_main_layout"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
+
+            <com.getbase.floatingactionbutton.FloatingActionsMenu
+                android:id="@+id/floating_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="end|bottom"
+                app:fab_addButtonColorNormal="@color/accent_material_light"
+                app:fab_addButtonColorPressed="#016358">
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/map"
+                    app:fab_colorNormal="@color/accent_material_light"
+                    app:fab_colorPressed="#016358"/>
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/show"
+                    app:fab_colorNormal="@color/accent_material_light"
+                    app:fab_colorPressed="#016358"/>
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/set"
+                    app:fab_colorNormal="@color/accent_material_light"
+                    app:fab_colorPressed="#016358"/>
+            </com.getbase.floatingactionbutton.FloatingActionsMenu>
+        </FrameLayout>
+
+        <io.alterac.blurkit.BlurLayout
+            android:id="@+id/blurLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            app:blk_downscaleFactor="0.5"
+            app:blk_fps="0"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <!--menu-->
+    <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
+        android:id="@+id/menulayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/nav_menu_layout"/>
+
+    </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
+
+</com.mxn.soul.flowingdrawer_core.FlowingDrawer>
