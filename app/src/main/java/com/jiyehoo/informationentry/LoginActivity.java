@@ -2,9 +2,11 @@ package com.jiyehoo.informationentry;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.transition.Fade;
 import android.transition.Slide;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ import com.jiyehoo.informationentry.util.OnSwipeTouchListener;
 import com.jiyehoo.informationentry.view.ILoginView;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,10 +42,12 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     private TextView textView, mTvComp;
     private Button mBtnSignIn, mBtnSignUp;
     private EditText mEtUser, mEtPwd;
+    private CheckBox mCbRememberPwd;
     private int count = 0;
     private SpinKitView spinKitView;
 
     private LoginPresenter presenter;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,8 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         bindView();
         // P 的实现
         presenter = new LoginPresenter(this);
+        // 本地储存
+        initPref();
         // 按钮
         btnClick();
         // 时间背景
@@ -88,6 +96,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         mBtnSignIn = findViewById(R.id.btn_sign_in);
         mBtnSignUp = findViewById(R.id.btn_sign_up);
         mTvComp = findViewById(R.id.tv_comp);
+        mCbRememberPwd = findViewById(R.id.cb_login_remember_pwd);
 
         // 设置错误颜色
         mTilPwd.setErrorTextColor(ColorStateList.valueOf(getColor(R.color.white)));
@@ -106,9 +115,8 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
         });
 
-        mBtnSignUp.setOnClickListener(v -> {
-            gotoSignInActivity();
-        });
+        mBtnSignUp.setOnClickListener(v ->
+                gotoSignInActivity());
 
         mTvComp.setOnClickListener(v -> {
             final Uri uri = Uri.parse("http://blog.jiyehoo.com:81/");
@@ -206,6 +214,24 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     }
 
     @Override
+    public boolean isRemember() {
+        return false;
+    }
+
+    @Override
+    public void rememberPwd() {
+        SharedPreferences.Editor prefEdit = preferences.edit();
+        if (mCbRememberPwd.isChecked()) {
+            prefEdit.putBoolean("haveRemember", true);
+            prefEdit.putString("userName", getUserName());
+            prefEdit.putString("pwd", getPwd());
+        } else {
+            prefEdit.clear();
+        }
+        prefEdit.apply();
+    }
+
+    @Override
     public void gotoMainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
@@ -255,8 +281,21 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
     private void showError(TextInputLayout textInputLayout, String error){
         textInputLayout.setError(error);
-        textInputLayout.getEditText().setFocusable(true);
+        Objects.requireNonNull(textInputLayout.getEditText()).setFocusable(true);
         textInputLayout.getEditText().setFocusableInTouchMode(true);
         textInputLayout.getEditText().requestFocus();
+    }
+
+    /**
+     * 初始化本地储存
+     */
+    private void initPref() {
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean haveRemember = preferences.getBoolean("haveRemember", false);
+        if (haveRemember) {
+            mEtUser.setText(preferences.getString("userName", ""));
+            mEtPwd.setText(preferences.getString("pwd", ""));
+            mCbRememberPwd.setChecked(true);
+        }
     }
 }

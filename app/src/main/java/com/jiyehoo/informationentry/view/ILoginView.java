@@ -9,6 +9,10 @@ public interface ILoginView {
     // 按钮禁用
     void ableBtn();
     void disableBtn();
+    // 是否记住密码
+    boolean isRemember();
+    // 存储账号密码
+    void rememberPwd();
 
     void gotoMainActivity();
     void gotoSignInActivity();

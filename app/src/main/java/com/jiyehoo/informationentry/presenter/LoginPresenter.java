@@ -32,7 +32,7 @@ public class LoginPresenter {
             @Override
             public void onSuccess(User user) {
                 Log.d(TAG, "登录成功");
-                // todo sp本地记住密码
+                view.rememberPwd();
                 view.disShowLoading();
                 view.showToast("登录成功");
                 view.gotoMainActivity();

@@ -12,5 +12,6 @@
     <string name="tv_login_title_right_morning"> Morning</string>
     <string name="tv_login_title_right_night"> Night</string>
     <string name="tv_sign_up_title">Disaster warn</string>
+    <string name="cb_remember_pwd">记住密码</string>
 
 </resources>
