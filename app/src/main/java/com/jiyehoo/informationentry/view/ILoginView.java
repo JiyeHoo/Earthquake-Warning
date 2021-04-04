@@ -10,9 +10,15 @@ public interface ILoginView {
     void ableBtn();
     void disableBtn();
     // 是否记住密码
-    boolean isRemember();
+//    boolean isRemember();
     // 存储账号密码
-    void rememberPwd();
+//    void rememberPwd();
+
+    // 加载记住的账号密码
+    void loadPwd(String userName, String pwd);
+
+    // 获取checkBox 状态
+    boolean getCheckBoxState();
 
     void gotoMainActivity();
     void gotoSignInActivity();

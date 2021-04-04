@@ -47,7 +47,6 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     private SpinKitView spinKitView;
 
     private LoginPresenter presenter;
-    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +61,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         // P 的实现
         presenter = new LoginPresenter(this);
         // 本地储存
-        initPref();
+        presenter.initPref();
         // 按钮
         btnClick();
         // 时间背景
@@ -213,22 +212,17 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         mBtnSignIn.setEnabled(false);
     }
 
+
     @Override
-    public boolean isRemember() {
-        return false;
+    public void loadPwd(String userName, String pwd) {
+        mEtUser.setText(userName);
+        mEtPwd.setText(pwd);
+        mCbRememberPwd.setChecked(true);
     }
 
     @Override
-    public void rememberPwd() {
-        SharedPreferences.Editor prefEdit = preferences.edit();
-        if (mCbRememberPwd.isChecked()) {
-            prefEdit.putBoolean("haveRemember", true);
-            prefEdit.putString("userName", getUserName());
-            prefEdit.putString("pwd", getPwd());
-        } else {
-            prefEdit.clear();
-        }
-        prefEdit.apply();
+    public boolean getCheckBoxState() {
+        return mCbRememberPwd.isChecked();
     }
 
     @Override
@@ -286,16 +280,16 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         textInputLayout.getEditText().requestFocus();
     }
 
-    /**
-     * 初始化本地储存
-     */
-    private void initPref() {
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean haveRemember = preferences.getBoolean("haveRemember", false);
-        if (haveRemember) {
-            mEtUser.setText(preferences.getString("userName", ""));
-            mEtPwd.setText(preferences.getString("pwd", ""));
-            mCbRememberPwd.setChecked(true);
-        }
-    }
+//    /**
+//     * 初始化本地储存
+//     */
+//    private void initPref() {
+//        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        boolean haveRemember = preferences.getBoolean("haveRemember", false);
+//        if (haveRemember) {
+//            mEtUser.setText(preferences.getString("userName", ""));
+//            mEtPwd.setText(preferences.getString("pwd", ""));
+//            mCbRememberPwd.setChecked(true);
+//        }
+//    }
 }

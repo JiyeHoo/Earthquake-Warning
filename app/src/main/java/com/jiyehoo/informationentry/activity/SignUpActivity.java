@@ -1,7 +1,5 @@
 package com.jiyehoo.informationentry.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,18 +13,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.jiyehoo.informationentry.LoginActivity;
-import com.jiyehoo.informationentry.MainActivity;
 import com.jiyehoo.informationentry.R;
-import com.jiyehoo.informationentry.model.ISignUpModel;
 import com.jiyehoo.informationentry.presenter.SignUpPresenter;
 import com.jiyehoo.informationentry.view.ISignUpView;
 
 import net.frakbot.jumpingbeans.JumpingBeans;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity implements ISignUpView {
     private final String TAG = "SignUpActivity";
@@ -151,6 +148,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
             if (validateAccount(getEmail())) {
                 presenter.getSignCode(getEmail());
             } else {
+                Log.d(TAG, "邮箱为空");
                 Toast.makeText(this, "请输入正确邮箱", Toast.LENGTH_SHORT).show();
             }
         });
@@ -172,9 +170,8 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
         });
 
         // 已经有账号
-        mTvHave.setOnClickListener(v -> {
-            gotoLoginActivity();
-        });
+        mTvHave.setOnClickListener(v ->
+                gotoLoginActivity());
     }
 
     @Override
@@ -225,7 +222,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
 
     private void showError(TextInputLayout textInputLayout, String error){
         textInputLayout.setError(error);
-        textInputLayout.getEditText().setFocusable(true);
+        Objects.requireNonNull(textInputLayout.getEditText()).setFocusable(true);
         textInputLayout.getEditText().setFocusableInTouchMode(true);
         textInputLayout.getEditText().requestFocus();
     }
@@ -279,7 +276,6 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
      * 验证验证码
      */
     private boolean validateCode(String code){
-        // todo
         if(TextUtils.isEmpty(code)){
             showError(mTilCode,"验证码不能为空");
             return false;

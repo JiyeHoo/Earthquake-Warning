@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.jiyehoo.informationentry.activity.ItemActivity1;
@@ -26,8 +28,10 @@ import com.jiyehoo.informationentry.activity.MapActivity;
 import com.jiyehoo.informationentry.activity.NoticeActivity;
 import com.jiyehoo.informationentry.activity.SetActivity;
 import com.jiyehoo.informationentry.activity.ShowActivity;
+import com.jiyehoo.informationentry.presenter.MainPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
 import com.jiyehoo.informationentry.util.HttpUtil;
+import com.jiyehoo.informationentry.view.IMainView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
@@ -35,6 +39,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.alterac.blurkit.BlurLayout;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,7 +47,7 @@ import okhttp3.Response;
 
 import static com.jiyehoo.informationentry.R.color.black;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements IMainView {
 
     private CardView cardView_1, cardView_2, cardView_3, cardView_4;
     private FlowingDrawer mDrawer;
@@ -51,6 +56,11 @@ public class MainActivity extends BaseActivity {
     private BlurLayout blurLayout;
     private FloatingActionsMenu floatingActionsMenu;
     private FloatingActionButton mFBtnMap, mFBtnShow, mFBtnSet;
+    private TextView mTvNavName, mTvNavEmail;
+    private CircleImageView mCivHeadPic;
+
+
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +73,22 @@ public class MainActivity extends BaseActivity {
         setupWindowAnimations();
         // 绑定View
         bindView();
+        // 初始化显示信息
+        initView();
         // 悬浮按钮点击
         FBtnClick();
-        // 一言
-        setOneText();
         // 侧栏跳转
         setNav();
+    }
+
+    private void initView() {
+
+        // P 的实现
+        presenter = new MainPresenter(this);
+        // 一言
+        presenter.setOneText();
+        // 侧栏用户数据
+        presenter.setUserInfo();
     }
 
     private void FBtnClick() {
@@ -88,6 +108,11 @@ public class MainActivity extends BaseActivity {
             floatingActionsMenu.collapse();
             Intent intent = new Intent(this, SetActivity.class);
             startActivity(intent);
+        });
+
+        mTvNavName.setOnClickListener(v -> {
+            // todo 上传nickName
+            presenter.updateNickName();
         });
     }
 
@@ -118,17 +143,17 @@ public class MainActivity extends BaseActivity {
     }
 
     private void fullScreen() {
-        if (Build.VERSION.SDK_INT >= 24) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else {
-            Toast.makeText(this, "版本过低，无法渲染状态栏", Toast.LENGTH_SHORT).show();
-        }
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     private void bindView() {
+        mTvNavName = findViewById(R.id.tv_nav_user_name);
+        mTvNavEmail = findViewById(R.id.tv_nav_user_email);
+        mCivHeadPic = findViewById(R.id.civ_nav_head_pic);
+
         mRlMain = findViewById(R.id.main_layout);
         blurLayout = findViewById(R.id.blurLayout);
 
@@ -205,22 +230,6 @@ public class MainActivity extends BaseActivity {
         valueAnimator.start();
     }
 
-    private void setOneText() {
-        HttpUtil.sendOkHttpRequest("https://v1.hitokoto.cn/?c=i&encode=text&length=15", new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.d("###autoText", "一言请求失败");
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                final String s = response.body().string();
-                runOnUiThread(() -> {
-                    mTvOneText.setText(s);
-                });
-            }
-        });
-    }
 
     @Override
     protected void onStart() {
@@ -231,5 +240,36 @@ public class MainActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         blurLayout.pauseBlur();
+    }
+
+    @Override
+    public void showOneTextToTv(String text) {
+        runOnUiThread(() -> {
+            if (!TextUtils.isEmpty(text) && text.length() > 0) {
+                mTvOneText.setText(text);
+            }
+        });
+    }
+
+    @Override
+    public void showToast(String msg) {
+        runOnUiThread(() -> {
+            if (!TextUtils.isEmpty(msg) && msg.length() > 0) {
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void showUserInfo(String nickname, String email, String headPicUrl) {
+        if (!TextUtils.isEmpty(nickname)) {
+            mTvNavName.setText(nickname);
+        }
+        if (!TextUtils.isEmpty(email)) {
+            mTvNavEmail.setText(email);
+        }
+        if (!TextUtils.isEmpty(headPicUrl)) {
+            Glide.with(this).load(headPicUrl).into(mCivHeadPic);
+        }
     }
 }

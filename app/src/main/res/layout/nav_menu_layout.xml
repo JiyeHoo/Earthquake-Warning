@@ -13,6 +13,7 @@
         android:background="@drawable/circle_background">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_nav_head_pic"
             android:layout_gravity="center"
             android:layout_width="77dp"
             android:layout_height="77dp"
@@ -21,6 +22,7 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/tv_nav_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -32,6 +34,7 @@
         android:textSize="26sp"/>
 
     <TextView
+        android:id="@+id/tv_nav_user_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
