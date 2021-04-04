@@ -8,6 +8,7 @@ import com.tuya.smart.android.user.api.IRegisterCallback;
 import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.IResultCallback;
+import com.tuya.smart.sdk.api.ITuyaUser;
 
 public class SignUpPresenter {
     private final String TAG = "SignUpPresenter";
@@ -24,7 +25,7 @@ public class SignUpPresenter {
      * 发送验证码
      */
     public void getSignCode(String email) {
-        TuyaHomeSdk.getUserInstance().getRegisterEmailValidateCode("86", email, new IResultCallback() {
+        TuyaHomeSdk.getUserInstance().sendVerifyCodeWithUserName(email, "", "86", 1, new IResultCallback() {
             @Override
             public void onError(String code, String error) {
                 Log.d(TAG, "发送验证码失败:" + error);

@@ -45,10 +45,9 @@ public class MainPresenter {
         builder.setTitle("修改昵称")
                 .setView(v)
                 .setPositiveButton("确定", (dialog, which) -> {
-                    // todo 修改
                     String name = editText.getText().toString();
                     if (!TextUtils.isEmpty(name) && name.length() > 0) {
-                        TuyaHomeSdk.getUserInstance().reRickName(name, new IReNickNameCallback() {
+                        TuyaHomeSdk.getUserInstance().updateNickName(name, new IReNickNameCallback() {
                             @Override
                             public void onSuccess() {
                                 Log.d(TAG, "修改昵称成功");
@@ -89,7 +88,6 @@ public class MainPresenter {
 
     public void setUserInfo() {
         model.getUserInfo();
-        // todo 显示
         view.showUserInfo(model.getUserInfoName(), model.getUserInfoEmail(), model.getUserInfoHeadPicUrl());
     }
 }

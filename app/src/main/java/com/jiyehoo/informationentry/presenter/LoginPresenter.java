@@ -75,7 +75,6 @@ public class LoginPresenter {
     }
 
     private void rememberPwd() {
-        //todo
         Log.d(TAG, "进入记住密码功能");
         SharedPreferences.Editor prefEdit = preferences.edit();
 //        final View v = LayoutInflater.from(mContext).inflate(R.layout.activity_login, null);
