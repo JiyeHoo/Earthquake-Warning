@@ -149,7 +149,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
                 presenter.getSignCode(getEmail());
             } else {
                 Log.d(TAG, "邮箱为空");
-                Toast.makeText(this, "请输入正确邮箱", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.sign_in_toast_email_error), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -232,7 +232,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
      */
     private boolean validateAccount(String account){
         if(TextUtils.isEmpty(account)){
-            showError(mTilEmail,"邮箱不能为空");
+            showError(mTilEmail, getString(R.string.sign_in_til_email_error));
             return false;
         }
         return true;
@@ -243,12 +243,12 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
      */
     private boolean validatePassword(String password) {
         if (TextUtils.isEmpty(password)) {
-            showError(mTilPwd,"密码不能为空");
+            showError(mTilPwd, getString(R.string.sign_in_til_pwd_error));
             return false;
         }
 
         if (password.length() < 6 || password.length() > 18) {
-            showError(mTilPwd,"密码长度为6-18位");
+            showError(mTilPwd, getString(R.string.sign_in_til_pwd_error_length));
             return false;
         }
 
@@ -260,12 +260,12 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
      */
     private boolean validatePhone(String phone) {
         if (TextUtils.isEmpty(phone)) {
-            showError(mTilPhone,"手机号不能为空");
+            showError(mTilPhone, getString(R.string.sign_in_til_phone_error_null));
             return false;
         }
 
         if (phone.length() != 11) {
-            showError(mTilPhone,"请输入正确的手机号");
+            showError(mTilPhone, getString(R.string.sign_in_til_phone_error_length));
             return false;
         }
 
@@ -277,12 +277,12 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
      */
     private boolean validateCode(String code){
         if(TextUtils.isEmpty(code)){
-            showError(mTilCode,"验证码不能为空");
+            showError(mTilCode, getString(R.string.sign_in_til_code_error_null));
             return false;
         }
 
         if (code.length() != 6) {
-            showError(mTilCode,"请输入正确的验证码");
+            showError(mTilCode,getString(R.string.sign_in_til_code_error_length));
             return false;
         }
         return true;

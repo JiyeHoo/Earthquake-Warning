@@ -168,7 +168,7 @@ public class ResetPwdActivity extends AppCompatActivity implements IResetPwdView
      */
     private boolean validateEmail(String account){
         if(TextUtils.isEmpty(account)){
-            showError(mTilEmail,"邮箱不能为空");
+            showError(mTilEmail, getString(R.string.reset_til_email_error_null));
             return false;
         }
         return true;
@@ -179,12 +179,12 @@ public class ResetPwdActivity extends AppCompatActivity implements IResetPwdView
      */
     private boolean validatePassword(String password) {
         if (TextUtils.isEmpty(password)) {
-            showError(mTilPwd,"密码不能为空");
+            showError(mTilPwd, getString(R.string.reset_til_pwd_error_null));
             return false;
         }
 
         if (password.length() < 6 || password.length() > 18) {
-            showError(mTilPwd,"密码长度为6-18位");
+            showError(mTilPwd, getString(R.string.reset_til_pwd_error_length));
             return false;
         }
 
@@ -196,12 +196,12 @@ public class ResetPwdActivity extends AppCompatActivity implements IResetPwdView
      */
     private boolean validateCode(String code){
         if(TextUtils.isEmpty(code)){
-            showError(mTilCode,"验证码不能为空");
+            showError(mTilCode, getString(R.string.reset_til_code_error_null));
             return false;
         }
 
         if (code.length() != 6) {
-            showError(mTilCode,"请输入正确的验证码");
+            showError(mTilCode, getString(R.string.reset_til_code_error_length));
             return false;
         }
         return true;

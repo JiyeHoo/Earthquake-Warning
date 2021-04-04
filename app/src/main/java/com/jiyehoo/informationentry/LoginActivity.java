@@ -2,11 +2,9 @@ package com.jiyehoo.informationentry;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.transition.Fade;
 import android.transition.Slide;
@@ -32,8 +30,6 @@ import com.jiyehoo.informationentry.view.ILoginView;
 
 import java.util.Calendar;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class LoginActivity extends BaseActivity implements ILoginView {
     private final String TAG = "LoginActivity";
@@ -111,7 +107,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 // 登录
                 presenter.login(getUserName(), getPwd());
             } else {
-                Log.d(TAG, "请输入合适的账号密码");
+                showToast(getString(R.string.login_toast_login_string_is_null));
             }
 
         });
@@ -120,7 +116,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 gotoSignInActivity());
 
         mTvComp.setOnClickListener(v -> {
-            final Uri uri = Uri.parse("http://blog.jiyehoo.com:81/");
+            final Uri uri = Uri.parse(getString(R.string.login_my_blog));
             final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
@@ -265,7 +261,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
      */
     private boolean validateAccount(String account){
         if(TextUtils.isEmpty(account)){
-            showError(mTilUsername,"请输入账号");
+            showError(mTilUsername,getString(R.string.login_til_error_username));
             return false;
         }
         mTilUsername.setErrorEnabled(false);
@@ -277,7 +273,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
      */
     private boolean validatePwd(String pwd){
         if(TextUtils.isEmpty(pwd)){
-            showError(mTilPwd,"请输入密码");
+            showError(mTilPwd,getString(R.string.login_til_error_pwd));
             return false;
         }
         mTilPwd.setErrorEnabled(false);
