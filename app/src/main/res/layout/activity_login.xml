@@ -144,13 +144,29 @@
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <CheckBox
-            android:id="@+id/cb_login_remember_pwd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cb_remember_pwd"
-            android:textColor="@color/white"
-            android:buttonTint="#96ffffff"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cb_login_remember_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cb_remember_pwd"
+                android:textColor="@color/white"
+                android:buttonTint="#96ffffff"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/tv_login_reset_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_login_reset_pwd"
+                android:textColor="#96ffffff"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

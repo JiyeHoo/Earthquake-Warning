@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#03557A">
+
+    <TextView
+        android:id="@+id/tv_reset_pwd_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_reset_pwd_title"
+        android:fontFamily="@font/head"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:paddingTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_reset_pwd_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#96ffffff"
+            android:theme="@style/EditScreenTextInputLayoutStyle">
+            <EditText
+                android:id="@+id/et_reset_pwd_email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawablePadding="16dp"
+                android:fontFamily="@font/calibri"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#96ffffff"
+            android:layout_marginTop="16dp"
+            android:theme="@style/EditScreenTextInputLayoutStyle"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="#90ffffff">
+            <EditText
+                android:id="@+id/et_reset_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawablePadding="16dp"
+                android:fontFamily="@font/calibri"
+                android:hint="New Password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_code"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="#96ffffff"
+                android:layout_marginTop="16dp"
+                android:theme="@style/EditScreenTextInputLayoutStyle">
+                <EditText
+                    android:id="@+id/et_reset_pwd_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="16dp"
+                    android:fontFamily="@font/calibri"
+                    android:hint="验证码"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:layout_gravity="bottom"
+                android:id="@+id/btn_reset_pwd_send_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/buttonshapewhitebg"
+                android:fontFamily="@font/calibri"
+                android:text="发送"
+                android:layout_marginStart="10dp"
+                android:textAllCaps="false"
+                android:textColor="#96ffffff"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_reset_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/buttonshapewhitebg"
+            android:fontFamily="@font/calibri"
+            android:text="重置"
+            android:textAllCaps="false"
+            android:textColor="#96ffffff"
+            android:textSize="16dp" />
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_goto_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/calibri"
+        android:text="点击登录"
+        android:textAlignment="center"
+        android:textColor="#96ffffff"
+        android:textSize="16sp" />
+
+</RelativeLayout>

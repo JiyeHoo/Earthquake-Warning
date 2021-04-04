@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.jiyehoo.informationentry.activity.ResetPwdActivity;
 import com.jiyehoo.informationentry.activity.SignUpActivity;
 import com.jiyehoo.informationentry.presenter.LoginPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
@@ -39,7 +40,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
     private TextInputLayout mTilUsername, mTilPwd;
     private ImageView imageView;
-    private TextView textView, mTvComp;
+    private TextView textView, mTvComp, mTvResetPwd;
     private Button mBtnSignIn, mBtnSignUp;
     private EditText mEtUser, mEtPwd;
     private CheckBox mCbRememberPwd;
@@ -97,6 +98,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         mTvComp = findViewById(R.id.tv_comp);
         mCbRememberPwd = findViewById(R.id.cb_login_remember_pwd);
 
+        mTvResetPwd = findViewById(R.id.tv_login_reset_pwd);
         // 设置错误颜色
         mTilPwd.setErrorTextColor(ColorStateList.valueOf(getColor(R.color.white)));
         mTilUsername.setErrorTextColor(ColorStateList.valueOf(getColor(R.color.white)));
@@ -120,6 +122,15 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         mTvComp.setOnClickListener(v -> {
             final Uri uri = Uri.parse("http://blog.jiyehoo.com:81/");
             final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+
+        // 找回密码
+        mTvResetPwd.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ResetPwdActivity.class);
+            if (!TextUtils.isEmpty(getUserName()) && getUserName().length() > 0) {
+                intent.putExtra("resetPwdEmail", getUserName());
+            }
             startActivity(intent);
         });
     }
