@@ -2,7 +2,6 @@ package com.jiyehoo.informationentry.util;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -55,10 +54,10 @@ public class BaseActivity extends AppCompatActivity {
             builder.setMessage("您的账号已下线，请尝试重新登录!");
             builder.setCancelable(false);
             builder.setPositiveButton("OK", (dialog, which) -> {
-                //销毁所有活动
+                // 销毁所有活动
                 ActivityCollector.finishAll();
                 Intent intent1 = new Intent(context, LoginActivity.class);
-                //重新启动LoginActivity
+                // 重新启动LoginActivity
                 context.startActivity(intent1);
             });
             builder.show();
