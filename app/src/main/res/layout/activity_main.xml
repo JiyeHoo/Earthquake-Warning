@@ -2,6 +2,7 @@
 <com.mxn.soul.flowingdrawer_core.FlowingDrawer
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,20 +20,18 @@
         android:orientation="vertical"
         android:focusableInTouchMode="true">
 
-
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#03557A">
 
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/back_main_2"
-                        android:foreground="#30000000" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/back_main_2"
+                android:foreground="#30000000" />
 
         </FrameLayout>
 
@@ -45,25 +44,46 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="一起变得更美好！"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/gotham"
-                android:layout_marginTop="50dp" />
+                android:layout_marginTop="50dp">
 
-            <TextView
-                android:id="@+id/one_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="您想要从那个目标开始完成？"
-                android:fontFamily="@font/gotham"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                android:textColor="@color/white"/>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_main_title"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/gotham"
+                    tools:ignore="RelativeOverlap" />
+
+                <TextView
+                    android:id="@+id/one_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_main_one_text"
+                    android:fontFamily="@font/gotham"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/title"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/iv_scan_qr"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_scan_qr"/>
+
+            </RelativeLayout>
+
+
+
+
 
             <include layout="@layout/item_main_layout"/>
 

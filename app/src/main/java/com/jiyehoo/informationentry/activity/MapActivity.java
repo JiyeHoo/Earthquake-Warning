@@ -21,6 +21,8 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.jiyehoo.informationentry.R;
 
+import org.jetbrains.annotations.NotNull;
+
 public class MapActivity extends AppCompatActivity {
 
     private MapView mMapView = null;
@@ -71,7 +73,7 @@ public class MapActivity extends AppCompatActivity {
         mAMap.setMyLocationStyle(mMyLocationStyle);
 
         //设置默认定位按钮是否显示，非必需设置。
-        mAMap.getUiSettings().setMyLocationButtonEnabled(false);
+//        mAMap.getUiSettings().setMyLocationButtonEnabled(true);
         //设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         mAMap.setMyLocationEnabled(true);
 
@@ -79,12 +81,12 @@ public class MapActivity extends AppCompatActivity {
 
         mMyLocationStyle.showMyLocation(true);
         mAMap.setOnMyLocationChangeListener(location -> {
-            //从location对象中获取经纬度信息，地址描述信息，建议拿到位置之后调用逆地理编码接口获取
+            // 从location对象中获取经纬度信息，地址描述信息，建议拿到位置之后调用逆地理编码接口获取
         });
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "没有权限", Toast.LENGTH_SHORT).show();
@@ -118,22 +120,17 @@ public class MapActivity extends AppCompatActivity {
     }
 
     private void fullScreen() {
-        if (Build.VERSION.SDK_INT >= 24) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else {
-            Toast.makeText(this, "版本过低，无法渲染状态栏", Toast.LENGTH_SHORT).show();
-        }
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

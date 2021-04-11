@@ -46,13 +46,13 @@ allprojects {
 }
 
 dependencies {
-    // Tuya
+    // HMS Scan
+    implementation 'com.huawei.hms:scanplus:1.1.1.301'
+    // Tuya 依赖
     implementation 'com.alibaba:fastjson:1.1.67.android'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.14.9'
-
     // Tuya Home 最新稳定版：
     implementation 'com.tuya.smart:tuyasmart:3.25.1'
-
     // 字符跳动
     implementation 'net.frakbot:jumpingbeans:1.3.0'
     // switch开关

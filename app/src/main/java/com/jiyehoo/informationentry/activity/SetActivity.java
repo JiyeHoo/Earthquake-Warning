@@ -24,6 +24,7 @@ public class SetActivity extends BaseActivity implements ISetView {
     private Toolbar mTbTitle;
     private SetPresenter presenter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +49,15 @@ public class SetActivity extends BaseActivity implements ISetView {
         mTbTitle = findViewById(R.id.tool_bar_set);
         CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.ctl_set);
 
-        mCollapsingToolbarLayout.setTitle("设置");
 
+
+        setSupportActionBar(mTbTitle);
         ActionBar mActionBar = getSupportActionBar();
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
         }
+        mCollapsingToolbarLayout.setTitle("图表展示");
+
     }
 
     private void fullScreen() {
@@ -78,4 +82,5 @@ public class SetActivity extends BaseActivity implements ISetView {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
     }
+
 }

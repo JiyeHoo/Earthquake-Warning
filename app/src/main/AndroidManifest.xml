@@ -15,6 +15,14 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
+    <!--相机权限-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--读文件权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--使用特性-->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
@@ -25,7 +33,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name=".activity.ResetPwdActivity"></activity>
+        <activity android:name=".activity.ResetPwdActivity" />
 
         <meta-data
             android:name="TUYA_SMART_APPKEY"
@@ -59,6 +67,7 @@
             android:name=".MainActivity"
             android:launchMode="singleTask" />
 
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.jiyehoo.informationentry.fileprovider"
@@ -72,6 +81,9 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="9c050e601c0dd901d146dba2a84c8909" />
+
+        <activity android:name="com.huawei.hms.hmsscankit.ScanKitActivity" />
+
     </application>
 
 </manifest>

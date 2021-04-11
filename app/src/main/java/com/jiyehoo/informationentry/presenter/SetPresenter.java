@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.jiyehoo.informationentry.util.HomeModel;
 import com.jiyehoo.informationentry.view.ISetView;
 import com.tuya.smart.android.user.api.ILogoutCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
@@ -26,6 +27,8 @@ public class SetPresenter {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "退出成功");
+                // 清除 sp 中的 homeId
+                HomeModel.INSTANCE.clearHomeId(mContext);
                 Intent intent = new Intent("com.jiyehoo.broadcastoffline.OFFLINE");
                 mContext.sendBroadcast(intent);
             }

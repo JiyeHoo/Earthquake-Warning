@@ -1,16 +1,14 @@
 package com.jiyehoo.informationentry.activity;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -43,12 +41,7 @@ public class ShowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show);
 
         bindView();
-        setSupportActionBar(mTbTitle);
-        ActionBar mActionBar = getSupportActionBar();
-        if (mActionBar != null) {
-            mActionBar.setDisplayHomeAsUpEnabled(true);
-        }
-        mCollapsingToolbarLayout.setTitle("图表展示");
+
 
         showBarChartMore();
         showLineChartMore();
@@ -189,14 +182,10 @@ public class ShowActivity extends AppCompatActivity {
     }
 
     private void fullScreen() {
-        if (Build.VERSION.SDK_INT >= 24) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else {
-            Toast.makeText(this, "版本过低，无法渲染状态栏", Toast.LENGTH_SHORT).show();
-        }
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     private void bindView() {
@@ -205,15 +194,21 @@ public class ShowActivity extends AppCompatActivity {
         mLineChart = findViewById(R.id.line_chart);
         mPieChart = findViewById(R.id.pie_chart);
         mTbTitle = findViewById(R.id.tool_bar_show);
+        setSupportActionBar(mTbTitle);
+        ActionBar mActionBar = getSupportActionBar();
         mCollapsingToolbarLayout = findViewById(R.id.ctl_show);
+
+        if (mActionBar != null) {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        mCollapsingToolbarLayout.setTitle("图表展示");
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

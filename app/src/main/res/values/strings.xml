@@ -47,5 +47,7 @@
     <string name="reset_til_pwd_error_length">密码长度为6–18位</string>
     <string name="reset_til_code_error_null">验证码不能为空</string>
     <string name="reset_til_code_error_length">请输入正确的验证码</string>
+    <string name="tv_main_title">一起变得更美好！</string>
+    <string name="tv_main_one_text">您想要从那个目标开始完成？</string>
 
 </resources>
