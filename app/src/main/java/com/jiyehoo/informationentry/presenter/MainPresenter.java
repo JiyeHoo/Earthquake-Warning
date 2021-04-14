@@ -1,42 +1,30 @@
 package com.jiyehoo.informationentry.presenter;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.bean.NBInfoBean;
 import com.jiyehoo.informationentry.model.IMainModel;
 import com.jiyehoo.informationentry.model.MainModel;
-import com.jiyehoo.informationentry.util.HomeModel;
+import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.util.HttpUtil;
 import com.jiyehoo.informationentry.util.TyDeviceActiveBusiness;
 import com.jiyehoo.informationentry.view.IMainView;
-import com.tuya.smart.android.base.ApiParams;
-import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.android.network.Business;
 import com.tuya.smart.android.network.http.BusinessResponse;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.home.sdk.bean.HomeBean;
-import com.tuya.smart.home.sdk.builder.TuyaQRCodeActivatorBuilder;
 import com.tuya.smart.home.sdk.callback.ITuyaGetHomeListCallback;
 import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
-import com.tuya.smart.sdk.api.ITuyaActivator;
-import com.tuya.smart.sdk.api.ITuyaActivatorGetToken;
 import com.tuya.smart.sdk.api.ITuyaDataCallback;
-import com.tuya.smart.sdk.api.ITuyaSmartActivatorListener;
 import com.tuya.smart.sdk.bean.DeviceBean;
 
 import org.jetbrains.annotations.NotNull;

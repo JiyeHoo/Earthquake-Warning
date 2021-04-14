@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.jiyehoo.informationentry.util.HomeModel;
+import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.view.ISetView;
 import com.tuya.smart.android.user.api.ILogoutCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;

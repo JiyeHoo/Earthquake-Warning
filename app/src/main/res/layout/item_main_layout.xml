@@ -37,7 +37,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="林业基础信息"
+                    android:text="设备列表"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     android:layout_marginLeft="30dp"

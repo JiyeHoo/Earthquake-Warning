@@ -6,8 +6,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.TargetApi;
 import android.content.ContentUris;
@@ -28,17 +26,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.jiyehoo.informationentry.R;
-import com.jiyehoo.informationentry.fragment.BaseFragment;
-import com.jiyehoo.informationentry.fragment.MyFragmentAdapter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ItemActivity2 extends AppCompatActivity {
 

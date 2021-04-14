@@ -38,7 +38,7 @@
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
             android:scaleType="centerInside"
-            android:src="@drawable/add"/>
+            android:src="@drawable/ic_add"/>
 
     </RelativeLayout>
 
@@ -75,7 +75,7 @@
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
             android:scaleType="centerInside"
-            android:src="@drawable/add"/>
+            android:src="@drawable/ic_add"/>
 
     </RelativeLayout>
 

@@ -59,7 +59,7 @@
         <activity android:name=".activity.ItemActivity4" />
         <activity android:name=".activity.ItemActivity3" />
         <activity android:name=".activity.ItemActivity2" />
-        <activity android:name=".activity.ItemActivity1" />
+        <activity android:name=".activity.DeviceListActivity" />
         <activity
             android:name=".LoginActivity"
             android:launchMode="singleTask" />

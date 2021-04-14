@@ -25,7 +25,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
-import com.jiyehoo.informationentry.activity.ItemActivity1;
+import com.jiyehoo.informationentry.activity.DeviceListActivity;
 import com.jiyehoo.informationentry.activity.ItemActivity2;
 import com.jiyehoo.informationentry.activity.ItemActivity3;
 import com.jiyehoo.informationentry.activity.ItemActivity4;
@@ -35,7 +35,7 @@ import com.jiyehoo.informationentry.activity.SetActivity;
 import com.jiyehoo.informationentry.activity.ShowActivity;
 import com.jiyehoo.informationentry.presenter.MainPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
-import com.jiyehoo.informationentry.util.HomeModel;
+import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.view.IMainView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
@@ -245,7 +245,7 @@ public class MainActivity extends BaseActivity implements IMainView {
 
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_FULLSCREEN);
 
-        cardView_1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity1.class)));
+        cardView_1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DeviceListActivity.class)));
         cardView_2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity2.class)));
         cardView_3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity3.class)));
         cardView_4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity4.class)));
