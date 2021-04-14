@@ -17,13 +17,10 @@ public class LoginPresenter {
     private final Context mContext;
     private final ILoginView view;
     private SharedPreferences preferences;
-//    private final Activity activity;
-
 
     public LoginPresenter(ILoginView view) {
         this.view = view;
         mContext = (Context) view;
-//        activity = (Activity) view;
     }
 
     /**

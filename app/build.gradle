@@ -72,9 +72,12 @@ dependencies {
 //    implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'io.alterac.blurkit:blurkit:1.1.0'
     // 列表
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.0"
     // 网络
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 
 //    implementation 'com.github.HITGIF:TextFieldBoxes:1.4.5'
     implementation 'androidx.appcompat:appcompat:1.2.0'

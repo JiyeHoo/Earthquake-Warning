@@ -35,9 +35,15 @@ import com.jiyehoo.informationentry.activity.SetActivity;
 import com.jiyehoo.informationentry.activity.ShowActivity;
 import com.jiyehoo.informationentry.presenter.MainPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
+import com.jiyehoo.informationentry.util.HomeModel;
 import com.jiyehoo.informationentry.view.IMainView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
+import com.tuya.smart.home.sdk.TuyaHomeSdk;
+import com.tuya.smart.home.sdk.bean.HomeBean;
+import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
+import com.tuya.smart.sdk.api.IResultCallback;
+import com.tuya.smart.sdk.api.ITuyaDevice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +86,29 @@ public class MainActivity extends BaseActivity implements IMainView {
         setNav();
         // 获取 homeId，存入 Sp
         getHomeId();
+
+
+    }
+
+    private void getDeviceList() {
+        long homeId = HomeModel.getHomeId(this);
+        TuyaHomeSdk.newHomeInstance(homeId).getHomeDetail(new ITuyaHomeResultCallback() {
+            @Override
+            public void onSuccess(HomeBean bean) {
+                if (bean.getDeviceList() != null && bean.getDeviceList().size() > 0) {
+                    bean.getDeviceList().forEach(deviceBean ->
+                            Log.d(TAG, "设备名:" + deviceBean.getName() + " devId:" + deviceBean.getDevId()));
+                } else {
+                    Log.d(TAG, "设备列表为空");
+                }
+
+            }
+
+            @Override
+            public void onError(String errorCode, String errorMsg) {
+                Log.d(TAG, "设备列表获取失败");
+            }
+        });
 
     }
 
@@ -126,15 +155,33 @@ public class MainActivity extends BaseActivity implements IMainView {
 
     private void FBtnClick() {
         mFBtnMap.setOnClickListener(v -> {
+            // todo 临时用于删除设备
             floatingActionsMenu.collapse();
-            Intent intent = new Intent(this, MapActivity.class);
-            startActivity(intent);
+
+            ITuyaDevice mDevice = TuyaHomeSdk.newDeviceInstance("6c0bd58978e0b41a66epyi");
+            mDevice.removeDevice(new IResultCallback() {
+                @Override
+                public void onError(String code, String msg) {
+                    Log.d(TAG, "移除失败:" + msg);
+                }
+
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "移除成功");
+                }
+            });
+
+//            Intent intent = new Intent(this, MapActivity.class);
+//            startActivity(intent);
         });
 
         mFBtnShow.setOnClickListener(v -> {
+            // todo 临时用于获取设备列表
             floatingActionsMenu.collapse();
-            Intent intent = new Intent(this, ShowActivity.class);
-            startActivity(intent);
+
+            getDeviceList();
+//            Intent intent = new Intent(this, ShowActivity.class);
+//            startActivity(intent);
         });
 
         mFBtnSet.setOnClickListener(v -> {

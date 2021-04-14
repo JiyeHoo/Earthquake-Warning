@@ -9,16 +9,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.gson.Gson;
 import com.jiyehoo.informationentry.R;
+import com.jiyehoo.informationentry.bean.NBInfoBean;
 import com.jiyehoo.informationentry.model.IMainModel;
 import com.jiyehoo.informationentry.model.MainModel;
 import com.jiyehoo.informationentry.util.HomeModel;
 import com.jiyehoo.informationentry.util.HttpUtil;
+import com.jiyehoo.informationentry.util.TyDeviceActiveBusiness;
 import com.jiyehoo.informationentry.view.IMainView;
+import com.tuya.smart.android.base.ApiParams;
+import com.tuya.smart.android.common.utils.L;
+import com.tuya.smart.android.network.Business;
+import com.tuya.smart.android.network.http.BusinessResponse;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.home.sdk.bean.HomeBean;
@@ -26,6 +34,7 @@ import com.tuya.smart.home.sdk.builder.TuyaQRCodeActivatorBuilder;
 import com.tuya.smart.home.sdk.callback.ITuyaGetHomeListCallback;
 import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
 import com.tuya.smart.sdk.api.ITuyaActivator;
+import com.tuya.smart.sdk.api.ITuyaActivatorGetToken;
 import com.tuya.smart.sdk.api.ITuyaDataCallback;
 import com.tuya.smart.sdk.api.ITuyaSmartActivatorListener;
 import com.tuya.smart.sdk.bean.DeviceBean;
@@ -162,23 +171,27 @@ public class MainPresenter {
 
     /**
      * NB-iot
-     * 将扫码的到的 String 通过接口，获取到设备的 UUID
+     * 将扫码的到的 String 通过接口，获取到 id
      */
-    public void qrGetUuid(String result) {
+    public void qrGetUuid(String url) {
         HashMap<String, Object> postData = new HashMap<>();
-        postData.put("code", result);
+        postData.put("code", url);
         TuyaHomeSdk.getRequestInstance().requestWithApiNameWithoutSession(
                 "tuya.m.qrcode.parse", "4.0", postData, String.class, new ITuyaDataCallback<String>() {
                     @Override
-                    public void onSuccess(String uuid) {
-                        Log.d(TAG, "获取 UUID 成功:" + uuid);
-                        activatorQr(uuid);
+                    public void onSuccess(String info) {
+                        Log.d(TAG, "获取 NBInfo 成功:" + info);
+                        // 返回的是 json，需要获取其中 id 用于配网
+                        NBInfoBean nbInfoBean = new Gson().fromJson(info, NBInfoBean.class);
+                        String nbId = nbInfoBean.getActionData().getId();
+                        Log.d(TAG, "NB_ID:" + nbId);
+                        activatorNB(nbId);
                     }
 
                     @Override
                     public void onError(String errorCode, String errorMessage) {
-                        Log.d(TAG, "获取 UUID 失败:" + errorMessage);
-                        view.showToast("获取 UUID 失败:" + errorMessage);
+                        Log.d(TAG, "获取 NB_info 失败:" + errorMessage);
+                        view.showToast("获取 NB_info 失败:" + errorMessage);
                     }
                 }
         );
@@ -188,35 +201,30 @@ public class MainPresenter {
      * NB-iot
      * 将设备的 UUID 用于配网
      */
-    public void activatorQr(String uuid) {
-        // todo 加入 loading、取消配网按钮等
+    private void activatorNB(String id) {
         long homeId = HomeModel.getHomeId(mContext);
-        TuyaQRCodeActivatorBuilder builder = new TuyaQRCodeActivatorBuilder()
-                .setUuid(uuid)
-                .setHomeId(homeId)
-                .setContext(mContext)
-                .setTimeOut(100) // 配网超时：s
-                .setListener(new ITuyaSmartActivatorListener() {
+
+        TyDeviceActiveBusiness mBusiness = new TyDeviceActiveBusiness();
+        mBusiness.bindNbDevice(id,
+                homeId,
+                "+08:00",
+                new Business.ResultListener<DeviceBean>() {
                     @Override
-                    public void onError(String errorCode, String errorMsg) {
-                        Log.d(TAG, "配网失败:" + errorMsg);
-                        view.showToast("配网失败:" + errorMsg);
+                    public void onFailure(BusinessResponse businessResponse, DeviceBean deviceBean, String msg) {
+                        Log.d(TAG, "配网失败");
+                        view.showToast("配网失败:" + msg);
                     }
 
                     @Override
-                    public void onActiveSuccess(DeviceBean devResp) {
-                        Log.d(TAG, "配网成功");
-                        view.showToast("配网成功");
+                    public void onSuccess(BusinessResponse businessResponse, DeviceBean deviceBean, String msg) {
+                        if (deviceBean != null) {
+                            Log.d(TAG, "配网成功:" + deviceBean.getName());
+                        } else {
+                            Log.d(TAG, "deviceBean is null");
+                        }
                     }
+                }
+        );
 
-                    @Override
-                    public void onStep(String step, Object data) {
-
-                    }
-                });
-        ITuyaActivator iTuyaActivator = TuyaHomeSdk.getActivatorInstance().newQRCodeDevActivator(builder);
-        iTuyaActivator.start();
     }
-
-
 }
