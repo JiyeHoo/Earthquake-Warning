@@ -3,6 +3,7 @@ package com.jiyehoo.informationentry.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.adapter.DeviceListAdapter;
+import com.jiyehoo.informationentry.adapter.OnDeviceItemClickListener;
 import com.jiyehoo.informationentry.presenter.DeviceListPresenter;
 import com.jiyehoo.informationentry.view.IDeviceListView;
 import com.tuya.smart.sdk.bean.DeviceBean;
@@ -26,6 +28,8 @@ import com.tuya.smart.sdk.bean.DeviceBean;
 import java.util.List;
 
 public class DeviceListActivity extends AppCompatActivity implements IDeviceListView {
+
+    private final String TAG = "DeviceListActivity";
 
     private DeviceListPresenter presenter;
     private RecyclerView mRvDeviceList;
@@ -89,6 +93,17 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
     @Override
     public void showRv(List<DeviceBean> deviceBeanList) {
         adapter = new DeviceListAdapter(deviceBeanList);
+        adapter.setOnDeviceItemClickListener(new OnDeviceItemClickListener() {
+            @Override
+            public void onItemClick(DeviceBean deviceBean) {
+                Log.d(TAG, "点击");
+            }
+
+            @Override
+            public void onItemLongClick(DeviceBean deviceBean) {
+                Log.d(TAG, "长按");
+            }
+        });
         mRvDeviceList.setAdapter(adapter);
     }
 }

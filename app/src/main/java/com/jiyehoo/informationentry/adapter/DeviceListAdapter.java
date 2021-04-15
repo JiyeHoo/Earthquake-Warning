@@ -20,6 +20,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 
     private Context context;
     private List<DeviceBean> deviceBeanList;
+    private OnDeviceItemClickListener onDeviceItemClickListener;
 
     public DeviceListAdapter(List<DeviceBean> deviceBeanList) {
         this.deviceBeanList = deviceBeanList;
@@ -37,10 +38,24 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         // 加载数据到控件
         DeviceBean deviceBean = deviceBeanList.get(position);
         holder.mTvDeviceName.setText(deviceBean.getName());
         Glide.with(context).load(deviceBean.getIconUrl()).into(holder.mImageView);
+
+        holder.item.setOnClickListener(v -> {
+            if (onDeviceItemClickListener != null) {
+                onDeviceItemClickListener.onItemClick(deviceBean);
+            }
+        });
+
+        holder.item.setOnLongClickListener(v -> {
+            if (onDeviceItemClickListener != null) {
+                onDeviceItemClickListener.onItemLongClick(deviceBean);
+            }
+            return true;
+        });
     }
 
     @Override
@@ -48,16 +63,23 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
         return deviceBeanList.size();
     }
 
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         // 控件声明
+        View item;
         TextView mTvDeviceName;
         ImageView mImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // 控件绑定
+            item = itemView;
             mTvDeviceName = itemView.findViewById(R.id.tv_item_device_name);
             mImageView = itemView.findViewById(R.id.iv_item_device_icon);
         }
+    }
+
+    public void setOnDeviceItemClickListener(OnDeviceItemClickListener onDeviceItemClickListener) {
+        this.onDeviceItemClickListener = onDeviceItemClickListener;
     }
 }
