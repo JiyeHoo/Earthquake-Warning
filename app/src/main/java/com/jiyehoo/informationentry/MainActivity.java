@@ -1,6 +1,5 @@
 package com.jiyehoo.informationentry;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -9,15 +8,12 @@ import android.text.TextUtils;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -33,9 +29,9 @@ import com.jiyehoo.informationentry.activity.MapActivity;
 import com.jiyehoo.informationentry.activity.NoticeActivity;
 import com.jiyehoo.informationentry.activity.SetActivity;
 import com.jiyehoo.informationentry.activity.ShowActivity;
+import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.presenter.MainPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
-import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.view.IMainView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
@@ -45,15 +41,12 @@ import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
 import com.tuya.smart.sdk.api.IResultCallback;
 import com.tuya.smart.sdk.api.ITuyaDevice;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.alterac.blurkit.BlurLayout;
 
 public class MainActivity extends BaseActivity implements IMainView {
 
-    private final String TAG = "MainActivity";
+    private final String TAG = "###MainActivity";
 
     private static final int REQUEST_CODE = 0;
     private static final int ACTIVITY_RESULT = 1;
@@ -122,26 +115,6 @@ public class MainActivity extends BaseActivity implements IMainView {
         Log.d(TAG, "开始扫描");
         HmsScanAnalyzerOptions options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE ).create();
         ScanUtil.startScan(this, ACTIVITY_RESULT, options);
-    }
-
-    /**
-     * 扫码回调
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK || data == null) {
-            return;
-        }
-        if (requestCode == ACTIVITY_RESULT) {
-            HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
-            if (obj != null) {
-                // 展示解码结果
-                Log.d(TAG, "内容:" + obj.originalValue);
-                presenter.qrGetUuid(obj.originalValue);
-
-            }
-        }
     }
 
     private void initView() {
@@ -241,7 +214,6 @@ public class MainActivity extends BaseActivity implements IMainView {
         mFBtnShow = findViewById(R.id.fab_show);
         mFBtnSet = findViewById(R.id.fab_set);
         FlowingDrawer mDrawer = findViewById(R.id.drawerlayout);
-        ImageView mIvScanQr = findViewById(R.id.iv_scan_qr);
 
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_FULLSCREEN);
 
@@ -251,7 +223,6 @@ public class MainActivity extends BaseActivity implements IMainView {
         cardView_4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity4.class)));
 
         mTvNavName.setOnClickListener(v -> presenter.updateNickName());
-        mIvScanQr.setOnClickListener(v -> checkPermission());
 
 
         // 侧栏
@@ -288,26 +259,6 @@ public class MainActivity extends BaseActivity implements IMainView {
         fade.setDuration(1000);
         getWindow().setEnterTransition(fade);
     }
-
-//    /**
-//     * 调整窗口的透明度
-//     * @param from>=0&&from<=1.0f
-//     * @param to>=0&&to<=1.0f
-//     *
-//     * */
-//    private void dimBackground(final float from, final float to) {
-//        final Window window = getWindow();
-//        ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
-//        valueAnimator.setDuration(500);
-//        valueAnimator.addUpdateListener(animation -> {
-//            WindowManager.LayoutParams params = window.getAttributes();
-//            params.alpha = (Float) animation.getAnimatedValue();
-//            window.setAttributes(params);
-//        });
-//
-//        valueAnimator.start();
-//    }
-
 
     @Override
     protected void onStart() {
@@ -351,30 +302,6 @@ public class MainActivity extends BaseActivity implements IMainView {
         }
     }
 
-    /**
-     * 权限
-     * 摄像头、储存
-     */
-    private void checkPermission() {
-        List<String> permissionList = new ArrayList<>();
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.CAMERA);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-
-        // 如果列表为空，就是全部权限都获取了，不用再次获取了。不为空就去申请权限
-        if (!permissionList.isEmpty()) {
-            String[] permissionArray = new String[permissionList.size()];
-            permissionList.toArray(permissionArray);
-            ActivityCompat.requestPermissions(this, permissionArray, REQUEST_CODE);
-        } else {
-            // 有权限，扫码
-            startScan();
-        }
-    }
 
     // 请求权限回调方法
     @Override

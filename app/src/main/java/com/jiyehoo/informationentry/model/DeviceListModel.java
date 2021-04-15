@@ -1,6 +1,5 @@
 package com.jiyehoo.informationentry.model;
 
-import com.tuya.smart.home.sdk.api.IDevModel;
 import com.tuya.smart.sdk.bean.DeviceBean;
 
 import java.util.ArrayList;
@@ -24,5 +23,9 @@ public class DeviceListModel implements IDeviceListModel {
         return deviceBeanList;
     }
 
+    @Override
+    public void clear() {
+        deviceBeanList.clear();
+    }
 
 }

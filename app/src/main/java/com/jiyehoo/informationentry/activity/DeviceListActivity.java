@@ -1,5 +1,7 @@
 package com.jiyehoo.informationentry.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,36 +13,38 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.huawei.hms.hmsscankit.ScanUtil;
+import com.huawei.hms.ml.scan.HmsScan;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.adapter.DeviceListAdapter;
-import com.jiyehoo.informationentry.adapter.OnDeviceItemClickListener;
 import com.jiyehoo.informationentry.presenter.DeviceListPresenter;
 import com.jiyehoo.informationentry.view.IDeviceListView;
 import com.tuya.smart.sdk.bean.DeviceBean;
 
-import java.util.List;
+public class DeviceListActivity extends AppCompatActivity implements IDeviceListView, View.OnClickListener {
 
-public class DeviceListActivity extends AppCompatActivity implements IDeviceListView {
-
-    private final String TAG = "DeviceListActivity";
+    private final String TAG = "###DeviceListActivity";
+    private static final int REQUEST_CODE = 0;
+    private static final int ACTIVITY_RESULT = 1;
 
     private DeviceListPresenter presenter;
     private RecyclerView mRvDeviceList;
-    private DeviceListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
         fullScreen();
-        bindView();
+        initView();
         initDeviceList();
     }
 
@@ -49,7 +53,7 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
         presenter.getDeviceList();
     }
 
-    private void bindView() {
+    private void initView() {
         Toolbar mTbTitle = findViewById(R.id.tb_toolbar_bt_ctl);
         setSupportActionBar(mTbTitle);
         CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.ctl_collapsing_toolbar_layout);
@@ -64,7 +68,8 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         mRvDeviceList.setLayoutManager(layoutManager);
 
-
+        FloatingActionButton mFabAddDevice = findViewById(R.id.fab_add_device);
+        mFabAddDevice.setOnClickListener(this);
     }
 
     @Override
@@ -91,19 +96,68 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
     }
 
     @Override
-    public void showRv(List<DeviceBean> deviceBeanList) {
-        adapter = new DeviceListAdapter(deviceBeanList);
-        adapter.setOnDeviceItemClickListener(new OnDeviceItemClickListener() {
-            @Override
-            public void onItemClick(DeviceBean deviceBean) {
-                Log.d(TAG, "点击");
-            }
-
-            @Override
-            public void onItemLongClick(DeviceBean deviceBean) {
-                Log.d(TAG, "长按");
-            }
-        });
+    public void showRv(DeviceListAdapter adapter) {
         mRvDeviceList.setAdapter(adapter);
     }
+
+    /**
+     * 点击悬浮按钮，添加设备，目前实现扫码
+     */
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.fab_add_device) {
+            // todo 点击悬浮按钮，添加设备，目前实现扫码
+            presenter.startQR();
+        }
+    }
+
+    /**
+     * 扫码回调
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK || data == null) {
+            return;
+        }
+        if (requestCode == ACTIVITY_RESULT) {
+            HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
+            if (obj != null) {
+                // 展示解码结果
+                Log.d(TAG, "内容:" + obj.originalValue);
+
+                presenter.qrGetUuid(obj.originalValue);
+
+            }
+        }
+    }
+
+    @Override
+    public void showDialog(String title, String msg, String devId) {
+        if (TextUtils.isEmpty(title)) {
+            title = "提示";
+        }
+        if (TextUtils.isEmpty(msg)) {
+            msg = "msg is null";
+        }
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    // todo 删除设备
+                    presenter.removeDevice(devId);
+                })
+                .setNegativeButton("取消", null)
+                .show();
+        alertDialog.show();
+    }
+
+    @Override
+    public void rvRemoveAll() {
+
+            mRvDeviceList.removeAllViews();
+
+    }
+
+
 }

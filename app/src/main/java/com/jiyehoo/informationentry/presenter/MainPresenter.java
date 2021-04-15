@@ -8,30 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
 import com.jiyehoo.informationentry.R;
-import com.jiyehoo.informationentry.bean.NBInfoBean;
+import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.model.IMainModel;
 import com.jiyehoo.informationentry.model.MainModel;
-import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.util.HttpUtil;
-import com.jiyehoo.informationentry.util.TyDeviceActiveBusiness;
 import com.jiyehoo.informationentry.view.IMainView;
-import com.tuya.smart.android.network.Business;
-import com.tuya.smart.android.network.http.BusinessResponse;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.home.sdk.bean.HomeBean;
 import com.tuya.smart.home.sdk.callback.ITuyaGetHomeListCallback;
 import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
-import com.tuya.smart.sdk.api.ITuyaDataCallback;
-import com.tuya.smart.sdk.bean.DeviceBean;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,7 +32,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainPresenter {
-    private final String TAG = "MainPresenter";
+    private final String TAG = "###MainPresenter";
 
     private final Context mContext;
     private final IMainView view;
@@ -157,62 +149,4 @@ public class MainPresenter {
         view.showUserInfo(model.getUserInfoName(), model.getUserInfoEmail(), model.getUserInfoHeadPicUrl());
     }
 
-    /**
-     * NB-iot
-     * 将扫码的到的 String 通过接口，获取到 id
-     */
-    public void qrGetUuid(String url) {
-        HashMap<String, Object> postData = new HashMap<>();
-        postData.put("code", url);
-        TuyaHomeSdk.getRequestInstance().requestWithApiNameWithoutSession(
-                "tuya.m.qrcode.parse", "4.0", postData, String.class, new ITuyaDataCallback<String>() {
-                    @Override
-                    public void onSuccess(String info) {
-                        Log.d(TAG, "获取 NBInfo 成功:" + info);
-                        // 返回的是 json，需要获取其中 id 用于配网
-                        NBInfoBean nbInfoBean = new Gson().fromJson(info, NBInfoBean.class);
-                        String nbId = nbInfoBean.getActionData().getId();
-                        Log.d(TAG, "NB_ID:" + nbId);
-                        activatorNB(nbId);
-                    }
-
-                    @Override
-                    public void onError(String errorCode, String errorMessage) {
-                        Log.d(TAG, "获取 NB_info 失败:" + errorMessage);
-                        view.showToast("获取 NB_info 失败:" + errorMessage);
-                    }
-                }
-        );
-    }
-
-    /**
-     * NB-iot
-     * 将设备的 UUID 用于配网
-     */
-    private void activatorNB(String id) {
-        long homeId = HomeModel.getHomeId(mContext);
-
-        TyDeviceActiveBusiness mBusiness = new TyDeviceActiveBusiness();
-        mBusiness.bindNbDevice(id,
-                homeId,
-                "+08:00",
-                new Business.ResultListener<DeviceBean>() {
-                    @Override
-                    public void onFailure(BusinessResponse businessResponse, DeviceBean deviceBean, String msg) {
-                        Log.d(TAG, "配网失败");
-                        view.showToast("配网失败:" + msg);
-                    }
-
-                    @Override
-                    public void onSuccess(BusinessResponse businessResponse, DeviceBean deviceBean, String msg) {
-                        if (deviceBean != null) {
-                            Log.d(TAG, "配网成功:" + deviceBean.getName());
-                        } else {
-                            Log.d(TAG, "deviceBean is null");
-                        }
-                    }
-                }
-        );
-
-    }
 }
