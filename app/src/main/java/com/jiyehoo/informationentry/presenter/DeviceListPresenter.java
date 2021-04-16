@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -21,9 +22,9 @@ import com.jiyehoo.informationentry.bean.NBInfoBean;
 import com.jiyehoo.informationentry.model.DeviceListModel;
 import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.model.IDeviceListModel;
+import com.jiyehoo.informationentry.util.LoadingDialogUtil;
 import com.jiyehoo.informationentry.util.TyDeviceActiveBusiness;
 import com.jiyehoo.informationentry.view.IDeviceListView;
-import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.android.network.Business;
 import com.tuya.smart.android.network.http.BusinessResponse;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
@@ -47,24 +48,31 @@ public class DeviceListPresenter {
     private final Context context;
     private final IDeviceListView view;
     private final IDeviceListModel model;
-    private DeviceListAdapter adapter;
+    private final LoadingDialogUtil loadingDialogUtil;
+
 
     public DeviceListPresenter(IDeviceListView view) {
         context = (Context) view;
         this.view = view;
         model = new DeviceListModel();
+        loadingDialogUtil = new LoadingDialogUtil(context);
     }
 
     /**
      * 获取设备列表
      */
     public void getDeviceList() {
+        loadingDialogUtil.showLoading(true);
         model.clear();
         long homeId = HomeModel.getHomeId(context);
         TuyaHomeSdk.newHomeInstance(homeId).getHomeDetail(new ITuyaHomeResultCallback() {
             @Override
             public void onSuccess(HomeBean bean) {
+                // 消除加载框
+                loadingDialogUtil.showLoading(false);
+
                 if (bean.getDeviceList() != null && bean.getDeviceList().size() > 0) {
+                    view.showNoDeviceTip(false);
                     // 存List
                     model.setDeviceList(bean.getDeviceList());
                     model.getDeviceList().forEach(deviceBean ->
@@ -76,8 +84,9 @@ public class DeviceListPresenter {
 
                 } else {
                     Log.d(TAG, "设备列表为空");
-                    // todo 清空
+                    // 需要考虑删除设备之后会调用到这里，所以需要将 rv 清空
                     view.rvRemoveAll();
+                    view.showNoDeviceTip(true);
                 }
 
             }
@@ -94,7 +103,7 @@ public class DeviceListPresenter {
      * 配置 rv 的 adapter，这里实现了点击和长按
      */
     private void adapterSetListener(List<DeviceBean> deviceBeanList) {
-        adapter = new DeviceListAdapter(deviceBeanList);
+        DeviceListAdapter adapter = new DeviceListAdapter(deviceBeanList);
         adapter.setOnDeviceItemClickListener(new OnDeviceItemClickListener() {
             @Override
             public void onItemClick(DeviceBean deviceBean) {
@@ -131,10 +140,9 @@ public class DeviceListPresenter {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "移除成功");
-                // todo 刷新列表
-                // list remove
+                view.showToast("移除成功");
+                // 刷新，重新拉 deviceList
                 getDeviceList();
-//                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -154,14 +162,21 @@ public class DeviceListPresenter {
                     @Override
                     public void onFailure(BusinessResponse businessResponse, DeviceBean deviceBean, String msg) {
                         Log.d(TAG, "配网失败");
-                        view.showToast("配网失败:" + msg);
+
+                        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                                .setTitle("配网失败")
+                                .setMessage(msg)
+                                .setPositiveButton("确定", null)
+                                .show();
+                        alertDialog.show();
                     }
 
                     @Override
                     public void onSuccess(BusinessResponse businessResponse, DeviceBean deviceBean, String msg) {
                         if (deviceBean != null) {
                             Log.d(TAG, "配网成功:" + deviceBean.getName());
-                            // todo 刷新 rv
+//                            view.showToast("添加设备成功");
+                            // 刷新，重新拉 DeviceList，更新 rv
                             getDeviceList();
 //                            adapter.notifyDataSetChanged();
                         } else {
@@ -196,7 +211,13 @@ public class DeviceListPresenter {
                     @Override
                     public void onError(String errorCode, String errorMessage) {
                         Log.d(TAG, "获取 NB_info 失败:" + errorMessage);
-                        view.showToast("获取 NB_info 失败:" + errorMessage);
+
+                        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                                .setTitle("扫码失败")
+                                .setMessage(errorMessage)
+                                .setPositiveButton("确定", null)
+                                .show();
+                        alertDialog.show();
                     }
                 }
         );

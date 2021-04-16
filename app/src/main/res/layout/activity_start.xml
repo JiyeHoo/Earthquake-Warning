@@ -25,12 +25,12 @@
             android:layout_height="match_parent"
             app:pv_background_color="#03557A"
             app:pv_host_text="Disaster"
-            app:pv_host_text_anim_time="1000"
+            app:pv_host_text_anim_time="800"
             app:pv_host_text_size="60sp"
             app:pv_particle_text="warn"
             app:pv_particle_text_size="60sp"
             app:pv_spread_anim_time="1000"
-            app:pv_text_anim_time="1000"
+            app:pv_text_anim_time="700"
             app:pv_text_color="#BAF4EF" />
     </FrameLayout>
 

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,9 +25,11 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
+import com.jiajie.load.LoadingDialog;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.adapter.DeviceListAdapter;
 import com.jiyehoo.informationentry.presenter.DeviceListPresenter;
+import com.jiyehoo.informationentry.util.LoadingDialogUtil;
 import com.jiyehoo.informationentry.view.IDeviceListView;
 import com.tuya.smart.sdk.bean.DeviceBean;
 
@@ -38,6 +41,8 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
 
     private DeviceListPresenter presenter;
     private RecyclerView mRvDeviceList;
+    private LoadingDialogUtil loadingDialogUtil;
+    private TextView mTvNoDeviceTip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,10 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
 
         FloatingActionButton mFabAddDevice = findViewById(R.id.fab_add_device);
         mFabAddDevice.setOnClickListener(this);
+//        loadingDialog = new LoadingDialog.Builder(this).loadText("加载中...").build();
+        loadingDialogUtil = new LoadingDialogUtil(this);
+
+        mTvNoDeviceTip = findViewById(R.id.tv_no_device_tip);
     }
 
     @Override
@@ -154,9 +163,16 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
 
     @Override
     public void rvRemoveAll() {
+        mRvDeviceList.removeAllViews();
+    }
 
-            mRvDeviceList.removeAllViews();
-
+    @Override
+    public void showNoDeviceTip(boolean haveShow) {
+        if (haveShow) {
+            mTvNoDeviceTip.setVisibility(View.VISIBLE);
+        } else {
+            mTvNoDeviceTip.setVisibility(View.GONE);
+        }
     }
 
 

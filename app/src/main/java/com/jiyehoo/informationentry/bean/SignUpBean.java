@@ -9,6 +9,7 @@ public class SignUpBean {
     private String code;
     private String pwd;
 
+
     public String getEmail() {
         return email;
     }

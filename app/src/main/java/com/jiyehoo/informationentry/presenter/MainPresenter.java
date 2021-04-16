@@ -17,6 +17,8 @@ import com.jiyehoo.informationentry.view.IMainView;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.home.sdk.bean.HomeBean;
+import com.tuya.smart.home.sdk.bean.WeatherBean;
+import com.tuya.smart.home.sdk.callback.IIGetHomeWetherSketchCallBack;
 import com.tuya.smart.home.sdk.callback.ITuyaGetHomeListCallback;
 import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
 
@@ -147,6 +149,25 @@ public class MainPresenter {
     public void setUserInfo() {
         model.getUserInfo();
         view.showUserInfo(model.getUserInfoName(), model.getUserInfoEmail(), model.getUserInfoHeadPicUrl());
+    }
+
+    /**
+     * 获取天气
+     */
+    public void getWeatherInfo() {
+        long homeId = HomeModel.getHomeId(mContext);
+        TuyaHomeSdk.newHomeInstance(homeId).getHomeWeatherSketch(120.075652,30.306265,
+                new IIGetHomeWetherSketchCallBack() {
+            @Override
+            public void onSuccess(WeatherBean result) {
+                Log.d(TAG, "获取天气成功:" + result.getCondition() + ",Url:" + result.getInIconUrl());
+                view.showWeatherIcon(result.getInIconUrl());
+            }
+            @Override
+            public void onFailure(String errorCode, String errorMsg) {
+                Log.d(TAG, "获取天气失败:" + errorMsg);
+            }
+        });
     }
 
 }

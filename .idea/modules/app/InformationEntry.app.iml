@@ -87,6 +87,7 @@
     <orderEntry type="library" name="Gradle: androidx.recyclerview:recyclerview:1.2.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.nightonke:jellytogglebutton:1.0.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: me.wangyuwei:ParticleView:1.0.4@aar" level="project" />
+    <orderEntry type="library" name="Gradle: cn.jiajie.loading:load:1.0.3@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.constraintlayout:constraintlayout:2.0.4@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.tuya.smart:tuyasmart:3.25.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.tuya.smart:tuyasmart-baselib:3.25.0@aar" level="project" />

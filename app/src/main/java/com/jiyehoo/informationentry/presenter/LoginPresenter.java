@@ -31,6 +31,7 @@ public class LoginPresenter {
         view.disableBtn();
         // 显示加载
         view.showLoading();
+
         TuyaHomeSdk.getUserInstance().loginWithEmail(mContext.getString(R.string.country_code), email, pwd, new ILoginCallback() {
             @Override
             public void onSuccess(User user) {

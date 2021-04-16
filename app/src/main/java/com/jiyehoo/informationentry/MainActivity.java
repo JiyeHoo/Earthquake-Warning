@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import com.jiyehoo.informationentry.activity.ShowActivity;
 import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.presenter.MainPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
+import com.jiyehoo.informationentry.util.LoadingDialogUtil;
 import com.jiyehoo.informationentry.view.IMainView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
@@ -57,8 +59,10 @@ public class MainActivity extends BaseActivity implements IMainView {
     private FloatingActionsMenu floatingActionsMenu;
     private FloatingActionButton mFBtnMap, mFBtnShow, mFBtnSet;
     private TextView mTvNavName, mTvNavEmail;
+    private ImageView mIvWeatherIcon;
     private CircleImageView mCivHeadPic;
     private MainPresenter presenter;
+    private LoadingDialogUtil loadingDialogUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +128,9 @@ public class MainActivity extends BaseActivity implements IMainView {
         presenter.setOneText();
         // 侧栏用户数据
         presenter.setUserInfo();
+        // todo 天气
+        presenter.getWeatherInfo();
+
     }
 
     private void FBtnClick() {
@@ -214,6 +221,7 @@ public class MainActivity extends BaseActivity implements IMainView {
         mFBtnShow = findViewById(R.id.fab_show);
         mFBtnSet = findViewById(R.id.fab_set);
         FlowingDrawer mDrawer = findViewById(R.id.drawerlayout);
+        mIvWeatherIcon = findViewById(R.id.iv_weather);
 
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_FULLSCREEN);
 
@@ -300,6 +308,12 @@ public class MainActivity extends BaseActivity implements IMainView {
         if (!TextUtils.isEmpty(headPicUrl)) {
             Glide.with(this).load(headPicUrl).into(mCivHeadPic);
         }
+    }
+
+    @Override
+    public void showWeatherIcon(String url) {
+        Glide.with(this).load(url).into(mIvWeatherIcon);
+        mIvWeatherIcon.setColorFilter(Color.WHITE);
     }
 
 

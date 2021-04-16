@@ -10,4 +10,5 @@ public interface IDeviceListView {
     void showRv(DeviceListAdapter adapter);
     void showDialog(String title, String msg, String devId);
     void rvRemoveAll();
+    void showNoDeviceTip(boolean haveShow);
 }
