@@ -47,8 +47,8 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_list);
         fullScreen();
+        setContentView(R.layout.activity_device_list);
         initView();
         initDeviceList();
     }
