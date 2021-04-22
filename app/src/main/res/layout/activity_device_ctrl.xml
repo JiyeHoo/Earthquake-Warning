@@ -45,28 +45,54 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_ctrl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <LinearLayout
-            android:id="@+id/ll_device_dp"
-            android:orientation="vertical"
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-<!--            <include layout="@layout/layout_device_list"/>-->
+            <LinearLayout
+                android:id="@+id/ll_device_dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp" />
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
 <!--    <com.getbase.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab_add_device"-->
+<!--        android:id="@+id/fab_reset_device"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        android:layout_margin="16dp"-->
-<!--        app:fab_icon="@drawable/ic_add"-->
+<!--        app:fab_icon="@drawable/ic_reset"-->
 <!--        app:layout_anchor="@id/abl_app_bar"-->
 <!--        app:layout_anchorGravity="bottom|end" />-->
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/abl_app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:fab_expandDirection="left">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_reset_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/ic_reset"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_rename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/ic_edit"/>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

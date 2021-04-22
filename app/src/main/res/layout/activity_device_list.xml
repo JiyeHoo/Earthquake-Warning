@@ -21,7 +21,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/iv_pic_show_by_ctl"
+                android:id="@+id/iv_pic_show_device_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:foreground="#70000000"
@@ -37,7 +37,7 @@
 <!--                android:fitsSystemWindows="true" />-->
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/tb_toolbar_bt_ctl"
+                android:id="@+id/tb_toolbar_device_list"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"/>
@@ -45,26 +45,43 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_device_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <LinearLayout
-            android:orientation="vertical"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <include layout="@layout/layout_device_list"/>
+                <include layout="@layout/layout_device_list"/>
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
+
+<!--    <com.getbase.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/fab_add_device"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp"-->
+<!--        app:fab_icon="@drawable/ic_add"-->
+<!--        app:layout_anchor="@id/abl_app_bar"-->
+<!--        app:layout_anchorGravity="bottom|end" />-->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_device"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:fab_icon="@drawable/ic_add"
+        android:backgroundTint="@color/blue"
+        android:src="@drawable/ic_add"
         app:layout_anchor="@id/abl_app_bar"
         app:layout_anchorGravity="bottom|end" />
 

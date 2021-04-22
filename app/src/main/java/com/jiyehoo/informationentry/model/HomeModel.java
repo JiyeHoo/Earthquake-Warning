@@ -22,7 +22,7 @@ public enum HomeModel {
 
     public static long getHomeId(Context context) {
         SharedPreferences sp = context.getSharedPreferences("HomeModel", Context.MODE_PRIVATE);
-        return sp.getLong(CURRENT_HOME_ID, 0);
+        return sp.getLong(CURRENT_HOME_ID, -1);
     }
 
     /**

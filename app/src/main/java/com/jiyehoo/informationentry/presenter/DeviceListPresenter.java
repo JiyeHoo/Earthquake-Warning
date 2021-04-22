@@ -48,28 +48,30 @@ public class DeviceListPresenter {
     private final Context context;
     private final IDeviceListView view;
     private final IDeviceListModel model;
-    private final LoadingDialogUtil loadingDialogUtil;
+//    private final LoadingDialogUtil loadingDialogUtil;
 
 
     public DeviceListPresenter(IDeviceListView view) {
         context = (Context) view;
         this.view = view;
         model = new DeviceListModel();
-        loadingDialogUtil = new LoadingDialogUtil(context);
+//        loadingDialogUtil = new LoadingDialogUtil(context);
     }
 
     /**
      * 获取设备列表
      */
     public void getDeviceList() {
-        loadingDialogUtil.showLoading(true);
+//        loadingDialogUtil.showLoading(true);
+        view.showSwipeRefresh(true);
         model.clear();
         long homeId = HomeModel.getHomeId(context);
         TuyaHomeSdk.newHomeInstance(homeId).getHomeDetail(new ITuyaHomeResultCallback() {
             @Override
             public void onSuccess(HomeBean bean) {
                 // 消除加载框
-                loadingDialogUtil.showLoading(false);
+//                loadingDialogUtil.showLoading(false);
+                view.showSwipeRefresh(false);
 
                 if (bean.getDeviceList() != null && bean.getDeviceList().size() > 0) {
                     view.showNoDeviceTip(false);
@@ -81,12 +83,14 @@ public class DeviceListPresenter {
                     // 显示 rv
 //                    view.showRv(model.getDeviceList());
                     adapterSetListener(model.getDeviceList());
-
+                    view.showSwipeRefresh(false);
                 } else {
                     Log.d(TAG, "设备列表为空");
                     // 需要考虑删除设备之后会调用到这里，所以需要将 rv 清空
                     view.rvRemoveAll();
                     view.showNoDeviceTip(true);
+                    view.showSwipeRefresh(false);
+
                 }
 
             }
@@ -95,6 +99,7 @@ public class DeviceListPresenter {
             public void onError(String errorCode, String errorMsg) {
                 Log.d(TAG, "设备列表获取失败");
                 view.showToast("获取设备列表失败");
+                view.showSwipeRefresh(false);
             }
         });
     }

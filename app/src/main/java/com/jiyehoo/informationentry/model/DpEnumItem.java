@@ -24,7 +24,6 @@ public class DpEnumItem extends CardView {
         // 获取 dp 值
         String dpName = schemaBean.getName();
 
-
         // 绑定布局
         TextView mTvName = findViewById(R.id.tv_ctrl_item_enum_name);
         TextView mTvValue = findViewById(R.id.tv_ctrl_item_enum_value);

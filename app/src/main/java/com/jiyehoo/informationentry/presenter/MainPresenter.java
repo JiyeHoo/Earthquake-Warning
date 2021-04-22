@@ -87,6 +87,7 @@ public class MainPresenter {
                         // homeId 写入 sp
                         Log.d(TAG, "创建 home 成功:" + bean.getHomeId());
                         HomeModel.INSTANCE.setHomeId(mContext, bean.getHomeId());
+                        getWeatherInfo();
                     }
 
                     @Override
@@ -156,6 +157,9 @@ public class MainPresenter {
      */
     public void getWeatherInfo() {
         long homeId = HomeModel.getHomeId(mContext);
+        if (TextUtils.isEmpty(String.valueOf(homeId)) || homeId == -1) {
+            return;
+        }
         TuyaHomeSdk.newHomeInstance(homeId).getHomeWeatherSketch(120.075652,30.306265,
                 new IIGetHomeWetherSketchCallBack() {
             @Override

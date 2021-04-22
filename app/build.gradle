@@ -77,8 +77,12 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
     // Gson
     implementation 'com.google.code.gson:gson:2.8.6'
-
+    // loading dialog
     implementation 'cn.jiajie.loading:load:1.0.3'
+    // 下拉刷新
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    // 新 FloatingButtonMenu
+    implementation "com.leinardi.android:speed-dial:3.1.1"
 
 
 //    implementation 'com.github.HITGIF:TextFieldBoxes:1.4.5'

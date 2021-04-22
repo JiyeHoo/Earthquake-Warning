@@ -1,7 +1,7 @@
 package com.jiyehoo.informationentry.model;
 
-import com.jiyehoo.informationentry.view.ICtrlView;
 import com.tuya.smart.android.device.bean.SchemaBean;
+import com.tuya.smart.sdk.api.ITuyaDevice;
 import com.tuya.smart.sdk.bean.DeviceBean;
 
 import java.util.Collection;
@@ -12,9 +12,10 @@ public class CtrlModel implements ICtrlModel {
     private Map<String, SchemaBean> map;
     private DeviceBean deviceBean;
     private Collection<SchemaBean> beanCollection;
+    private ITuyaDevice device;
 
     public CtrlModel() {
-        // todo 设置初始化
+        // todo 设置初始化，暂时没想好要初始化啥
     }
 
     public Map<String, SchemaBean> getMap() {
@@ -39,5 +40,17 @@ public class CtrlModel implements ICtrlModel {
 
     public void setDeviceBean(DeviceBean deviceBean) {
         this.deviceBean = deviceBean;
+    }
+
+    public ITuyaDevice getDevice() {
+        return device;
+    }
+
+    public void setDevice(ITuyaDevice device) {
+        this.device = device;
+    }
+
+    public void clear() {
+
     }
 }

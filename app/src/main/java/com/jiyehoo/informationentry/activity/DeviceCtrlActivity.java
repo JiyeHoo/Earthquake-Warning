@@ -1,32 +1,36 @@
 package com.jiyehoo.informationentry.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.presenter.CtrlPresenter;
-import com.jiyehoo.informationentry.util.LoadingDialogUtil;
 import com.jiyehoo.informationentry.view.ICtrlView;
 
-public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView {
+public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, View.OnClickListener {
+
+    private final String TAG = "###DeviceCtrlActivity";
 
     private CtrlPresenter presenter;
     private LinearLayout mLlDpRoot;
+    private SwipeRefreshLayout mSwipeLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,13 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView {
 
         initView();
         initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.unregisterListener();
+        presenter.destroyDevice();
     }
 
     private void initData() {
@@ -50,14 +61,22 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView {
         setSupportActionBar(mTbTitle);
         CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.ctl_collapsing_toolbar_layout);
         ImageView mImageView = findViewById(R.id.iv_pic_show_by_ctl);
-        Glide.with(this).load(R.drawable.item_3).into(mImageView);
+        Glide.with(this).load(R.drawable.item_2).into(mImageView);
         mCollapsingToolbarLayout.setTitle("设备详情");
         ActionBar mActionBar = getSupportActionBar();
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        FloatingActionButton mFabReset = findViewById(R.id.fab_reset_device);
+        mFabReset.setOnClickListener(this);
         mLlDpRoot = findViewById(R.id.ll_device_dp);
+
+        mSwipeLayout = findViewById(R.id.srl_ctrl);
+        mSwipeLayout.setColorSchemeResources(R.color.tab_color);
+        mSwipeLayout.setOnRefreshListener(refreshListener);
+        // 暂时禁用手动
+        mSwipeLayout.setEnabled(false);
     }
 
     private void fullScreen() {
@@ -87,5 +106,28 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView {
     @Override
     public void addView(View view) {
         mLlDpRoot.addView(view);
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        // 设备恢复出厂
+        if (v.getId() == R.id.fab_reset_device) {
+            Log.d(TAG, "fab 点击");
+            presenter.resetFactory();
+        }
+    }
+
+    private final SwipeRefreshLayout.OnRefreshListener refreshListener = () -> {
+        // todo 下拉刷新
+    };
+
+    @Override
+    public void showSwipeRefresh(boolean havShow) {
+        mSwipeLayout.setRefreshing(havShow);
     }
 }

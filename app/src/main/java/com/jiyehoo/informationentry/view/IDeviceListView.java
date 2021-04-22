@@ -11,4 +11,5 @@ public interface IDeviceListView {
     void showDialog(String title, String msg, String devId);
     void rvRemoveAll();
     void showNoDeviceTip(boolean haveShow);
+    void showSwipeRefresh(boolean havShow);
 }

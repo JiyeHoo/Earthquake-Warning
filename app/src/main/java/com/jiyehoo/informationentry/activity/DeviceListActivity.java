@@ -1,6 +1,5 @@
 package com.jiyehoo.informationentry.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,19 +18,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
-import com.jiajie.load.LoadingDialog;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.adapter.DeviceListAdapter;
 import com.jiyehoo.informationentry.presenter.DeviceListPresenter;
 import com.jiyehoo.informationentry.util.LoadingDialogUtil;
 import com.jiyehoo.informationentry.view.IDeviceListView;
-import com.tuya.smart.sdk.bean.DeviceBean;
 
 public class DeviceListActivity extends AppCompatActivity implements IDeviceListView, View.OnClickListener {
 
@@ -43,6 +41,7 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
     private RecyclerView mRvDeviceList;
     private LoadingDialogUtil loadingDialogUtil;
     private TextView mTvNoDeviceTip;
+    private SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +52,23 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
         initDeviceList();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        rvRemoveAll();
+        presenter.getDeviceList();
+    }
+
     private void initDeviceList() {
         presenter = new DeviceListPresenter(this);
         presenter.getDeviceList();
     }
 
     private void initView() {
-        Toolbar mTbTitle = findViewById(R.id.tb_toolbar_bt_ctl);
+        Toolbar mTbTitle = findViewById(R.id.tb_toolbar_device_list);
         setSupportActionBar(mTbTitle);
         CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.ctl_collapsing_toolbar_layout);
-        ImageView mImageView = findViewById(R.id.iv_pic_show_by_ctl);
+        ImageView mImageView = findViewById(R.id.iv_pic_show_device_list);
         Glide.with(this).load(R.drawable.item_3).into(mImageView);
         mCollapsingToolbarLayout.setTitle("设备列表");
         ActionBar mActionBar = getSupportActionBar();
@@ -73,12 +79,17 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         mRvDeviceList.setLayoutManager(layoutManager);
 
+
         FloatingActionButton mFabAddDevice = findViewById(R.id.fab_add_device);
+
         mFabAddDevice.setOnClickListener(this);
 //        loadingDialog = new LoadingDialog.Builder(this).loadText("加载中...").build();
         loadingDialogUtil = new LoadingDialogUtil(this);
 
         mTvNoDeviceTip = findViewById(R.id.tv_no_device_tip);
+        mSwipeLayout = findViewById(R.id.srl_device_list);
+        mSwipeLayout.setColorSchemeResources(R.color.tab_color);
+        mSwipeLayout.setOnRefreshListener(refreshListener);
     }
 
     @Override
@@ -153,7 +164,7 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
                 .setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton("确定", (dialog, which) -> {
-                    // todo 删除设备
+                    // 删除设备
                     presenter.removeDevice(devId);
                 })
                 .setNegativeButton("取消", null)
@@ -174,6 +185,18 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
             mTvNoDeviceTip.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void showSwipeRefresh(boolean havShow) {
+        mSwipeLayout.setRefreshing(havShow);
+    }
+
+    private final SwipeRefreshLayout.OnRefreshListener refreshListener = () -> {
+        // 下拉刷新
+        rvRemoveAll();
+        presenter.getDeviceList();
+    };
+
 
 
 }
