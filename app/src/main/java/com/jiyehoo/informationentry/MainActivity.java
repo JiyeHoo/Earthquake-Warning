@@ -84,30 +84,29 @@ public class MainActivity extends BaseActivity implements IMainView {
         // 获取 homeId，存入 Sp
         getHomeId();
 
-
     }
 
-    private void getDeviceList() {
-        long homeId = HomeModel.getHomeId(this);
-        TuyaHomeSdk.newHomeInstance(homeId).getHomeDetail(new ITuyaHomeResultCallback() {
-            @Override
-            public void onSuccess(HomeBean bean) {
-                if (bean.getDeviceList() != null && bean.getDeviceList().size() > 0) {
-                    bean.getDeviceList().forEach(deviceBean ->
-                            Log.d(TAG, "设备名:" + deviceBean.getName() + " devId:" + deviceBean.getDevId()));
-                } else {
-                    Log.d(TAG, "设备列表为空");
-                }
-
-            }
-
-            @Override
-            public void onError(String errorCode, String errorMsg) {
-                Log.d(TAG, "设备列表获取失败");
-            }
-        });
-
-    }
+//    private void getDeviceList() {
+//        long homeId = HomeModel.getHomeId(this);
+//        TuyaHomeSdk.newHomeInstance(homeId).getHomeDetail(new ITuyaHomeResultCallback() {
+//            @Override
+//            public void onSuccess(HomeBean bean) {
+//                if (bean.getDeviceList() != null && bean.getDeviceList().size() > 0) {
+//                    bean.getDeviceList().forEach(deviceBean ->
+//                            Log.d(TAG, "设备名:" + deviceBean.getName() + " devId:" + deviceBean.getDevId()));
+//                } else {
+//                    Log.d(TAG, "设备列表为空");
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onError(String errorCode, String errorMsg) {
+//                Log.d(TAG, "设备列表获取失败");
+//            }
+//        });
+//
+//    }
 
     private void getHomeId() {
         // 获取 homeId，写入 sp
@@ -138,18 +137,18 @@ public class MainActivity extends BaseActivity implements IMainView {
             // todo 临时用于删除设备
             floatingActionsMenu.collapse();
 
-            ITuyaDevice mDevice = TuyaHomeSdk.newDeviceInstance("6c0bd58978e0b41a66epyi");
-            mDevice.removeDevice(new IResultCallback() {
-                @Override
-                public void onError(String code, String msg) {
-                    Log.d(TAG, "移除失败:" + msg);
-                }
-
-                @Override
-                public void onSuccess() {
-                    Log.d(TAG, "移除成功");
-                }
-            });
+//            ITuyaDevice mDevice = TuyaHomeSdk.newDeviceInstance("6c0bd58978e0b41a66epyi");
+//            mDevice.removeDevice(new IResultCallback() {
+//                @Override
+//                public void onError(String code, String msg) {
+//                    Log.d(TAG, "移除失败:" + msg);
+//                }
+//
+//                @Override
+//                public void onSuccess() {
+//                    Log.d(TAG, "移除成功");
+//                }
+//            });
 
 //            Intent intent = new Intent(this, MapActivity.class);
 //            startActivity(intent);
@@ -159,7 +158,7 @@ public class MainActivity extends BaseActivity implements IMainView {
             // todo 临时用于获取设备列表
             floatingActionsMenu.collapse();
 
-            getDeviceList();
+//            getDeviceList();
 //            Intent intent = new Intent(this, ShowActivity.class);
 //            startActivity(intent);
         });

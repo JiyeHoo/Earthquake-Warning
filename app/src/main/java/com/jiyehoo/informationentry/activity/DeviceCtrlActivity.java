@@ -70,6 +70,10 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, 
 
         FloatingActionButton mFabReset = findViewById(R.id.fab_reset_device);
         mFabReset.setOnClickListener(this);
+        FloatingActionButton mFabRename = findViewById(R.id.fab_rename);
+        mFabRename.setOnClickListener(this);
+
+
         mLlDpRoot = findViewById(R.id.ll_device_dp);
 
         mSwipeLayout = findViewById(R.id.srl_ctrl);
@@ -119,6 +123,11 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, 
         if (v.getId() == R.id.fab_reset_device) {
             Log.d(TAG, "fab 点击");
             presenter.resetFactory();
+        }
+        // 重命名
+        if (v.getId() == R.id.fab_rename) {
+            Log.d(TAG, "fab 点击");
+            presenter.rename();
         }
     }
 

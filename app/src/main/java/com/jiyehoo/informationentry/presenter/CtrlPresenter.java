@@ -1,21 +1,29 @@
 package com.jiyehoo.informationentry.presenter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.model.CtrlModel;
 import com.jiyehoo.informationentry.model.DpBooleanItem;
 import com.jiyehoo.informationentry.model.DpEnumItem;
+import com.jiyehoo.informationentry.model.DpStringItem;
 import com.jiyehoo.informationentry.model.DpValueItem;
 import com.jiyehoo.informationentry.model.ICtrlModel;
 import com.jiyehoo.informationentry.view.ICtrlView;
 import com.tuya.smart.android.device.bean.BoolSchemaBean;
 import com.tuya.smart.android.device.bean.EnumSchemaBean;
 import com.tuya.smart.android.device.bean.SchemaBean;
+import com.tuya.smart.android.device.bean.StringSchemaBean;
 import com.tuya.smart.android.device.bean.ValueSchemaBean;
 import com.tuya.smart.android.device.enums.DataTypeEnum;
+import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.IDevListener;
 import com.tuya.smart.sdk.api.IResultCallback;
@@ -135,6 +143,7 @@ public class CtrlPresenter {
 
             Object value = model.getDeviceBean().getDps().get(bean.getId());
             if (bean.type.equals(DataTypeEnum.OBJ.getType())) {
+//                Log.d(TAG, "类型:" + bean.getSchemaType());
                 switch (bean.getSchemaType()) {
                     // todo 判断 dp 类型，显示不同 view
                     // boolean
@@ -151,6 +160,11 @@ public class CtrlPresenter {
                     case EnumSchemaBean.type:
                         DpEnumItem enumItem = new DpEnumItem(context, bean, value, model.getDevice());
                         view.addView(enumItem);
+                        break;
+                    // string
+                    case StringSchemaBean.type:
+                        DpStringItem stringItem = new DpStringItem(context, bean, value ,model.getDevice());
+                        view.addView(stringItem);
                         break;
                     default:
                         break;
@@ -191,6 +205,39 @@ public class CtrlPresenter {
                 .setNegativeButton("取消", null)
                 .show();
         alertDialog.show();
+    }
+
+    /**
+     * 重命名设备
+     */
+    public void rename() {
+        final View v = LayoutInflater.from(context).inflate(R.layout.dialog_update_nikname, null);
+        EditText editText = v.findViewById(R.id.et_nav_update_name);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("修改名称")
+                .setView(v)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String name = editText.getText().toString();
+                    if (!TextUtils.isEmpty(name) && name.length() > 0) {
+                        model.getDevice().renameDevice(name, new IResultCallback() {
+                            @Override
+                            public void onError(String code, String error) {
+                                Log.d(TAG, "设备重命名失败:" + error);
+                                view.showToast("设备重命名失败:" + error);
+                            }
+
+                            @Override
+                            public void onSuccess() {
+                                Log.d(TAG, "设备重命名成功");
+                                view.showToast("设备重命名成功");
+
+                            }
+                        });
+                    } else {
+                        view.showToast("设备名不得为空");
+                    }
+                })
+                .show();
     }
 
     /**

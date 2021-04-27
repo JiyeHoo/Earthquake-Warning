@@ -29,13 +29,6 @@
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"/>
 
-            <!--            <View-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="60dp"-->
-            <!--                android:background="@drawable/status_gradient"-->
-            <!--                app:layout_collapseMode="pin"-->
-            <!--                android:fitsSystemWindows="true" />-->
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tb_toolbar_bt_ctl"
                 android:layout_width="match_parent"

@@ -99,6 +99,9 @@ public class MainPresenter {
         );
     }
 
+    /**
+     * 点击侧栏的名字，重命名
+     */
     public void updateNickName() {
         final View v = LayoutInflater.from(mContext).inflate(R.layout.dialog_update_nikname, null);
         EditText editText = v.findViewById(R.id.et_nav_update_name);
