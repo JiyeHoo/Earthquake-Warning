@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class DeviceListPresenter {
 
     private static final int REQUEST_CODE = 0;
@@ -49,6 +51,10 @@ public class DeviceListPresenter {
     private final IDeviceListView view;
     private final IDeviceListModel model;
 //    private final LoadingDialogUtil loadingDialogUtil;
+    // 权限
+    String PERMISSION_STORAGE_MSG = "请授予权限，否则影响部分使用功能";
+    int PERMISSION_STORAGE_CODE = 10001;
+    String[] PERMS = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
 
 
     public DeviceListPresenter(IDeviceListView view) {
@@ -63,6 +69,11 @@ public class DeviceListPresenter {
      */
     public void getDeviceList() {
 //        loadingDialogUtil.showLoading(true);
+        // todo 测试gps，配网之后发送
+        double lon = HomeModel.getLon(context);
+        double lat = HomeModel.getLat(context);
+        Log.d(TAG, "SP获取GPS：" + lon + "," + lat);
+
         view.showSwipeRefresh(true);
         model.clear();
         long homeId = HomeModel.getHomeId(context);
@@ -234,27 +245,49 @@ public class DeviceListPresenter {
      */
     public void startQR() {
         Log.d(TAG, "开始权限检测");
-        List<String> permissionList = new ArrayList<>();
 
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.CAMERA);
-        }
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-
-        // 如果列表为空，就是全部权限都获取了，不用再次获取了。不为空就去申请权限
-        if (!permissionList.isEmpty()) {
-            String[] permissionArray = new String[permissionList.size()];
-            permissionList.toArray(permissionArray);
-            ActivityCompat.requestPermissions((Activity) context, permissionArray, REQUEST_CODE);
-        } else {
-            // 有权限，扫码
-            Log.d(TAG, "有权限,开始扫码");
+        if (EasyPermissions.hasPermissions(context, PERMS)) {
+            // 已经申请过权限，做想做的事
+            Log.d(TAG, "拍照和储存权限拥有,开始扫码");
             HmsScanAnalyzerOptions options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE ).create();
             ScanUtil.startScan((Activity) context, ACTIVITY_RESULT, options);
+        } else {
+            // 没有申请过权限，现在去申请
+            /*
+             @param host Context对象
+             @param rationale  权限弹窗上的提示语。
+             @param requestCode 请求权限的唯一标识码
+             @param perms 一系列权限
+             */
+            Log.d(TAG, "没有权限，开始申请");
+            EasyPermissions.requestPermissions((Activity) context, PERMISSION_STORAGE_MSG, PERMISSION_STORAGE_CODE, PERMS);
         }
     }
+
+
+//    public void startQR() {
+//        Log.d(TAG, "开始权限检测");
+//        List<String> permissionList = new ArrayList<>();
+//
+//        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//            permissionList.add(Manifest.permission.CAMERA);
+//        }
+//        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+//        }
+//
+//        // 如果列表为空，就是全部权限都获取了，不用再次获取了。不为空就去申请权限
+//        if (!permissionList.isEmpty()) {
+//            String[] permissionArray = new String[permissionList.size()];
+//            permissionList.toArray(permissionArray);
+//            ActivityCompat.requestPermissions((Activity) context, permissionArray, REQUEST_CODE);
+//        } else {
+//            // 有权限，扫码
+//            Log.d(TAG, "有权限,开始扫码");
+//            HmsScanAnalyzerOptions options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE ).create();
+//            ScanUtil.startScan((Activity) context, ACTIVITY_RESULT, options);
+//        }
+//    }
 
 
 

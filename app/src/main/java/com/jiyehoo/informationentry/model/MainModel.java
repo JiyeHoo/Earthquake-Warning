@@ -11,11 +11,12 @@ public class MainModel implements IMainModel{
     private final String TAG = "MainModel";
 
     private MainBean bean;
+    private double lon = 0;
+    private double lat = 0;
 
     public MainModel() {
         bean = new MainBean();
     }
-
 
     @Override
     public void setOneTextString(String s) {
@@ -62,6 +63,26 @@ public class MainModel implements IMainModel{
     @Override
     public String getUserInfoPhone() {
         return stringNotNull(bean.getUser().getPhoneCode());
+    }
+
+    @Override
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    @Override
+    public double getLon() {
+        return lon;
+    }
+
+    @Override
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    @Override
+    public double getLat() {
+        return lat;
     }
 
     private String stringNotNull(String s) {

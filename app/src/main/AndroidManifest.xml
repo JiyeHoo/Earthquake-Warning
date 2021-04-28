@@ -64,6 +64,8 @@
             android:name=".MainActivity"
             android:launchMode="singleTask" />
 
+        <service android:name="com.amap.api.location.APSService" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.jiyehoo.informationentry.fileprovider"

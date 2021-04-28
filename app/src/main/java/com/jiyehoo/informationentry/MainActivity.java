@@ -1,7 +1,7 @@
 package com.jiyehoo.informationentry;
 
+import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,15 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.huawei.hms.hmsscankit.ScanUtil;
-import com.huawei.hms.ml.scan.HmsScan;
-import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
 import com.jiyehoo.informationentry.activity.DeviceListActivity;
 import com.jiyehoo.informationentry.activity.ItemActivity2;
 import com.jiyehoo.informationentry.activity.ItemActivity3;
@@ -30,28 +26,24 @@ import com.jiyehoo.informationentry.activity.MapActivity;
 import com.jiyehoo.informationentry.activity.NoticeActivity;
 import com.jiyehoo.informationentry.activity.SetActivity;
 import com.jiyehoo.informationentry.activity.ShowActivity;
-import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.presenter.MainPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
-import com.jiyehoo.informationentry.util.LoadingDialogUtil;
 import com.jiyehoo.informationentry.view.IMainView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
-import com.tuya.smart.home.sdk.TuyaHomeSdk;
-import com.tuya.smart.home.sdk.bean.HomeBean;
-import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
-import com.tuya.smart.sdk.api.IResultCallback;
-import com.tuya.smart.sdk.api.ITuyaDevice;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.alterac.blurkit.BlurLayout;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends BaseActivity implements IMainView {
+public class MainActivity extends BaseActivity implements IMainView, EasyPermissions.PermissionCallbacks {
 
     private final String TAG = "###MainActivity";
 
-    private static final int REQUEST_CODE = 0;
-    private static final int ACTIVITY_RESULT = 1;
 
     private TextView mTvOneText;
 //    private RelativeLayout mRlMain;
@@ -62,7 +54,13 @@ public class MainActivity extends BaseActivity implements IMainView {
     private ImageView mIvWeatherIcon;
     private CircleImageView mCivHeadPic;
     private MainPresenter presenter;
-    private LoadingDialogUtil loadingDialogUtil;
+//    private LoadingDialogUtil loadingDialogUtil;
+
+    // 权限
+    String PERMISSION_STORAGE_MSG = "请授予权限，否则影响部分使用功能";
+    int PERMISSION_STORAGE_CODE = 10001;
+    String[] PERMS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +71,8 @@ public class MainActivity extends BaseActivity implements IMainView {
         setContentView(R.layout.activity_main);
         // 转场动画
         setupWindowAnimations();
+        // 定位权限
+        checkPermission();
         // 绑定View
         bindView();
         // 初始化显示信息
@@ -83,8 +83,12 @@ public class MainActivity extends BaseActivity implements IMainView {
         setNav();
         // 获取 homeId，存入 Sp
         getHomeId();
+        // 获取经纬度
+//        getGps();
 
     }
+
+
 
 //    private void getDeviceList() {
 //        long homeId = HomeModel.getHomeId(this);
@@ -114,21 +118,11 @@ public class MainActivity extends BaseActivity implements IMainView {
 
     }
 
-    private void startScan() {
-        Log.d(TAG, "开始扫描");
-        HmsScanAnalyzerOptions options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE ).create();
-        ScanUtil.startScan(this, ACTIVITY_RESULT, options);
-    }
-
     private void initView() {
         // P 的实现
         presenter = new MainPresenter(this);
         // 一言
         presenter.setOneText();
-        // 侧栏用户数据
-        presenter.setUserInfo();
-        // todo 天气
-        presenter.getWeatherInfo();
 
     }
 
@@ -316,26 +310,53 @@ public class MainActivity extends BaseActivity implements IMainView {
     }
 
 
-    // 请求权限回调方法
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE) {
-            if (grantResults.length > 0) {
-                // 因为是多个权限，所以需要一个循环获取每个权限的获取情况
-                for (int i = 0; i < grantResults.length; i++) {
-                    // PERMISSION_DENIED 这个值代表是没有授权，我们可以把被拒绝授权的权限显示出来
-                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        Toast.makeText(MainActivity.this, "权限不足", Toast.LENGTH_SHORT).show();
-                        return;
-                    } else {
-                        if (i == grantResults.length - 1) {
-                            // 有所有权限，扫码
-                            startScan();
-                        }
-                    }
-                }
-            }
+    /**
+     * 权限请求
+     */
+    private void checkPermission() {
+
+        if (EasyPermissions.hasPermissions(this, PERMS)) {
+            // 已经申请过权限，做想做的事
+            Log.d(TAG, "定位权限拥有");
+        } else {
+            // 没有申请过权限，现在去申请
+            /*
+             @param host Context对象
+             @param rationale  权限弹窗上的提示语。
+             @param requestCode 请求权限的唯一标识码
+             @param perms 一系列权限
+             */
+            Log.d(TAG, "没有权限，开始申请");
+            EasyPermissions.requestPermissions(this, PERMISSION_STORAGE_MSG, PERMISSION_STORAGE_CODE, PERMS);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //将结果转发给EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    /**
+     * 申请成功时调用
+     * @param requestCode 请求权限的唯一标识码
+     * @param perms 一系列权限
+     */
+    @Override
+    public void onPermissionsGranted(int requestCode, @NotNull List<String> perms) {
+        Log.d(TAG, "权限申请成功");
+        presenter.getGps();
+    }
+
+    /**
+     * 申请拒绝时调用
+     * @param requestCode 请求权限的唯一标识码
+     * @param perms 一系列权限
+     */
+    @Override
+    public void onPermissionsDenied(int requestCode, @NotNull List<String> perms) {
+        Log.d(TAG, "权限申请失败");
+        showToast("缺少定位权限");
     }
 }

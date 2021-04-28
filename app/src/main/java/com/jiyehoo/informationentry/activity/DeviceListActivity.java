@@ -1,5 +1,6 @@
 package com.jiyehoo.informationentry.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,7 +32,13 @@ import com.jiyehoo.informationentry.presenter.DeviceListPresenter;
 import com.jiyehoo.informationentry.util.LoadingDialogUtil;
 import com.jiyehoo.informationentry.view.IDeviceListView;
 
-public class DeviceListActivity extends AppCompatActivity implements IDeviceListView, View.OnClickListener {
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import pub.devrel.easypermissions.EasyPermissions;
+
+public class DeviceListActivity extends AppCompatActivity implements IDeviceListView, View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
     private final String TAG = "###DeviceListActivity";
     private static final int REQUEST_CODE = 0;
@@ -39,9 +46,14 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
 
     private DeviceListPresenter presenter;
     private RecyclerView mRvDeviceList;
-    private LoadingDialogUtil loadingDialogUtil;
+//    private LoadingDialogUtil loadingDialogUtil;
     private TextView mTvNoDeviceTip;
     private SwipeRefreshLayout mSwipeLayout;
+
+    // 权限
+    String PERMISSION_STORAGE_MSG = "请授予权限，否则影响部分使用功能";
+    int PERMISSION_STORAGE_CODE = 10001;
+    String[] PERMS = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +96,7 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
 
         mFabAddDevice.setOnClickListener(this);
 //        loadingDialog = new LoadingDialog.Builder(this).loadText("加载中...").build();
-        loadingDialogUtil = new LoadingDialogUtil(this);
+//        loadingDialogUtil = new LoadingDialogUtil(this);
 
         mTvNoDeviceTip = findViewById(R.id.tv_no_device_tip);
         mSwipeLayout = findViewById(R.id.srl_device_list);
@@ -197,6 +209,34 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
         presenter.getDeviceList();
     };
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //将结果转发给EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
+    /**
+     * 申请成功时调用
+     * @param requestCode 请求权限的唯一标识码
+     * @param perms 一系列权限
+     */
+    @Override
+    public void onPermissionsGranted(int requestCode, @NotNull List<String> perms) {
+        Log.d(TAG, "权限申请成功");
+        // 开始扫码
+        presenter.startQR();
+    }
+
+    /**
+     * 申请拒绝时调用
+     * @param requestCode 请求权限的唯一标识码
+     * @param perms 一系列权限
+     */
+    @Override
+    public void onPermissionsDenied(int requestCode, @NotNull List<String> perms) {
+        Log.d(TAG, "权限申请失败");
+        showToast("缺少权限");
+    }
 
 }

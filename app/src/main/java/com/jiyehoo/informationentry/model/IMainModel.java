@@ -9,4 +9,9 @@ public interface IMainModel {
     String getUserInfoHeadPicUrl();
     String getUserInfoName();
     String getUserInfoPhone();
+
+    void setLon(double lon);
+    double getLon();
+    void setLat(double lat);
+    double getLat();
 }

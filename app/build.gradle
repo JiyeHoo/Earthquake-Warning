@@ -46,6 +46,8 @@ allprojects {
 }
 
 dependencies {
+    // 权限管理
+    implementation 'pub.devrel:easypermissions:3.0.0'
     // HMS Scan
     implementation 'com.huawei.hms:scanplus:1.1.1.301'
     // Tuya 依赖
@@ -91,6 +93,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation files('libs/MPAndroidChart-v3.0.3.jar')
     implementation files('libs/Android_Map3D_SDK_V7.8.0_20201231.jar')
+    implementation files('libs/AMap_Location_V5.3.1_20210331.jar')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

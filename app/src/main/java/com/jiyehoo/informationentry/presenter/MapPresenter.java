@@ -1,6 +1,7 @@
 package com.jiyehoo.informationentry.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.jiyehoo.informationentry.activity.DeviceListActivity;
 import com.jiyehoo.informationentry.model.IMapModel;
 import com.jiyehoo.informationentry.model.MapModel;
 import com.jiyehoo.informationentry.view.IMapView;
@@ -70,7 +72,7 @@ public class MapPresenter {
 
         // 显示设备绘制点
         LatLng latLng = new LatLng(28.95,118.88);
-        setMarker(latLng, "设备A", "设备信息");
+        setMarker(latLng, "滑坡检测设备A", "状态正常(test)");
     }
 
     /**
@@ -86,6 +88,8 @@ public class MapPresenter {
         mAMap.setOnMarkerClickListener(markerClick -> {
             if (markerClick.getId().equals(marker.getId())) {
                 Log.d(TAG, "标记点击：" + title);
+                Intent intent = new Intent(context, DeviceListActivity.class);
+                context.startActivity(intent);
                 return true;
             }
             return false;
