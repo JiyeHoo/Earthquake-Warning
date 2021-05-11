@@ -45,7 +45,7 @@
         <activity android:name=".activity.NoticeActivity" />
         <activity android:name=".activity.SetActivity" />
         <activity android:name=".activity.MapActivity" />
-        <activity android:name=".activity.ShowActivity" />
+        <activity android:name=".activity.ChartActivity" />
         <activity android:name=".activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

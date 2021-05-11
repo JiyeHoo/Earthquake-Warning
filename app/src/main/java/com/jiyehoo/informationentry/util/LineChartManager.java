@@ -44,10 +44,10 @@ public class LineChartManager {
         lineChart.animateX(1000);
 
         lineChart.setTouchEnabled(true); // 所有触摸事件,默认true
-        lineChart.setDragEnabled(false);    // 可拖动,默认true
-        lineChart.setScaleEnabled(false);   // 两个轴上的缩放,X,Y分别默认为true
-        lineChart.setScaleXEnabled(false);  // X轴上的缩放,默认true
-        lineChart.setScaleYEnabled(false);  // Y轴上的缩放,默认true
+        lineChart.setDragEnabled(true);    // 可拖动,默认true
+        lineChart.setScaleEnabled(true);   // 两个轴上的缩放,X,Y分别默认为true
+        lineChart.setScaleXEnabled(true);  // X轴上的缩放,默认true
+        lineChart.setScaleYEnabled(true);  // Y轴上的缩放,默认true
         lineChart.setPinchZoom(false);  // X,Y轴同时缩放，false则X,Y轴单独缩放,默认false
         lineChart.setDoubleTapToZoomEnabled(false); // 双击缩放,默认true
         lineChart.setDragDecelerationEnabled(true);    // 抬起手指，继续滑动,默认true
@@ -112,7 +112,11 @@ public class LineChartManager {
      * @param labels
      * @param colours
      */
-    public void showLineChart(List<Float> xAxisValues, List<List<Float>> yAxisValues, List<String> labels, List<Integer> colours) {
+    public void showLineChart(List<Float> xAxisValues,
+                              List<List<Float>> yAxisValues,
+                              List<String> labels,
+                              List<String> xLabels,
+                              List<Integer> colours) {
         initLineChart(true);
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         for (int i = 0; i < yAxisValues.size(); i++) {
@@ -131,23 +135,23 @@ public class LineChartManager {
         }
         LineData data = new LineData(dataSets);
         xAxis.setLabelCount(xAxisValues.size(), true);
-        String[] xValues = {"6:00", "9:00", "12:00", "15:00", "18:00"};
-        xAxis.setValueFormatter(new XAxisValueFormatter(xValues));
+//        String[] xValues = {"6:00", "9:00", "12:00", "15:00", "18:00"};
+        xAxis.setValueFormatter(new XAxisValueFormatter(xLabels));
 
         lineChart.setData(data);
     }
 
-    public class XAxisValueFormatter implements IAxisValueFormatter {
+    public static class XAxisValueFormatter implements IAxisValueFormatter {
 
-        private String[] xValues;
+        private final List<String> xValues;
 
-        public XAxisValueFormatter(String[] xValues) {
+        public XAxisValueFormatter(List<String> xValues) {
             this.xValues = xValues;
         }
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
-            return xValues[(int) value];
+            return xValues.get((int) value);
         }
 
     }
@@ -169,8 +173,8 @@ public class LineChartManager {
         lineDataSet.setDrawCircleHole(true);
         lineDataSet.setValueTextSize(9f);
 
-        // 不显示具体值
-        lineDataSet.setDrawValues(false);
+        // 显示具体值
+        lineDataSet.setDrawValues(true);
 
 //        lineDataSet.setHighlightEnabled(false);
         //设置折线图填充
@@ -185,7 +189,6 @@ public class LineChartManager {
 
     /**
      * 设置描述信息
-     *
      * @param str
      */
     public void setDescription(String str) {

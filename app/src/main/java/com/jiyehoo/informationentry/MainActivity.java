@@ -18,13 +18,12 @@ import androidx.cardview.widget.CardView;
 import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.jiyehoo.informationentry.activity.ChartActivity;
 import com.jiyehoo.informationentry.activity.DeviceListActivity;
-import com.jiyehoo.informationentry.activity.ItemActivity3;
 import com.jiyehoo.informationentry.activity.ItemActivity4;
 import com.jiyehoo.informationentry.activity.MapActivity;
 import com.jiyehoo.informationentry.activity.NoticeActivity;
 import com.jiyehoo.informationentry.activity.SetActivity;
-import com.jiyehoo.informationentry.activity.ShowActivity;
 import com.jiyehoo.informationentry.presenter.MainPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
 import com.jiyehoo.informationentry.util.TimeUtil;
@@ -175,7 +174,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
     private void setNav() {
         RelativeLayout item_1 = findViewById(R.id.rl_item_1);
         item_1.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ShowActivity.class);
+            Intent intent = new Intent(MainActivity.this, ChartActivity.class);
             startActivity(intent);
         });
 
@@ -226,10 +225,10 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_FULLSCREEN);
 
         cardView_1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DeviceListActivity.class)));
-        // todo 删除 ItemActivity2
+        // todo 删除 ItemActivity
 //        cardView_2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity2.class)));
         cardView_2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapActivity.class)));
-        cardView_3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity3.class)));
+        cardView_3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ChartActivity.class)));
         cardView_4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity4.class)));
 
         mTvNavName.setOnClickListener(v -> presenter.updateNickName());
