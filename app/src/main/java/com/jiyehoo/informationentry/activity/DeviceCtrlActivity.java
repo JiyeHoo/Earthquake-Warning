@@ -112,6 +112,8 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, 
         mLlDpRoot.addView(view);
     }
 
+
+
     @Override
     public void finishActivity() {
         finish();
@@ -138,5 +140,14 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, 
     @Override
     public void showSwipeRefresh(boolean havShow) {
         mSwipeLayout.setRefreshing(havShow);
+    }
+
+    /**
+     * 清空列表
+     */
+    @Override
+    public void clearList() {
+        Log.d(TAG, "清空 views");
+        mLlDpRoot.removeAllViews();
     }
 }

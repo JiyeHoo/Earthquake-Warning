@@ -80,7 +80,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="土壤剖面信息"
+                    android:text="卫星地图"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     android:layout_marginLeft="30dp"
@@ -123,7 +123,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="土壤化学性质"
+                    android:text="数据分析"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     android:layout_marginLeft="30dp"

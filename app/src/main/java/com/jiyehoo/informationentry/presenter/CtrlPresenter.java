@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.model.CtrlModel;
 import com.jiyehoo.informationentry.model.DpBooleanItem;
@@ -31,6 +33,7 @@ import com.tuya.smart.sdk.api.ITuyaDevice;
 import com.tuya.smart.sdk.bean.DeviceBean;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CtrlPresenter {
@@ -76,6 +79,28 @@ public class CtrlPresenter {
     }
 
     /**
+     * 更新数据显示
+     */
+    public void update() {
+        Log.d(TAG, "View 更新数据");
+        // 获取数据,放入 model
+        // Map<DP编号， DP内容>
+        Map<String, SchemaBean> map = TuyaHomeSdk.getDataInstance().getSchema(devId);
+        if (null == map) {
+            Log.d(TAG, "map 为空");
+            return;
+        }
+        // 清空 list
+        view.clearList();
+        Collection<SchemaBean> beanCollection = map.values();
+        model.setMap(map);
+        model.setBeanCollection(beanCollection);
+
+        // 将 model 数据显示
+        showDp();
+    }
+
+    /**
      * 设备状态监听
      */
     public void registerListener() {
@@ -87,6 +112,7 @@ public class CtrlPresenter {
                 public void onDpUpdate(String devId, String dpStr) {
                     // dp 更新，dpStr 为 json
                     Log.d(TAG, "监听：dp 更新：" + dpStr);
+                    update();
                 }
 
                 @Override
@@ -164,6 +190,14 @@ public class CtrlPresenter {
                     // string
                     case StringSchemaBean.type:
                         DpStringItem stringItem = new DpStringItem(context, bean, value ,model.getDevice());
+                        // todo 点击
+                        if (bean.getMode().contains("w")) {
+                            stringItem.setOnClickListener(v -> {
+                                Log.d(TAG, "cardView 点击,id:" + bean.getId());
+                                String ctl = "1234.0";
+                                sendDps(bean.getId(), ctl);
+                            });
+                        }
                         view.addView(stringItem);
                         break;
                     default:
@@ -238,6 +272,28 @@ public class CtrlPresenter {
                     }
                 })
                 .show();
+    }
+
+    /**
+     * 发送 DPS
+     */
+    private void sendDps(@NonNull String id, String ctl) {
+        Log.d(TAG, "开始发送DPS");
+        HashMap<String, String> map = new HashMap<>();
+        map.put(id, ctl);
+        String dps = JSONObject.toJSONString(map);
+        Log.d(TAG, "发送的DPS:" + dps);
+        model.getDevice().publishDps(dps, new IResultCallback() {
+            @Override
+            public void onError(String code, String msg) {
+                Log.d(TAG, "发送DPS失败:" + msg);
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "发送DPS成功");
+            }
+        });
     }
 
     /**

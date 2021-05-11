@@ -71,7 +71,7 @@ public class MapPresenter {
         });
 
         // 显示设备绘制点
-        LatLng latLng = new LatLng(28.95,118.88);
+        LatLng latLng = new LatLng(25.058895,110.303917);
         setMarker(latLng, "滑坡检测设备A", "状态正常(test)");
     }
 

@@ -2,6 +2,7 @@ package com.jiyehoo.informationentry.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -16,23 +17,31 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.gson.Gson;
 import com.jiyehoo.informationentry.R;
+import com.jiyehoo.informationentry.bean.HistoryBean;
 import com.jiyehoo.informationentry.fragment.BarChartManager;
 import com.jiyehoo.informationentry.util.LineChartManager;
 import com.jiyehoo.informationentry.util.PieChartManager;
 import com.jiyehoo.informationentry.util.RadarChartManager;
+import com.jiyehoo.informationentry.util.TimeUtil;
+import com.tuya.smart.home.sdk.TuyaHomeSdk;
+import com.tuya.smart.sdk.api.ITuyaDataCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ShowActivity extends AppCompatActivity {
+
+    private final String TAG = "###ShowActivity";
 
     private RadarChart mRadarChart;
     private BarChart mBarChart;
     private LineChart mLineChart;
     private PieChart mPieChart;
-    private Toolbar mTbTitle;
-    private CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +51,49 @@ public class ShowActivity extends AppCompatActivity {
 
         bindView();
 
+        // 获取历史 DP 数据
+        getHistory();
 
         showBarChartMore();
         showLineChartMore();
         showChartFull();
         showRadarChart();
+    }
+
+    /**
+     * 获取历史 DP 数据
+     */
+    private void getHistory() {
+        // 设备2 devId:6ca4f3101238542849bago
+        Log.d(TAG, "开始查询历史");
+        // 测试时间工具
+        Log.d(TAG, "ime stamp:" + TimeUtil.stampToDate(1620570646));
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("devId", "6ca4f3101238542849bago");
+        map.put("dpIds", "1,101,102,103,104,105,106,107,108,109,110"); // dp 点
+        map.put("offset", 0); // 分页偏移量
+        map.put("limit", 10); // 分页大小
+
+        TuyaHomeSdk.getRequestInstance().requestWithApiName(
+                "tuya.m.smart.operate.all.log",
+                "1.0", map, String.class,
+                new ITuyaDataCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.d(TAG, "请求历史成功:" + result);
+                        // todo 解析到实体类 HistoryBean
+                        Log.d(TAG, "开始解析 JSON");
+                        Gson gson = new Gson();
+                        HistoryBean historyBean = gson.fromJson(result, HistoryBean.class);
+
+                    }
+
+                    @Override
+                    public void onError(String s, String s1) {
+                        Log.d(TAG, "请求历史失败");
+                    }
+                });
     }
 
     private void showBarChartMore() {
@@ -193,10 +240,10 @@ public class ShowActivity extends AppCompatActivity {
         mBarChart = findViewById(R.id.bar_chart);
         mLineChart = findViewById(R.id.line_chart);
         mPieChart = findViewById(R.id.pie_chart);
-        mTbTitle = findViewById(R.id.tool_bar_show);
+        Toolbar mTbTitle = findViewById(R.id.tool_bar_show);
         setSupportActionBar(mTbTitle);
         ActionBar mActionBar = getSupportActionBar();
-        mCollapsingToolbarLayout = findViewById(R.id.ctl_show);
+        CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.ctl_show);
 
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);

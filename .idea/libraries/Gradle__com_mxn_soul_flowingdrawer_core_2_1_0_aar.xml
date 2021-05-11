@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.mxn.soul:flowingdrawer-core:2.1.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/28d765a016a4855cb86ed435cc3bc618/jetified-flowingdrawer-core-2.1.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/28d765a016a4855cb86ed435cc3bc618/jetified-flowingdrawer-core-2.1.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/28d765a016a4855cb86ed435cc3bc618/jetified-flowingdrawer-core-2.1.0/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2d4c522842398e58a76c41ab53db0508/jetified-flowingdrawer-core-2.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2d4c522842398e58a76c41ab53db0508/jetified-flowingdrawer-core-2.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2d4c522842398e58a76c41ab53db0508/jetified-flowingdrawer-core-2.1.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

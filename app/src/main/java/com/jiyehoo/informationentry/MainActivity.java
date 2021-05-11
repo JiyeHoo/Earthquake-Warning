@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.jiyehoo.informationentry.activity.DeviceListActivity;
-import com.jiyehoo.informationentry.activity.ItemActivity2;
 import com.jiyehoo.informationentry.activity.ItemActivity3;
 import com.jiyehoo.informationentry.activity.ItemActivity4;
 import com.jiyehoo.informationentry.activity.MapActivity;
@@ -28,13 +27,18 @@ import com.jiyehoo.informationentry.activity.SetActivity;
 import com.jiyehoo.informationentry.activity.ShowActivity;
 import com.jiyehoo.informationentry.presenter.MainPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
+import com.jiyehoo.informationentry.util.TimeUtil;
 import com.jiyehoo.informationentry.view.IMainView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
+import com.tuya.smart.home.sdk.TuyaHomeSdk;
+import com.tuya.smart.sdk.api.ITuyaDataCallback;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.alterac.blurkit.BlurLayout;
@@ -43,9 +47,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class MainActivity extends BaseActivity implements IMainView, EasyPermissions.PermissionCallbacks {
 
     private final String TAG = "###MainActivity";
-
-
-    private TextView mTvOneText;
+ private TextView mTvOneText;
 //    private RelativeLayout mRlMain;
     private BlurLayout blurLayout;
     private FloatingActionsMenu floatingActionsMenu;
@@ -88,8 +90,6 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
 
     }
 
-
-
 //    private void getDeviceList() {
 //        long homeId = HomeModel.getHomeId(this);
 //        TuyaHomeSdk.newHomeInstance(homeId).getHomeDetail(new ITuyaHomeResultCallback() {
@@ -125,27 +125,34 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
         presenter.setOneText();
 
     }
-
     private void FBtnClick() {
         mFBtnMap.setOnClickListener(v -> {
-            // todo 临时用于删除设备
+            // todo 临时用于查询历史 上报
+            // devID: 6ca4f3101238542849bago
             floatingActionsMenu.collapse();
 
-//            ITuyaDevice mDevice = TuyaHomeSdk.newDeviceInstance("6c0bd58978e0b41a66epyi");
-//            mDevice.removeDevice(new IResultCallback() {
-//                @Override
-//                public void onError(String code, String msg) {
-//                    Log.d(TAG, "移除失败:" + msg);
-//                }
-//
-//                @Override
-//                public void onSuccess() {
-//                    Log.d(TAG, "移除成功");
-//                }
-//            });
+            Log.d(TAG, "开始查询历史");
+            Log.d(TAG, "ime stamp:" + TimeUtil.stampToDate(1620570646));
+            Map<String, Object> map = new HashMap<>();
+            map.put("devId", "6ca4f3101238542849bago");
+            map.put("dpIds", "1,101,102,103,104,105,106,107,108,109,110"); // dp 点
+            map.put("offset", 0); // 分页偏移量
+            map.put("limit", 10); // 分页大小
 
-//            Intent intent = new Intent(this, MapActivity.class);
-//            startActivity(intent);
+            TuyaHomeSdk.getRequestInstance().requestWithApiName(
+                    "tuya.m.smart.operate.all.log",
+                    "1.0", map, String.class,
+                    new ITuyaDataCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+                            Log.d(TAG, "请求历史成功:" + result);
+                        }
+
+                        @Override
+                        public void onError(String s, String s1) {
+                            Log.d(TAG, "请求历史失败");
+                        }
+            });
         });
 
         mFBtnShow.setOnClickListener(v -> {
@@ -219,7 +226,9 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_FULLSCREEN);
 
         cardView_1.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DeviceListActivity.class)));
-        cardView_2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity2.class)));
+        // todo 删除 ItemActivity2
+//        cardView_2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity2.class)));
+        cardView_2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapActivity.class)));
         cardView_3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity3.class)));
         cardView_4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity4.class)));
 

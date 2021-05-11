@@ -29,12 +29,27 @@ public class DpValueItem extends CardView {
 
         // 显示
         mTvName.setText(dpName);
-        if (!TextUtils.isEmpty(String.valueOf(dpValue))) {
-            mTvValue.setText(String.valueOf(dpValue));
+
+        String valueStr = String.valueOf(dpValue);
+        if (!TextUtils.isEmpty(valueStr)) {
+            mTvValue.setText(setUnit(dpName, valueStr));
         } else {
             Log.d(TAG, "value 为空:" + dpName);
             mTvValue.setText("null");
         }
 
+
     }
+
+    // 根据name处理单位
+    private String setUnit(String dpName, String valueStr) {
+        if (dpName.equals("电池电量")) {
+            Log.d(TAG, "找到电量");
+            valueStr = valueStr + " %";
+            return valueStr;
+        }
+        // 没找到相应名字则返回原来的数值
+        return valueStr;
+    }
+
 }

@@ -7,4 +7,5 @@ public interface ICtrlView {
     void addView(View view);
     void finishActivity();
     void showSwipeRefresh(boolean haveShow);
+    void clearList();
 }

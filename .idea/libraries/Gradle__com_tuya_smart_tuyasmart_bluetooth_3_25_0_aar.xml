@@ -1,10 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: com.tuya.smart:tuyasmart-bluetooth:3.25.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4b427f7bcf268913386ac4d60e24beb4/jetified-tuyasmart-bluetooth-3.25.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4b427f7bcf268913386ac4d60e24beb4/jetified-tuyasmart-bluetooth-3.25.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4b427f7bcf268913386ac4d60e24beb4/jetified-tuyasmart-bluetooth-3.25.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4b427f7bcf268913386ac4d60e24beb4/jetified-tuyasmart-bluetooth-3.25.0/jars/libs/r-classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/95cbfd9ea584ccab81f4eb9fb3270b3f/jetified-tuyasmart-bluetooth-3.25.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/95cbfd9ea584ccab81f4eb9fb3270b3f/jetified-tuyasmart-bluetooth-3.25.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/95cbfd9ea584ccab81f4eb9fb3270b3f/jetified-tuyasmart-bluetooth-3.25.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/95cbfd9ea584ccab81f4eb9fb3270b3f/jetified-tuyasmart-bluetooth-3.25.0/jars/libs/r-classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -1,10 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: com.tuya.smart:tuyasmart-mqtt:3.25.1@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c99d4549834e7b1756ea390242558fe0/jetified-tuyasmart-mqtt-3.25.1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c99d4549834e7b1756ea390242558fe0/jetified-tuyasmart-mqtt-3.25.1/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c99d4549834e7b1756ea390242558fe0/jetified-tuyasmart-mqtt-3.25.1/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c99d4549834e7b1756ea390242558fe0/jetified-tuyasmart-mqtt-3.25.1/jars/libs/r-classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a3ee5af5ef23134bc63b12ed24095c27/jetified-tuyasmart-mqtt-3.25.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a3ee5af5ef23134bc63b12ed24095c27/jetified-tuyasmart-mqtt-3.25.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a3ee5af5ef23134bc63b12ed24095c27/jetified-tuyasmart-mqtt-3.25.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a3ee5af5ef23134bc63b12ed24095c27/jetified-tuyasmart-mqtt-3.25.1/jars/libs/r-classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
