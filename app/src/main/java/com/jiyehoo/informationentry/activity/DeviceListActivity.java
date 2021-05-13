@@ -28,6 +28,7 @@ import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.adapter.DeviceListAdapter;
+import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.presenter.DeviceListPresenter;
 import com.jiyehoo.informationentry.util.LoadingDialogUtil;
 import com.jiyehoo.informationentry.view.IDeviceListView;
@@ -37,7 +38,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
-
+/**
+ * @author JiyeHoo
+ * @description: 设备列表界面
+ */
 public class DeviceListActivity extends AppCompatActivity implements IDeviceListView, View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
     private final String TAG = "###DeviceListActivity";
@@ -138,7 +142,7 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fab_add_device) {
-            // todo 点击悬浮按钮，添加设备，目前实现扫码
+            // 点击悬浮按钮，添加设备，目前实现扫码
             presenter.startQR();
         }
     }
@@ -157,7 +161,10 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
             if (obj != null) {
                 // 展示解码结果
                 Log.d(TAG, "内容:" + obj.originalValue);
-
+                // todo 在这里开始获取经纬度，用于配网
+//                double lon = HomeModel.getLon(context);
+//                double lat = HomeModel.getLat(context);
+//                Log.d(TAG, "SP获取GPS：" + lon + "," + lat);
                 presenter.qrGetUuid(obj.originalValue);
 
             }

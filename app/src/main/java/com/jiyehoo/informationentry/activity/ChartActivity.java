@@ -51,7 +51,8 @@ public class ChartActivity extends AppCompatActivity implements IChartView {
 //        mPresenter.getHistory();
 
         // 显示图表
-        mPresenter.showBarChartMore();
+//        mPresenter.showBarChartMore();
+        mPresenter.getDataBar();
         mPresenter.getDataLine();
         mPresenter.showPieChart();
         mPresenter.showRadarChart();
@@ -90,11 +91,10 @@ public class ChartActivity extends AppCompatActivity implements IChartView {
     }
 
     @Override
-    public void showBarChart(List<Float> xAxisValues, List<List<Float>> yAxisValues, List<String> labels, List<Integer> colours) {
+    public void showBarChart(List<Float> xAxisValues, List<List<Float>> yAxisValues, List<String> labels, List<String> labelList, List<Integer> colours) {
         BarChartManager barChartManager = new BarChartManager(mBarChart);
         barChartManager.setXAxis(5, 0, 5);
-        barChartManager.showMoreBarChart(xAxisValues, yAxisValues, labels, colours);
-
+        barChartManager.showMoreBarChart(xAxisValues, yAxisValues, labels, labelList, colours);
     }
 
     @Override

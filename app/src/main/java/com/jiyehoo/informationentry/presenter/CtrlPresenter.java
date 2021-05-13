@@ -164,14 +164,12 @@ public class CtrlPresenter {
         }
 
         for (SchemaBean bean : model.getBeanCollection()) {
-            // todo 显示每一个 dp 的视图
-            Log.d(TAG, bean.getName());
+//            Log.d(TAG, bean.getName());
 
             Object value = model.getDeviceBean().getDps().get(bean.getId());
             if (bean.type.equals(DataTypeEnum.OBJ.getType())) {
 //                Log.d(TAG, "类型:" + bean.getSchemaType());
                 switch (bean.getSchemaType()) {
-                    // todo 判断 dp 类型，显示不同 view
                     // boolean
                     case BoolSchemaBean.type:
                         DpBooleanItem booleanItem = new DpBooleanItem(context, bean, value, model.getDevice());
@@ -194,7 +192,7 @@ public class CtrlPresenter {
                         if (bean.getMode().contains("w")) {
                             stringItem.setOnClickListener(v -> {
                                 Log.d(TAG, "cardView 点击,id:" + bean.getId());
-                                String ctl = "1234.0";
+                                String ctl = "123.0";
                                 sendDps(bean.getId(), ctl);
                             });
                         }

@@ -43,10 +43,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.alterac.blurkit.BlurLayout;
 import pub.devrel.easypermissions.EasyPermissions;
 
+/**
+ * @author JiyeHoo
+ * @description: 程序主界面
+ */
 public class MainActivity extends BaseActivity implements IMainView, EasyPermissions.PermissionCallbacks {
 
     private final String TAG = "###MainActivity";
- private TextView mTvOneText;
+    private TextView mTvOneText;
 //    private RelativeLayout mRlMain;
     private BlurLayout blurLayout;
     private FloatingActionsMenu floatingActionsMenu;
@@ -86,7 +90,6 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
         getHomeId();
         // 获取经纬度
 //        getGps();
-
     }
 
 //    private void getDeviceList() {

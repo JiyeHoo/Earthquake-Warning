@@ -31,7 +31,6 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, 
     private LinearLayout mLlDpRoot;
     private SwipeRefreshLayout mSwipeLayout;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +72,6 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, 
         FloatingActionButton mFabRename = findViewById(R.id.fab_rename);
         mFabRename.setOnClickListener(this);
 
-
         mLlDpRoot = findViewById(R.id.ll_device_dp);
 
         mSwipeLayout = findViewById(R.id.srl_ctrl);
@@ -98,7 +96,6 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, 
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void showToast(String msg) {

@@ -24,7 +24,7 @@
             android:layout_marginStart="11dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="地磁数据"
+            android:text="水平地磁数据"
             android:textColor="#222222"
             android:textSize="16sp" />
     </LinearLayout>
@@ -53,7 +53,7 @@
             android:layout_marginLeft="11dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="降水及湿度"
+            android:text="降水及湿度指数"
             android:textColor="#222222"
             android:textSize="16sp" />
     </LinearLayout>
@@ -82,7 +82,7 @@
             android:layout_marginLeft="11dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="树木品种分布"
+            android:text="事件可能性"
             android:textColor="#222222"
             android:textSize="16sp" />
     </LinearLayout>

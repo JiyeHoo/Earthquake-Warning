@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
@@ -69,10 +71,7 @@ public class DeviceListPresenter {
      */
     public void getDeviceList() {
 //        loadingDialogUtil.showLoading(true);
-        // todo 测试gps，配网之后发送
-        double lon = HomeModel.getLon(context);
-        double lat = HomeModel.getLat(context);
-        Log.d(TAG, "SP获取GPS：" + lon + "," + lat);
+
 
         view.showSwipeRefresh(true);
         model.clear();
@@ -191,6 +190,22 @@ public class DeviceListPresenter {
                     public void onSuccess(BusinessResponse businessResponse, DeviceBean deviceBean, String msg) {
                         if (deviceBean != null) {
                             Log.d(TAG, "配网成功:" + deviceBean.getName());
+                            // todo 配网成功下发 经纬度
+
+                            new Thread(() -> {
+                                try {
+                                    Thread.sleep(1000); // 休眠 1 秒
+                                    String lonStr = String.valueOf(HomeModel.getLon(context));
+                                    String latStr = String.valueOf(HomeModel.getLat(context));
+                                    Log.d(TAG, "SP获取GPS：" + lonStr + "," + latStr);
+                                    sendDps(deviceBean.getDevId(), lonStr, latStr);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
+
+
+
 //                            view.showToast("添加设备成功");
                             // 刷新，重新拉 DeviceList，更新 rv
                             getDeviceList();
@@ -264,6 +279,29 @@ public class DeviceListPresenter {
         }
     }
 
+    /**
+     * 发送 DPS
+     */
+    private void sendDps(String devId, String id, String ctl) {
+        ITuyaDevice device = TuyaHomeSdk.newDeviceInstance(devId);
+        Log.d(TAG, "开始发送经纬度DPS,devIdL" + devId);
+        HashMap<String, String> map = new HashMap<>();
+        map.put(id, ctl);
+        String dps = JSONObject.toJSONString(map);
+        Log.d(TAG, "发送的DPS:" + dps);
+        device.publishDps(dps, new IResultCallback() {
+            @Override
+            public void onError(String code, String msg) {
+                Log.d(TAG, "发送DPS失败:" + msg);
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "发送DPS成功");
+            }
+        });
+    }
+
 
 //    public void startQR() {
 //        Log.d(TAG, "开始权限检测");
@@ -288,6 +326,8 @@ public class DeviceListPresenter {
 //            ScanUtil.startScan((Activity) context, ACTIVITY_RESULT, options);
 //        }
 //    }
+
+
 
 
 

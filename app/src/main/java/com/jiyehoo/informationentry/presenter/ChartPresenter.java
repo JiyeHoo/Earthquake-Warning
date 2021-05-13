@@ -9,14 +9,12 @@ import com.google.gson.Gson;
 import com.jiyehoo.informationentry.bean.HistoryBean;
 import com.jiyehoo.informationentry.model.ChartModel;
 import com.jiyehoo.informationentry.model.IChartModel;
-import com.jiyehoo.informationentry.util.TimeUtil;
 import com.jiyehoo.informationentry.view.IChartView;
+import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.ITuyaDataCallback;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +32,18 @@ public class ChartPresenter {
     private final IChartView mView;
     private final IChartModel mModel;
 
+    private boolean isRainGetDate = false, isHumidityGetDate = false;
+    private boolean isMagXGetDate = false, isMagYGetDate = false;
+
     public ChartPresenter(IChartView view) {
         mContext = (Context) view;
         mView = view;
         mModel = new ChartModel();
     }
 
+    /**
+     * 获取 line 图表所需的数据
+     */
     public void getDataLine() {
         // 获取 土壤湿度 和 降雨量指数 两个 dp 的历史数据
         Log.d(TAG, "获取 line 的数据");
@@ -57,38 +61,96 @@ public class ChartPresenter {
                     @Override
                     public void onSuccess(String result) {
                         Log.d(TAG, "请求湿度历史成功:" + result);
-                        Gson gson = new Gson();
-                        HistoryBean humidityBean = gson.fromJson(result, HistoryBean.class);
-                        // 存入 model
+                        HistoryBean humidityBean = new Gson().fromJson(result, HistoryBean.class);
+                        // 存入
                         mModel.setHumidityBean(humidityBean);
-
-                        map.put("dpIds", "105"); // dp 点
-                        TuyaHomeSdk.getRequestInstance().requestWithApiName(
-                                "tuya.m.smart.operate.all.log",
-                                "1.0", map, String.class,
-                                new ITuyaDataCallback<String>() {
-                                    @Override
-                                    public void onSuccess(String result) {
-                                        Log.d(TAG, "请求降水量历史成功:" + result);
-
-                                        Gson gson = new Gson();
-                                        HistoryBean rainBean = gson.fromJson(result, HistoryBean.class);
-                                        // 存入 bean
-                                        mModel.setRainHistoryBean(rainBean);
-
-                                        showLineChartMore();
-                                    }
-
-                                    @Override
-                                    public void onError(String s, String s1) {
-                                        Log.d(TAG, "请求降水量历史失败");
-                                    }
-                                });
+                        isHumidityGetDate = true;
+                        showLineChartMore();
                     }
 
                     @Override
                     public void onError(String s, String s1) {
                         Log.d(TAG, "请求湿度历史失败");
+                    }
+                });
+
+        map.put("dpIds", "105"); // 请求另一个 dp 点
+        TuyaHomeSdk.getRequestInstance().requestWithApiName(
+                "tuya.m.smart.operate.all.log",
+                "1.0", map, String.class,
+                new ITuyaDataCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.d(TAG, "请求降水量历史成功:" + result);
+                        HistoryBean rainBean = new Gson().fromJson(result, HistoryBean.class);
+                        // 存入 bean
+                        mModel.setRainHistoryBean(rainBean);
+                        isRainGetDate = true;
+                        showLineChartMore();
+                        // 显示图表
+//                        showLineChartMore();
+                    }
+
+                    @Override
+                    public void onError(String s, String s1) {
+                        Log.d(TAG, "请求降水量历史失败");
+                    }
+                });
+    }
+
+    /**
+     * 获取 bar 图表所需数据
+     */
+    public void getDataBar() {
+        Log.d(TAG, "获取 bar 数据");
+        Map<String, Object> map = new HashMap<>();
+        map.put("devId", "6ca4f3101238542849bago");
+        map.put("dpIds", "101"); // dp 点
+        map.put("offset", 0); // 分页偏移量
+        map.put("limit", 5); // 分页大小,即多少个 dp 数据
+
+        TuyaHomeSdk.getRequestInstance().requestWithApiName(
+                "tuya.m.smart.operate.all.log",
+                "1.0", map, String.class,
+                new ITuyaDataCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.d(TAG, "请求地磁 X 历史成功:" + result);
+                        // json 解析到实体类 HistoryBean
+                        Gson gson = new Gson();
+                        HistoryBean bean = gson.fromJson(result, HistoryBean.class);
+                        // 将数据放入 model
+                        mModel.setMagnetismX(bean);
+                        isMagXGetDate = true;
+                        showBarChartMore();
+                    }
+
+                    @Override
+                    public void onError(String s, String s1) {
+                        Log.d(TAG, "请求 地磁 X 历史失败");
+                    }
+                });
+
+        map.put("dpIds", "102"); // dp 点
+        TuyaHomeSdk.getRequestInstance().requestWithApiName(
+                "tuya.m.smart.operate.all.log",
+                "1.0", map, String.class,
+                new ITuyaDataCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.d(TAG, "请求地磁 Y 历史成功:" + result);
+                        // json 解析到实体类 HistoryBean
+                        Gson gson = new Gson();
+                        HistoryBean bean = gson.fromJson(result, HistoryBean.class);
+                        // 将数据放入 model
+                        mModel.setMagnetismY(bean);
+                        isMagYGetDate = true;
+                        showBarChartMore();
+                    }
+
+                    @Override
+                    public void onError(String s, String s1) {
+                        Log.d(TAG, "请求 地磁 Y 历史失败");
                     }
                 });
     }
@@ -144,6 +206,15 @@ public class ChartPresenter {
      * 显示条状图
      */
     public void showBarChartMore() {
+        if (!isMagXGetDate || !isMagYGetDate) {
+            Log.d(TAG, "bar 数据未获取完");
+            return;
+        } else {
+            Log.d(TAG, "bar 数据获取完整");
+            isMagYGetDate = false;
+            isMagXGetDate = false;
+        }
+
         Log.d(TAG, "开始处理 bar 图表");
 
         List<Float> xAxisValues = new ArrayList<>();
@@ -157,33 +228,61 @@ public class ChartPresenter {
         xAxisValues.add(3.0f);
         xAxisValues.add(4.0f);
         xAxisValues.add(5.0f);
+        // 获取 x 的日期
+        List<String> labelList = new ArrayList<>();
+        List<HistoryBean.Dps> magXDpsList = mModel.getMagnetismX().getDps();
+        magXDpsList.forEach(dps -> {
+            // 处理每一个 地磁 x 数据
+            Log.d(TAG, "地磁x数据:" + dps.getValue());
+            x1.add(Float.parseFloat(dps.getValue()) * -1);
 
-        x1.add(10f);
-        x1.add(20f);
-        x1.add(30f);
-        x1.add(40f);
-        x1.add(50f);
+            String timeStr = dps.getTimeStr().substring(11);
+            Log.d(TAG, "日期:" + timeStr);
+            labelList.add(timeStr);
+        });
 
-        x2.add(50f);
-        x2.add(40f);
-        x2.add(30f);
-        x2.add(20f);
-        x2.add(10f);
+        List<HistoryBean.Dps> maxYDpsList = mModel.getMagnetismY().getDps();
+        maxYDpsList.forEach(dps -> {
+            // 处理每一个 地磁 Y 数据
+            Log.d(TAG, "地磁y数据:" + dps.getValue());
+            x2.add(Float.parseFloat(dps.getValue()) * -1);
+        });
+
+//        x1.add(10f);
+//        x1.add(20f);
+//        x1.add(30f);
+//        x1.add(40f);
+//        x1.add(50f);
+//
+//        x2.add(50f);
+//        x2.add(40f);
+//        x2.add(30f);
+//        x2.add(20f);
+//        x2.add(10f);
 
         yAxisValues.add(x1);
         yAxisValues.add(x2);
-        labels.add("");
-        labels.add("");
+        labels.add("地磁 X 轴");
+        labels.add("地磁 Y 轴");
         colours.add(Color.parseColor("#123456"));
         colours.add(Color.parseColor("#987654"));
 
-        mView.showBarChart(xAxisValues, yAxisValues, labels, colours);
+        mView.showBarChart(xAxisValues, yAxisValues, labels, labelList, colours);
     }
 
     /**
      * 显示线性图
      */
     public void showLineChartMore() {
+        if (!isRainGetDate || !isHumidityGetDate) {
+            // 判断两个数据是否都获取，只要有一个没有获取到，就不加载图表
+            Log.d(TAG, "line 数据未获取完");
+            return;
+        } else {
+            Log.d(TAG, "line 数据获取完整");
+            isHumidityGetDate = false;
+            isRainGetDate = false;
+        }
         Log.d(TAG, "开始处理 Line 图表");
 
         // todo x文字载入，这里使用日期时间
@@ -203,7 +302,7 @@ public class ChartPresenter {
             xLabels.add(rainTime);
 
             String rainValue = dps.getValue();
-            Log.d(TAG, "降雨量：" + rainValue);
+//            Log.d(TAG, "降雨量：" + rainValue);
             y2Value.add(Float.parseFloat(rainValue));
         });
 
@@ -212,7 +311,7 @@ public class ChartPresenter {
         List<Float> y1Value = new ArrayList<>();
         humidityList.forEach(dps -> {
             String humidityValue = dps.getValue();
-            Log.d(TAG, "湿度：" + humidityValue);
+//            Log.d(TAG, "湿度：" + humidityValue);
             y1Value.add(Float.parseFloat(humidityValue));
         });
 

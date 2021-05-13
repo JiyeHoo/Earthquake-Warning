@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * 用来存储 homeId
+ * @author JiyeHoo
+ * @description: home 的储存：homeId、经纬度
  */
 public enum HomeModel {
     INSTANCE;

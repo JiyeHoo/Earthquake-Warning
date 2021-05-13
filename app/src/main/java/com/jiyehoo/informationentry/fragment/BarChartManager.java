@@ -43,13 +43,13 @@ public class BarChartManager {
 
     private void initLineChart() {
         mFormat = new DecimalFormat("#,###.##");
-        //背景颜色
+        // 背景颜色
         mBarChart.setBackgroundColor(Color.WHITE);
-        //是否显示网格背景
+        // 是否显示网格背景
         mBarChart.setDrawGridBackground(false);
-        //显示每条背景阴影
+        // 显示每条背景阴影
         mBarChart.setDrawBarShadow(false);
-        //设置图标边框的颜色
+        // 设置图标边框的颜色
         mBarChart.setBorderColor(Color.parseColor("#ff0000"));
 //        mBarChart.setHighlightFullBarEnabled(false);
         mBarChart.setTouchEnabled(true); // 所有触摸事件,默认true
@@ -61,26 +61,40 @@ public class BarChartManager {
         mBarChart.setDoubleTapToZoomEnabled(false); // 双击缩放,默认true
         mBarChart.setDragDecelerationEnabled(true);    // 抬起手指，继续滑动,默认true
 
-        //显示边界
+        // 显示边界
         mBarChart.setDrawBorders(false);
-        //设置XY动画效果
+        // 设置XY动画效果
         mBarChart.animateY(1000, Easing.EasingOption.Linear);
         mBarChart.animateX(1000, Easing.EasingOption.Linear);
+
+
+
 //      不显示描述信息
         mBarChart.getDescription().setEnabled(false);
 //         图例设置
         Legend legend = mBarChart.getLegend();
-        //不显示图例
-        legend.setForm(Legend.LegendForm.NONE);
-//        图例文字的大小
-        legend.setTextSize(11f);
-        //显示位置
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+
         legend.setDrawInside(false);
-        //XY轴的设置
-        //X轴设置显示位置在底部
+        legend.setFormSize(8);
+        legend.setXEntrySpace(7f);
+        legend.setYEntrySpace(0f);
+        legend.setYOffset(0f);
+        // legend.setForm(Legend.LegendForm.SQUARE);
+        // 文字的大小
+        legend.setTextSize(12);
+        //显示位置
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+
+
+
+
+
+
+
+        // XY轴的设置
+        // X轴设置显示位置在底部
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //      X轴最小间距
         xAxis.setGranularity(1f);
@@ -88,18 +102,21 @@ public class BarChartManager {
         xAxis.setDrawGridLines(false);
 //      X轴字体样式
         xAxis.setTypeface(Typeface.DEFAULT_BOLD);
-//      设置X轴文字剧中对齐
+//      设置X轴文字居中对齐
         xAxis.setCenterAxisLabels(true);
+        // 角度
+//        xAxis.setLabelRotationAngle(30);
+//
+//        xAxis.setDrawLabels(false);
 //
 //       保证Y轴从0开始，不然会上移一点
         leftAxis.setDrawGridLines(false);
         rightAxis.setAxisMinimum(0f);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setTextColor(Color.parseColor("#d5d5d5"));
-//        // 线跟数据都不显示
+
         rightAxis.setEnabled(false); //右侧Y轴不显示
     }
-
 
     public class MyYAxisValueFormatter implements IAxisValueFormatter {
 
@@ -133,7 +150,7 @@ public class BarChartManager {
         }
     }
 
-    public void showMoreBarChart(final List<Float> xAxisValues, List<List<Float>> yAxisValues, List<String> labels, List<Integer> colours) {
+    public void showMoreBarChart(final List<Float> xAxisValues, List<List<Float>> yAxisValues, List<String> labels, List<String> labelList, List<Integer> colours) {
         initLineChart();
         BarData data = new BarData();
         for (int i = 0; i < yAxisValues.size(); i++) {
@@ -146,8 +163,10 @@ public class BarChartManager {
 
             barDataSet.setColor(colours.get(i));
             barDataSet.setValueTextColor(colours.get(i));
-            barDataSet.setValueTextSize(10f);
+            barDataSet.setValueTextSize(7f);
             barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+            // 是否显示数值
+            barDataSet.setDrawValues(true);
             data.addDataSet(barDataSet);
         }
         int amount = yAxisValues.size();
@@ -159,13 +178,16 @@ public class BarChartManager {
         // (0.2 + 0.02) * 4 + 0.08 = 1.00 -> interval per "group"
         xAxis.setLabelCount(xAxisValues.size() - 1, false);
         data.setBarWidth(barWidth);
+
+
+
         final String[] xValues = {"南方向", "东方向", "山顶", "西方向", "北方向"};
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 for (int i=0;i<xAxisValues.size();i++){
                     if(value==(xAxisValues.get(i)-1)) {
-                        return xValues[i];
+                        return labelList.get(i);
                     }
                 }
                 return "";
@@ -217,7 +239,7 @@ public class BarChartManager {
      * @param high
      * @param name
      */
-    public void setHightLimitLine(float high, String name, int color) {
+    public void setHighLimitLine(float high, String name, int color) {
         if (name == null) {
             name = "高限制线";
         }

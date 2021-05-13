@@ -14,6 +14,7 @@ public interface IChartView {
     void showBarChart(List<Float> xAxisValues,
                       List<List<Float>> yAxisValues,
                       List<String> labels,
+                      List<String> xLabels,
                       List<Integer> colours);
 
     void showLineChart(ArrayList<Float> xValues,

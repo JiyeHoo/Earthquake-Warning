@@ -17,6 +17,9 @@ public class ChartModel implements IChartModel{
     private HistoryBean rainHistoryBean;
     private HistoryBean humidityBean;
 
+    private HistoryBean magnetismXBean;
+    private HistoryBean magnetismYBean;
+
 
     public ChartModel() {
         // todo 初始化图表数据
@@ -56,5 +59,25 @@ public class ChartModel implements IChartModel{
     @Override
     public HistoryBean getRainHistoryBean() {
         return rainHistoryBean;
+    }
+
+    @Override
+    public void setMagnetismX(HistoryBean bean) {
+        magnetismXBean = bean;
+    }
+
+    @Override
+    public HistoryBean getMagnetismX() {
+        return magnetismXBean;
+    }
+
+    @Override
+    public void setMagnetismY(HistoryBean bean) {
+        magnetismYBean = bean;
+    }
+
+    @Override
+    public HistoryBean getMagnetismY() {
+        return magnetismYBean;
     }
 }

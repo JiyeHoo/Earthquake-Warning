@@ -18,4 +18,15 @@ public interface IChartModel {
     // 降水量
     void setRainHistoryBean(HistoryBean bean);
     HistoryBean getRainHistoryBean();
+
+    // 地磁X
+    void setMagnetismX(HistoryBean bean);
+    HistoryBean getMagnetismX();
+
+    // 地磁Y
+    void setMagnetismY(HistoryBean bean);
+    HistoryBean getMagnetismY();
+
+
+
 }
