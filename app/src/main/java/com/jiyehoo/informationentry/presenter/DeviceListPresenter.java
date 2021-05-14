@@ -93,15 +93,13 @@ public class DeviceListPresenter {
                     // 显示 rv
 //                    view.showRv(model.getDeviceList());
                     adapterSetListener(model.getDeviceList());
-                    view.showSwipeRefresh(false);
                 } else {
                     Log.d(TAG, "设备列表为空");
                     // 需要考虑删除设备之后会调用到这里，所以需要将 rv 清空
                     view.rvRemoveAll();
                     view.showNoDeviceTip(true);
-                    view.showSwipeRefresh(false);
-
                 }
+                view.showSwipeRefresh(false);
 
             }
 

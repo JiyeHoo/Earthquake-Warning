@@ -31,6 +31,10 @@ import com.jiyehoo.informationentry.view.ILoginView;
 import java.util.Calendar;
 import java.util.Objects;
 
+/**
+ * @author JiyeHoo
+ * @description: 登录主界面
+ */
 public class LoginActivity extends BaseActivity implements ILoginView {
     private final String TAG = "LoginActivity";
 

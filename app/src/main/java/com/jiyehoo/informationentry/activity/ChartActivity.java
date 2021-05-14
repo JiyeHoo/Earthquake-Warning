@@ -27,6 +27,10 @@ import com.jiyehoo.informationentry.view.IChartView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author JiyeHoo
+ * @description: 图表界面
+ */
 public class ChartActivity extends AppCompatActivity implements IChartView {
 
     private final String TAG = "###ShowActivity";

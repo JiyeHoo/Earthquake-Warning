@@ -343,11 +343,11 @@ public class ChartPresenter {
 
         //设置每份所占数量
         List<PieEntry> yVals = new ArrayList<>();
-        yVals.add(new PieEntry(2.0f, "针叶树类"));
-        yVals.add(new PieEntry(6.0f, "阔叶乔木类"));
-        yVals.add(new PieEntry(4.0f, "阔叶灌木类"));
-        yVals.add(new PieEntry(3.0f, "匍匐类"));
-        yVals.add(new PieEntry(1.0f, "其它"));
+        yVals.add(new PieEntry(2.0f, "晴"));
+        yVals.add(new PieEntry(6.0f, "阴"));
+        yVals.add(new PieEntry(4.0f, "小雨"));
+        yVals.add(new PieEntry(3.0f, "中雨"));
+        yVals.add(new PieEntry(1.0f, "暴雨"));
         //设置每份的颜色
         List<Integer> colors = new ArrayList<>();
         colors.add(Color.parseColor("#6785f2"));
@@ -369,23 +369,23 @@ public class ChartPresenter {
         List<List<Float>> yDatas = new ArrayList<>();
         List<String> names = new ArrayList<>();
 
-        names.add("氮肥");
-        names.add("磷肥");
-        names.add("钾肥");
-        names.add("复合肥");
-        names.add("农家肥");
-        names.add("其他");
+        names.add("设备 A 地区");
+        names.add("设备 B 地区");
+//        names.add("钾肥");
+//        names.add("复合肥");
+//        names.add("农家肥");
+//        names.add("其他");
 
-        xData.add("总体");
-        xData.add("针叶树类");
-        xData.add("阔叶乔木类");
-        xData.add("阔叶灌木类");
-        xData.add("匍匐类");
-        xData.add("其它");
+        xData.add("地形");
+        xData.add("岩性");
+        xData.add("地质构造");
+        xData.add("外部活动");
+        xData.add("水文");
+        xData.add("降水");
 
         List<Integer> colors = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 2; i++) {
             List<Float> nData = new ArrayList<>();
             for (int j = 0; j < 6; j++) {
                 nData.add((float) (Math.random() * 20));
@@ -393,12 +393,12 @@ public class ChartPresenter {
             yDatas.add(nData);
         }
 
-        colors.add(Color.parseColor("#fbd06a"));
+//        colors.add(Color.parseColor("#fbd06a"));
         colors.add(Color.parseColor("#f69a40"));
-        colors.add(Color.parseColor("#ff5d52"));
+//        colors.add(Color.parseColor("#ff5d52"));
         colors.add(Color.parseColor("#e71f19"));
-        colors.add(Color.parseColor("#ff9b43"));
-        colors.add(Color.parseColor("#8eb9fb"));
+//        colors.add(Color.parseColor("#ff9b43"));
+//        colors.add(Color.parseColor("#8eb9fb"));
 
         mView.showRadarChart(xData, yDatas, names, colors);
     }

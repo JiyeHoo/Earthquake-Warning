@@ -25,7 +25,6 @@ import com.tuya.smart.android.device.bean.SchemaBean;
 import com.tuya.smart.android.device.bean.StringSchemaBean;
 import com.tuya.smart.android.device.bean.ValueSchemaBean;
 import com.tuya.smart.android.device.enums.DataTypeEnum;
-import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.IDevListener;
 import com.tuya.smart.sdk.api.IResultCallback;
@@ -200,7 +199,6 @@ public class CtrlPresenter {
                         break;
                     default:
                         break;
-
                 }
             }
         }

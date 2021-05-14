@@ -19,13 +19,13 @@
             android:src="@drawable/set_notice"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_set_1"
-            android:layout_marginLeft="30dp"
+            android:layout_toEndOf="@+id/iv_set_1"
+            android:layout_marginStart="30dp"
             android:layout_centerVertical="true"
             android:text="消息通知"
             android:textStyle="bold"
@@ -35,9 +35,9 @@
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             app:jtbJelly="lazy_stiff_fatty"
             app:jtbLeftBackgroundColor="#999"
             app:jtbRightBackgroundColor="#B320B4C2"
@@ -59,13 +59,13 @@
             android:src="@drawable/set_upload"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_set_2"
-            android:layout_marginLeft="30dp"
+            android:layout_toEndOf="@+id/iv_set_2"
+            android:layout_marginStart="30dp"
             android:layout_centerVertical="true"
             android:text="云端同步"
             android:textStyle="bold"
@@ -75,9 +75,9 @@
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             app:jtbJelly="lazy_stiff_fatty"
             app:jtbLeftBackgroundColor="#999"
             app:jtbRightBackgroundColor="#B320B4C2"
@@ -98,13 +98,13 @@
             android:src="@drawable/set_map"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_set_3"
-            android:layout_marginLeft="30dp"
+            android:layout_toEndOf="@+id/iv_set_3"
+            android:layout_marginStart="30dp"
             android:layout_centerVertical="true"
             android:text="离线地图"
             android:textStyle="bold"
@@ -114,9 +114,9 @@
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             app:jtbJelly="lazy_stiff_fatty"
             app:jtbLeftBackgroundColor="#999"
             app:jtbRightBackgroundColor="#B320B4C2"
@@ -137,13 +137,13 @@
             android:src="@drawable/set_del"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_set_4"
-            android:layout_marginLeft="30dp"
+            android:layout_toEndOf="@+id/iv_set_4"
+            android:layout_marginStart="30dp"
             android:layout_centerVertical="true"
             android:text="退出清理缓存"
             android:textStyle="bold"
@@ -153,9 +153,9 @@
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             app:jtbJelly="lazy_stiff_fatty"
             app:jtbLeftBackgroundColor="#999"
             app:jtbRightBackgroundColor="#B320B4C2"
@@ -176,13 +176,13 @@
             android:src="@drawable/set_fig"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_set_5"
-            android:layout_marginLeft="30dp"
+            android:layout_toEndOf="@+id/iv_set_5"
+            android:layout_marginStart="30dp"
             android:layout_centerVertical="true"
             android:text="指纹保护"
             android:textStyle="bold"
@@ -190,11 +190,12 @@
             android:textColor="@color/black" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
+            android:id="@+id/sb_finger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             app:jtbJelly="lazy_stiff_fatty"
             app:jtbLeftBackgroundColor="#999"
             app:jtbRightBackgroundColor="#B320B4C2"
@@ -203,6 +204,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_update"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
@@ -215,30 +217,28 @@
             android:src="@drawable/set_update"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_set_6"
-            android:layout_marginLeft="30dp"
+            android:layout_toEndOf="@+id/iv_set_6"
+            android:layout_marginStart="30dp"
             android:layout_centerVertical="true"
-            android:text="自动检查更新"
+            android:text="检查更新"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"/>
 
-        <com.nightonke.jellytogglebutton.JellyToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/right"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            app:jtbJelly="lazy_stiff_fatty"
-            app:jtbLeftBackgroundColor="#999"
-            app:jtbRightBackgroundColor="#B320B4C2"
-            app:jtbLeftThumbColor="#E0E0E0"
-            app:jtbRightThumbColor="#157983"/>
+            android:scaleType="centerInside" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -254,18 +254,27 @@
             android:src="@drawable/set_feedback"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_set_7"
-            android:layout_marginLeft="30dp"
+            android:layout_toEndOf="@+id/iv_set_7"
+            android:layout_marginStart="30dp"
             android:layout_centerVertical="true"
             android:text="反馈"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/right"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside" />
     </RelativeLayout>
 
     <Button

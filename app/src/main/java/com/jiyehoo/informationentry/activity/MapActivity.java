@@ -24,6 +24,10 @@ import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
+/**
+ * @author JiyeHoo
+ * @description: 地图界面
+ */
 public class MapActivity extends AppCompatActivity implements IMapView, EasyPermissions.PermissionCallbacks {
 
     private final String TAG = "###MapActivity";
@@ -46,8 +50,6 @@ public class MapActivity extends AppCompatActivity implements IMapView, EasyPerm
         initView(savedInstanceState);
         // 申请权限
         checkPermission();
-
-
     }
 
     /**
