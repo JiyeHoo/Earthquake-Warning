@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 
 import com.jiyehoo.informationentry.model.HomeModel;
+import com.jiyehoo.informationentry.model.SetSpModel;
 import com.jiyehoo.informationentry.util.FingerUtil;
 import com.jiyehoo.informationentry.util.HttpUtil;
 import com.jiyehoo.informationentry.view.ISetView;
@@ -47,8 +48,17 @@ public class SetPresenter {
     }
 
     /**
+     * 初始化开关状态
+     */
+    public void initSwitchState() {
+        // 指纹开关是否需要开启
+        if (SetSpModel.getIsFingerOpen(mContext)) {
+            view.setSbFinger(true);
+        }
+    }
+
+    /**
      * 开启指纹
-     * todo sp 记录
      */
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void startFinger() {
@@ -70,6 +80,7 @@ public class SetPresenter {
                 Log.d(TAG, "指纹通过 " + result.toString());
                 view.showToast("设置成功");
                 // todo 记录 sp
+                SetSpModel.INSTANCE.setIsFingerOpen(mContext, true);
             }
 
             @Override
@@ -85,7 +96,6 @@ public class SetPresenter {
 
     /**
      * 关闭指纹
-     * todo sp 记录
      */
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void closeFinger() {
@@ -106,6 +116,7 @@ public class SetPresenter {
                 // 成功
                 view.showToast("设置成功");
                 // todo 记录 sp
+                SetSpModel.INSTANCE.setIsFingerOpen(mContext, false);
             }
 
             @Override

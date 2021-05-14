@@ -2,10 +2,16 @@ package com.jiyehoo.informationentry.presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hardware.biometrics.BiometricPrompt;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
 import com.jiyehoo.informationentry.R;
+import com.jiyehoo.informationentry.model.SetSpModel;
+import com.jiyehoo.informationentry.util.FingerUtil;
 import com.jiyehoo.informationentry.view.ILoginView;
 import com.tuya.smart.android.user.api.ILoginCallback;
 import com.tuya.smart.android.user.bean.User;
@@ -21,6 +27,53 @@ public class LoginPresenter {
     public LoginPresenter(ILoginView view) {
         this.view = view;
         mContext = (Context) view;
+    }
+
+    /**
+     * 指纹登录
+     */
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    public void fingerLogin() {
+        preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        boolean haveRemember = preferences.getBoolean("haveRemember", false);
+        // 没有记住密码则不进入指纹
+        if (!haveRemember) {
+            return;
+        }
+
+        if (SetSpModel.getIsFingerOpen(mContext)) {
+            boolean isFingerOpen = SetSpModel.getIsFingerOpen(mContext);
+            Log.d(TAG, "获取指纹设置:" + isFingerOpen);
+            if (isFingerOpen) {
+                BiometricPrompt.AuthenticationCallback callback = new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode, CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                        // 5次属于错误
+                        Log.d(TAG, "指纹错误 " + errString);
+                        view.showToast("指纹开启失败，过段时间再试吧！");
+                    }
+
+                    @Override
+                    public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        // 成功
+                        Log.d(TAG, "指纹通过 " + result.toString());
+                        login(view.getUserName(), view.getPwd());
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                        // 单次失败
+                        Log.d(TAG, "指纹失败");
+                    }
+                };
+                FingerUtil fingerUtil = new FingerUtil(mContext, "验证指纹", "用于验证身份自动登录", callback);
+                fingerUtil.startFinger();
+            }
+        }
+
     }
 
     /**

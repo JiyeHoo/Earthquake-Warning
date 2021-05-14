@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.transition.Fade;
@@ -19,10 +20,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.jiyehoo.informationentry.activity.ResetPwdActivity;
 import com.jiyehoo.informationentry.activity.SignUpActivity;
+import com.jiyehoo.informationentry.model.SetSpModel;
 import com.jiyehoo.informationentry.presenter.LoginPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
 import com.jiyehoo.informationentry.util.OnSwipeTouchListener;
@@ -36,7 +40,7 @@ import java.util.Objects;
  * @description: 登录主界面
  */
 public class LoginActivity extends BaseActivity implements ILoginView {
-    private final String TAG = "LoginActivity";
+    private final String TAG = "###LoginActivity";
 
     private TextInputLayout mTilUsername, mTilPwd;
     private ImageView imageView;
@@ -49,6 +53,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
     private LoginPresenter presenter;
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +74,8 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         autoPic();
         // 滑动
         swipeChangePic();
-
+        // todo 测试获取 指纹 sp
+        presenter.fingerLogin();
     }
 
     private void toMorning() {

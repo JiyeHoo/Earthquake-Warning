@@ -42,6 +42,15 @@ public class SetActivity extends BaseActivity implements ISetView, View.OnClickL
         bindView();
         setListener();
         presenter = new SetPresenter(this);
+        initSwitch();
+
+    }
+
+    /**
+     * 初始化开关状态
+     */
+    private void initSwitch() {
+        presenter.initSwitchState();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
@@ -52,17 +61,7 @@ public class SetActivity extends BaseActivity implements ISetView, View.OnClickL
         // 更新
         findViewById(R.id.rl_update).setOnClickListener(this);
 
-        // todo 指纹
-//        mSbFinger.setOnClickListener(v -> {
-//            if (mSbFinger.isChecked()) {
-//                // 开启指纹
-//                presenter.startFinger();
-//            } else {
-//                // 关闭指纹
-//                presenter.closeFinger();
-//            }
-//        });
-
+        // 指纹
         mSbFinger.setOnStateChangeListener((process, state, jtb) -> {
             if (state == State.LEFT) {
                 // 关闭
