@@ -2,14 +2,16 @@ package com.jiyehoo.informationentry.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * @author JiyeHoo
- * @description:
+ * @description: 设置的储存
  * @date :2021/5/15 上午12:37
  */
 public enum SetSpModel {
     INSTANCE;
+    private final String TAG = "###SetSpModel";
 
     public static final String IS_FINGER_OPEN = "isFingerOpen";
 
@@ -25,5 +27,6 @@ public enum SetSpModel {
         SharedPreferences sp = context.getSharedPreferences("Settings", Context.MODE_PRIVATE);
         return sp.getBoolean(IS_FINGER_OPEN, false);
     }
+
 
 }

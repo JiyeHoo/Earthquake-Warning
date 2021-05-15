@@ -1,6 +1,7 @@
 package com.jiyehoo.informationentry.presenter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -53,15 +54,71 @@ public class SetPresenter {
     public void initSwitchState() {
         // 指纹开关是否需要开启
         if (SetSpModel.getIsFingerOpen(mContext)) {
-            view.setSbFinger(true);
+            view.setSbFingerImmediately(true);
         }
+    }
+
+    /**
+     * 开启消息通知
+     */
+    public void openNotice() {
+        // todo 开启消息通知
+    }
+
+    /**
+     * 关闭消息通知
+     */
+    public void closeNotice() {
+        // todo 关闭消息通知
+    }
+
+    /**
+     * 开启云端同步
+     */
+    public void openCloud() {
+        // todo 开启云端同步
+    }
+
+    /**
+     * 关闭云端同步
+     */
+    public void closeCloud() {
+        // todo 关闭云端同步
+    }
+
+    /**
+     * 开启离线地图
+     */
+    public void openLocalMap() {
+        // todo 开启离线地图
+    }
+
+    /**
+     * 关闭离线地图
+     */
+    public void closeLocalMap() {
+        // todo 关闭离线地图
+    }
+
+    /**
+     * 开启清理缓存
+     */
+    public void openClear() {
+        // todo 开启自动清理缓存
+    }
+
+    /**
+     * 关闭清理缓存
+     */
+    public void closeClear() {
+        // todo 关闭自动清理缓存
     }
 
     /**
      * 开启指纹
      */
     @RequiresApi(api = Build.VERSION_CODES.P)
-    public void startFinger() {
+    public void openFinger() {
         Log.d(TAG, "开启指纹");
         BiometricPrompt.AuthenticationCallback callback = new BiometricPrompt.AuthenticationCallback() {
             @Override
@@ -71,6 +128,7 @@ public class SetPresenter {
                 Log.d(TAG, "指纹错误 " + errString);
                 view.setSbFinger(false);
                 view.showToast("指纹开启失败，过段时间再试吧！");
+                view.finishSetActivity();
             }
 
             @Override
@@ -80,6 +138,7 @@ public class SetPresenter {
                 Log.d(TAG, "指纹通过 " + result.toString());
                 view.showToast("设置成功");
                 // todo 记录 sp
+                Log.d(TAG, "记录指纹开启");
                 SetSpModel.INSTANCE.setIsFingerOpen(mContext, true);
             }
 
@@ -90,7 +149,16 @@ public class SetPresenter {
                 Log.d(TAG, "指纹失败");
             }
         };
-        FingerUtil fingerUtil = new FingerUtil(mContext, "开启指纹保护", "请验证使用者身份", callback);
+
+        DialogInterface.OnClickListener cancelCallback = (dialog, which) -> {
+            view.setSbFinger(false);
+            Log.d(TAG, "取消了指纹认证");
+            view.showToast("取消打开指纹保护");
+
+        };
+
+
+        FingerUtil fingerUtil = new FingerUtil(mContext, "开启指纹保护", "请验证使用者身份", callback, cancelCallback);
         fingerUtil.startFinger();
     }
 
@@ -99,14 +167,15 @@ public class SetPresenter {
      */
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void closeFinger() {
-        Log.d(TAG, "关闭指纹");
+        Log.d(TAG, "开始认证，企图关闭指纹");
+
         BiometricPrompt.AuthenticationCallback callback = new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
                 // 5次属于错误
                 Log.d(TAG, "指纹错误 " + errString);
-                view.setSbFinger(false);
+                view.setSbFinger(true);
                 view.showToast("指纹关闭失败，过段时间再试吧！");
             }
 
@@ -116,6 +185,8 @@ public class SetPresenter {
                 // 成功
                 view.showToast("设置成功");
                 // todo 记录 sp
+                Log.d(TAG, "记录指纹关闭");
+
                 SetSpModel.INSTANCE.setIsFingerOpen(mContext, false);
             }
 
@@ -126,7 +197,14 @@ public class SetPresenter {
                 Log.d(TAG, "指纹失败");
             }
         };
-        FingerUtil fingerUtil = new FingerUtil(mContext, "关闭指纹保护", "请验证使用者身份", callback);
+
+        DialogInterface.OnClickListener cancelCallback = (dialog, which) -> {
+            view.setSbFinger(true);
+            Log.d(TAG, "取消了指纹认证");
+            view.showToast("取消关闭指纹保护");
+
+        };
+        FingerUtil fingerUtil = new FingerUtil(mContext, "关闭指纹保护", "请验证使用者身份", callback, cancelCallback);
         fingerUtil.startFinger();
     }
 

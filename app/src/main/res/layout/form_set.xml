@@ -33,6 +33,7 @@
             android:textColor="@color/black" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
+            android:id="@+id/sb_notice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -73,6 +74,7 @@
             android:textColor="@color/black" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
+            android:id="@+id/sb_cloud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -112,6 +114,7 @@
             android:textColor="@color/black" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
+            android:id="@+id/sb_local_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -151,6 +154,7 @@
             android:textColor="@color/black" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
+            android:id="@+id/sb_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

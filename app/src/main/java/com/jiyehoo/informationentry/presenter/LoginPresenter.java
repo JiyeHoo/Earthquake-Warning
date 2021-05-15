@@ -1,6 +1,7 @@
 package com.jiyehoo.informationentry.presenter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.hardware.biometrics.BiometricPrompt;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.jiyehoo.informationentry.R;
+import com.jiyehoo.informationentry.model.LoginSpModel;
 import com.jiyehoo.informationentry.model.SetSpModel;
 import com.jiyehoo.informationentry.util.FingerUtil;
 import com.jiyehoo.informationentry.view.ILoginView;
@@ -18,7 +20,7 @@ import com.tuya.smart.android.user.bean.User;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 
 public class LoginPresenter {
-    private final String TAG = "LoginPresenter";
+    private final String TAG = "###LoginPresenter";
 
     private final Context mContext;
     private final ILoginView view;
@@ -34,13 +36,15 @@ public class LoginPresenter {
      */
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void fingerLogin() {
-        preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        boolean haveRemember = preferences.getBoolean("haveRemember", false);
+//        preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+//        boolean haveRemember = preferences.getBoolean("haveRemember", false);
         // 没有记住密码则不进入指纹
-        if (!haveRemember) {
+        if (!LoginSpModel.INSTANCE.getIsRemember(mContext)) {
+            Log.d(TAG, "没有记住密码，不进入指纹认证");
             return;
         }
 
+        Log.d(TAG, "setSP 中的 指纹开启状态：" + SetSpModel.getIsFingerOpen(mContext));
         if (SetSpModel.getIsFingerOpen(mContext)) {
             boolean isFingerOpen = SetSpModel.getIsFingerOpen(mContext);
             Log.d(TAG, "获取指纹设置:" + isFingerOpen);
@@ -69,7 +73,9 @@ public class LoginPresenter {
                         Log.d(TAG, "指纹失败");
                     }
                 };
-                FingerUtil fingerUtil = new FingerUtil(mContext, "验证指纹", "用于验证身份自动登录", callback);
+                DialogInterface.OnClickListener cancelCallback = (dialog, which) -> Log.d(TAG, "取消了指纹登录");
+
+                FingerUtil fingerUtil = new FingerUtil(mContext, "验证指纹", "用于验证身份自动登录", callback, cancelCallback);
                 fingerUtil.startFinger();
             }
         }
@@ -105,32 +111,46 @@ public class LoginPresenter {
             }
         });
     }
+
     /**
      * 初始化本地储存
      */
     public void initPref() {
-        preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        boolean haveRemember = preferences.getBoolean("haveRemember", false);
-        if (haveRemember) {
-            String userName = preferences.getString("userName", "");
-            String pwd = preferences.getString("pwd", "");
+        if (LoginSpModel.INSTANCE.getIsRemember(mContext)) {
+            String userName = LoginSpModel.INSTANCE.getUser(mContext);
+            String pwd = LoginSpModel.INSTANCE.getPwd(mContext);
             view.loadPwd(userName, pwd);
         }
+
+//        preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+//        boolean haveRemember = preferences.getBoolean("haveRemember", false);
+//        if (haveRemember) {
+//            String userName = preferences.getString("userName", "");
+//            String pwd = preferences.getString("pwd", "");
+//            view.loadPwd(userName, pwd);
+//        }
     }
 
     private void rememberPwd() {
-        Log.d(TAG, "进入记住密码功能");
-        SharedPreferences.Editor prefEdit = preferences.edit();
-//        final View v = LayoutInflater.from(mContext).inflate(R.layout.activity_login, null);
-//        CheckBox mCbRememberPwd = v.findViewById(R.id.cb_login_remember_pwd);
         if (view.getCheckBoxState()) {
-            prefEdit.putBoolean("haveRemember", true);
-            prefEdit.putString("userName", view.getUserName());
-            prefEdit.putString("pwd", view.getPwd());
+            Log.d(TAG, "记住密码");
+            LoginSpModel.INSTANCE.setIsRemember(mContext, true);
+            LoginSpModel.INSTANCE.setUser(mContext, view.getUserName());
+            LoginSpModel.INSTANCE.setPwd(mContext, view.getPwd());
         } else {
-            prefEdit.clear();
+            Log.d(TAG, "没有记住密码，清空");
+            LoginSpModel.INSTANCE.clearInfo(mContext);
         }
-        prefEdit.apply();
+
+//        SharedPreferences.Editor prefEdit = preferences.edit();
+//        if (view.getCheckBoxState()) {
+//            prefEdit.putBoolean("haveRemember", true);
+//            prefEdit.putString("userName", view.getUserName());
+//            prefEdit.putString("pwd", view.getPwd());
+//        } else {
+//            prefEdit.clear();
+//        }
+//        prefEdit.apply();
     }
 
 }

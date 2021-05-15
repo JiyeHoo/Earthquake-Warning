@@ -12,8 +12,18 @@ public interface ISetView {
     void showUpdateDialog(String title, String msg);
 
     /**
-     * 开启指纹开关
+     * 指纹开关
      */
     void setSbFinger(boolean isChecked);
+
+    /**
+     * 指纹开关(立即，不触发回调)
+     */
+    void setSbFingerImmediately(boolean isChecked);
+
+    /**
+     * 结束 Activity
+     */
+    void finishSetActivity();
 
 }
