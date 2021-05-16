@@ -47,7 +47,7 @@ public class FingerUtil {
         CancellationSignal mCancellationSignal = new CancellationSignal();
         mCancellationSignal.setOnCancelListener(() -> {
             // 取消
-            Log.d(TAG, "Canceled");
+            MyLog.d(TAG, "Canceled");
         });
 
         mBiometricPrompt.authenticate(mCancellationSignal,

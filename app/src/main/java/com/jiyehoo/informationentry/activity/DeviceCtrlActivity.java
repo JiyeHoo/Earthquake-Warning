@@ -21,6 +21,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.presenter.CtrlPresenter;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.ICtrlView;
 
 public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, View.OnClickListener {
@@ -120,12 +121,12 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, 
     public void onClick(View v) {
         // 设备恢复出厂
         if (v.getId() == R.id.fab_reset_device) {
-            Log.d(TAG, "fab 点击");
+            MyLog.d(TAG, "fab 点击");
             presenter.resetFactory();
         }
         // 重命名
         if (v.getId() == R.id.fab_rename) {
-            Log.d(TAG, "fab 点击");
+            MyLog.d(TAG, "fab 点击");
             presenter.rename();
         }
     }
@@ -144,7 +145,7 @@ public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, 
      */
     @Override
     public void clearList() {
-        Log.d(TAG, "清空 views");
+        MyLog.d(TAG, "清空 views");
         mLlDpRoot.removeAllViews();
     }
 }

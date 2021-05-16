@@ -18,6 +18,7 @@ import com.jiyehoo.informationentry.model.DpEnumItem;
 import com.jiyehoo.informationentry.model.DpStringItem;
 import com.jiyehoo.informationentry.model.DpValueItem;
 import com.jiyehoo.informationentry.model.ICtrlModel;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.ICtrlView;
 import com.tuya.smart.android.device.bean.BoolSchemaBean;
 import com.tuya.smart.android.device.bean.EnumSchemaBean;
@@ -64,7 +65,7 @@ public class CtrlPresenter {
         // Map<DP编号， DP内容>
         Map<String, SchemaBean> map = TuyaHomeSdk.getDataInstance().getSchema(devId);
         if (null == map) {
-            Log.d(TAG, "map 为空");
+            MyLog.d(TAG, "map 为空");
             return;
         }
         Collection<SchemaBean> beanCollection = map.values();
@@ -81,12 +82,12 @@ public class CtrlPresenter {
      * 更新数据显示
      */
     public void update() {
-        Log.d(TAG, "View 更新数据");
+        MyLog.d(TAG, "View 更新数据");
         // 获取数据,放入 model
         // Map<DP编号， DP内容>
         Map<String, SchemaBean> map = TuyaHomeSdk.getDataInstance().getSchema(devId);
         if (null == map) {
-            Log.d(TAG, "map 为空");
+            MyLog.d(TAG, "map 为空");
             return;
         }
         // 清空 list
@@ -105,41 +106,41 @@ public class CtrlPresenter {
     public void registerListener() {
 
         if (model.getDevice() != null) {
-            Log.d(TAG, "设置设备监听");
+            MyLog.d(TAG, "设置设备监听");
             model.getDevice().registerDevListener(new IDevListener() {
                 @Override
                 public void onDpUpdate(String devId, String dpStr) {
                     // dp 更新，dpStr 为 json
-                    Log.d(TAG, "监听：dp 更新：" + dpStr);
+                    MyLog.d(TAG, "监听：dp 更新：" + dpStr);
                     update();
                 }
 
                 @Override
                 public void onRemoved(String devId) {
                     // 设备移除
-                    Log.d(TAG, "监听：设备移除:" + devId);
+                    MyLog.d(TAG, "监听：设备移除:" + devId);
                 }
 
                 @Override
                 public void onStatusChanged(String devId, boolean online) {
                     // 设备在线状态改变
-                    Log.d(TAG, "监听：设备在线状态改变");
+                    MyLog.d(TAG, "监听：设备在线状态改变");
                 }
 
                 @Override
                 public void onNetworkStatusChanged(String devId, boolean status) {
                     // 网络状态改变，网络是否可用
-                    Log.d(TAG, "监听：设备网络：" + status);
+                    MyLog.d(TAG, "监听：设备网络：" + status);
                 }
 
                 @Override
                 public void onDevInfoUpdate(String devId) {
                     // 设备信息更新
-                    Log.d(TAG, "监听：设备信息改变");
+                    MyLog.d(TAG, "监听：设备信息改变");
                 }
             });
         } else {
-            Log.d(TAG, "注册监听，设备 null");
+            MyLog.d(TAG, "注册监听，设备 null");
         }
     }
 
@@ -150,7 +151,7 @@ public class CtrlPresenter {
         if (model.getDevice() != null) {
             model.getDevice().unRegisterDevListener();
         } else {
-            Log.d(TAG, "取消监听，设备 null");
+            MyLog.d(TAG, "取消监听，设备 null");
         }
     }
 
@@ -163,11 +164,11 @@ public class CtrlPresenter {
         }
 
         for (SchemaBean bean : model.getBeanCollection()) {
-//            Log.d(TAG, bean.getName());
+//            MyLog.d(TAG, bean.getName());
 
             Object value = model.getDeviceBean().getDps().get(bean.getId());
             if (bean.type.equals(DataTypeEnum.OBJ.getType())) {
-//                Log.d(TAG, "类型:" + bean.getSchemaType());
+//                MyLog.d(TAG, "类型:" + bean.getSchemaType());
                 switch (bean.getSchemaType()) {
                     // boolean
                     case BoolSchemaBean.type:
@@ -190,7 +191,7 @@ public class CtrlPresenter {
                         // todo 点击
                         if (bean.getMode().contains("w")) {
                             stringItem.setOnClickListener(v -> {
-                                Log.d(TAG, "cardView 点击,id:" + bean.getId());
+                                MyLog.d(TAG, "cardView 点击,id:" + bean.getId());
                                 String ctl = "123.0";
                                 sendDps(bean.getId(), ctl);
                             });
@@ -218,14 +219,14 @@ public class CtrlPresenter {
                     model.getDevice().removeDevice(new IResultCallback() {
                         @Override
                         public void onError(String errorCode, String errorMsg) {
-                            Log.d(TAG, "恢复出厂失败");
+                            MyLog.d(TAG, "恢复出厂失败");
                             view.showToast("恢复出厂失败");
                             view.showSwipeRefresh(false);
                         }
 
                         @Override
                         public void onSuccess() {
-                            Log.d(TAG, "恢复出厂成功");
+                            MyLog.d(TAG, "恢复出厂成功");
                             view.showToast("恢复出厂成功");
                             view.showSwipeRefresh(false);
                             view.finishActivity();
@@ -252,13 +253,13 @@ public class CtrlPresenter {
                         model.getDevice().renameDevice(name, new IResultCallback() {
                             @Override
                             public void onError(String code, String error) {
-                                Log.d(TAG, "设备重命名失败:" + error);
+                                MyLog.d(TAG, "设备重命名失败:" + error);
                                 view.showToast("设备重命名失败:" + error);
                             }
 
                             @Override
                             public void onSuccess() {
-                                Log.d(TAG, "设备重命名成功");
+                                MyLog.d(TAG, "设备重命名成功");
                                 view.showToast("设备重命名成功");
 
                             }
@@ -274,20 +275,20 @@ public class CtrlPresenter {
      * 发送 DPS
      */
     private void sendDps(@NonNull String id, String ctl) {
-        Log.d(TAG, "开始发送DPS");
+        MyLog.d(TAG, "开始发送DPS");
         HashMap<String, String> map = new HashMap<>();
         map.put(id, ctl);
         String dps = JSONObject.toJSONString(map);
-        Log.d(TAG, "发送的DPS:" + dps);
+        MyLog.d(TAG, "发送的DPS:" + dps);
         model.getDevice().publishDps(dps, new IResultCallback() {
             @Override
             public void onError(String code, String msg) {
-                Log.d(TAG, "发送DPS失败:" + msg);
+                MyLog.d(TAG, "发送DPS失败:" + msg);
             }
 
             @Override
             public void onSuccess() {
-                Log.d(TAG, "发送DPS成功");
+                MyLog.d(TAG, "发送DPS成功");
             }
         });
     }

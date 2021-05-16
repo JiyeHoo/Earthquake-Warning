@@ -14,6 +14,7 @@ import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.model.LoginSpModel;
 import com.jiyehoo.informationentry.model.SetSpModel;
 import com.jiyehoo.informationentry.util.FingerUtil;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.ILoginView;
 import com.tuya.smart.android.user.api.ILoginCallback;
 import com.tuya.smart.android.user.bean.User;
@@ -40,21 +41,21 @@ public class LoginPresenter {
 //        boolean haveRemember = preferences.getBoolean("haveRemember", false);
         // 没有记住密码则不进入指纹
         if (!LoginSpModel.INSTANCE.getIsRemember(mContext)) {
-            Log.d(TAG, "没有记住密码，不进入指纹认证");
+            MyLog.d(TAG, "没有记住密码，不进入指纹认证");
             return;
         }
 
-        Log.d(TAG, "setSP 中的 指纹开启状态：" + SetSpModel.getIsFingerOpen(mContext));
+        MyLog.d(TAG, "setSP 中的 指纹开启状态：" + SetSpModel.getIsFingerOpen(mContext));
         if (SetSpModel.getIsFingerOpen(mContext)) {
             boolean isFingerOpen = SetSpModel.getIsFingerOpen(mContext);
-            Log.d(TAG, "获取指纹设置:" + isFingerOpen);
+            MyLog.d(TAG, "获取指纹设置:" + isFingerOpen);
             if (isFingerOpen) {
                 BiometricPrompt.AuthenticationCallback callback = new BiometricPrompt.AuthenticationCallback() {
                     @Override
                     public void onAuthenticationError(int errorCode, CharSequence errString) {
                         super.onAuthenticationError(errorCode, errString);
                         // 5次属于错误
-                        Log.d(TAG, "指纹错误 " + errString);
+                        MyLog.d(TAG, "指纹错误 " + errString);
                         view.showToast("指纹开启失败，过段时间再试吧！");
                     }
 
@@ -62,7 +63,7 @@ public class LoginPresenter {
                     public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
                         // 成功
-                        Log.d(TAG, "指纹通过 " + result.toString());
+                        MyLog.d(TAG, "指纹通过 " + result.toString());
                         login(view.getUserName(), view.getPwd());
                     }
 
@@ -70,10 +71,10 @@ public class LoginPresenter {
                     public void onAuthenticationFailed() {
                         super.onAuthenticationFailed();
                         // 单次失败
-                        Log.d(TAG, "指纹失败");
+                        MyLog.d(TAG, "指纹失败");
                     }
                 };
-                DialogInterface.OnClickListener cancelCallback = (dialog, which) -> Log.d(TAG, "取消了指纹登录");
+                DialogInterface.OnClickListener cancelCallback = (dialog, which) -> MyLog.d(TAG, "取消了指纹登录");
 
                 FingerUtil fingerUtil = new FingerUtil(mContext, "验证指纹", "用于验证身份自动登录", callback, cancelCallback);
                 fingerUtil.startFinger();
@@ -94,7 +95,7 @@ public class LoginPresenter {
         TuyaHomeSdk.getUserInstance().loginWithEmail(mContext.getString(R.string.country_code), email, pwd, new ILoginCallback() {
             @Override
             public void onSuccess(User user) {
-                Log.d(TAG, "登录成功");
+                MyLog.d(TAG, "登录成功");
                 // 记住密码
                 rememberPwd();
                 view.disShowLoading();
@@ -104,7 +105,7 @@ public class LoginPresenter {
 
             @Override
             public void onError(String code, String error) {
-                Log.d(TAG, "登录失败:" + error);
+                MyLog.d(TAG, "登录失败:" + error);
                 view.disShowLoading();
                 view.ableBtn();
                 view.showToast(mContext.getString(R.string.login_error) + error);
@@ -133,12 +134,12 @@ public class LoginPresenter {
 
     private void rememberPwd() {
         if (view.getCheckBoxState()) {
-            Log.d(TAG, "记住密码");
+            MyLog.d(TAG, "记住密码");
             LoginSpModel.INSTANCE.setIsRemember(mContext, true);
             LoginSpModel.INSTANCE.setUser(mContext, view.getUserName());
             LoginSpModel.INSTANCE.setPwd(mContext, view.getPwd());
         } else {
-            Log.d(TAG, "没有记住密码，清空");
+            MyLog.d(TAG, "没有记住密码，清空");
             LoginSpModel.INSTANCE.clearInfo(mContext);
         }
 

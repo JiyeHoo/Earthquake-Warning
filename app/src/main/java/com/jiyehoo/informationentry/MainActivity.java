@@ -1,13 +1,17 @@
 package com.jiyehoo.informationentry;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,10 +30,12 @@ import com.jiyehoo.informationentry.activity.NoticeActivity;
 import com.jiyehoo.informationentry.activity.SetActivity;
 import com.jiyehoo.informationentry.presenter.MainPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.util.TimeUtil;
 import com.jiyehoo.informationentry.view.IMainView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
+import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.ITuyaDataCallback;
 
@@ -92,23 +98,24 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
 //        getGps();
     }
 
-//    private void getDeviceList() {
+
+    //    private void getDeviceList() {
 //        long homeId = HomeModel.getHomeId(this);
 //        TuyaHomeSdk.newHomeInstance(homeId).getHomeDetail(new ITuyaHomeResultCallback() {
 //            @Override
 //            public void onSuccess(HomeBean bean) {
 //                if (bean.getDeviceList() != null && bean.getDeviceList().size() > 0) {
 //                    bean.getDeviceList().forEach(deviceBean ->
-//                            Log.d(TAG, "设备名:" + deviceBean.getName() + " devId:" + deviceBean.getDevId()));
+//                            MyLog.d(TAG, "设备名:" + deviceBean.getName() + " devId:" + deviceBean.getDevId()));
 //                } else {
-//                    Log.d(TAG, "设备列表为空");
+//                    MyLog.d(TAG, "设备列表为空");
 //                }
 //
 //            }
 //
 //            @Override
 //            public void onError(String errorCode, String errorMsg) {
-//                Log.d(TAG, "设备列表获取失败");
+//                MyLog.d(TAG, "设备列表获取失败");
 //            }
 //        });
 //
@@ -133,8 +140,8 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
             // devID: 6ca4f3101238542849bago
             floatingActionsMenu.collapse();
 
-            Log.d(TAG, "开始查询历史");
-            Log.d(TAG, "ime stamp:" + TimeUtil.stampToDate(1620570646));
+            MyLog.d(TAG, "开始查询历史");
+            MyLog.d(TAG, "ime stamp:" + TimeUtil.stampToDate(1620570646));
             Map<String, Object> map = new HashMap<>();
             map.put("devId", "6ca4f3101238542849bago");
             map.put("dpIds", "1,101,102,103,104,105,106,107,108,109,110"); // dp 点
@@ -147,12 +154,12 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
                     new ITuyaDataCallback<String>() {
                         @Override
                         public void onSuccess(String result) {
-                            Log.d(TAG, "请求历史成功:" + result);
+                            MyLog.d(TAG, "请求历史成功:" + result);
                         }
 
                         @Override
                         public void onError(String s, String s1) {
-                            Log.d(TAG, "请求历史失败");
+                            MyLog.d(TAG, "请求历史失败");
                         }
             });
         });
@@ -207,6 +214,8 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
         getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
+
+
     private void bindView() {
         mTvNavName = findViewById(R.id.tv_nav_user_name);
         mTvNavEmail = findViewById(R.id.tv_nav_user_email);
@@ -259,7 +268,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
 
             @Override
             public void onDrawerSlide(float openRatio, int offsetPixels) {
-//                Log.i("MainActivity", "openRatio=" + openRatio + " ,offsetPixels=" + offsetPixels);
+//                Log.i(TAG, "openRatio=" + openRatio + " ,offsetPixels=" + offsetPixels);
             }
         });
 
@@ -328,7 +337,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
 
         if (EasyPermissions.hasPermissions(this, PERMS)) {
             // 已经申请过权限，做想做的事
-            Log.d(TAG, "定位权限拥有");
+            MyLog.d(TAG, "定位权限拥有");
         } else {
             // 没有申请过权限，现在去申请
             /*
@@ -337,7 +346,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
              @param requestCode 请求权限的唯一标识码
              @param perms 一系列权限
              */
-            Log.d(TAG, "没有权限，开始申请");
+            MyLog.d(TAG, "没有权限，开始申请");
             EasyPermissions.requestPermissions(this, PERMISSION_STORAGE_MSG, PERMISSION_STORAGE_CODE, PERMS);
         }
     }
@@ -356,7 +365,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
      */
     @Override
     public void onPermissionsGranted(int requestCode, @NotNull List<String> perms) {
-        Log.d(TAG, "权限申请成功");
+        MyLog.d(TAG, "权限申请成功");
         presenter.getGps();
     }
 
@@ -367,7 +376,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
      */
     @Override
     public void onPermissionsDenied(int requestCode, @NotNull List<String> perms) {
-        Log.d(TAG, "权限申请失败");
+        MyLog.d(TAG, "权限申请失败");
         showToast("缺少定位权限");
     }
 }

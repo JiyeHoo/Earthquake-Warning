@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.jiyehoo.informationentry.LoginActivity;
 import com.jiyehoo.informationentry.R;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IResetPwdView;
 import com.tuya.smart.android.user.api.IResetPasswordCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
@@ -30,18 +31,18 @@ public class ResetPwdPresenter {
             TuyaHomeSdk.getUserInstance().sendVerifyCodeWithUserName(email, "", mContext.getString(R.string.country_code), 3, new IResultCallback() {
                 @Override
                 public void onError(String code, String error) {
-                    Log.d(TAG, "发送验证码失败:" + error);
+                    MyLog.d(TAG, "发送验证码失败:" + error);
                     view.showToast(mContext.getString(R.string.reset_send_code_error) + error);
                 }
 
                 @Override
                 public void onSuccess() {
-                    Log.d(TAG, "发送验证码成功");
+                    MyLog.d(TAG, "发送验证码成功");
                     view.showToast(mContext.getString(R.string.reset_send_code_success));
                 }
             });
         } else {
-            Log.d(TAG, "Email 为空");
+            MyLog.d(TAG, "Email 为空");
             view.showToast(mContext.getString(R.string.reset_toast_email_error));
         }
     }
@@ -69,7 +70,7 @@ public class ResetPwdPresenter {
                 new IResetPasswordCallback() {
                     @Override
                     public void onSuccess() {
-                        Log.d(TAG, "密码重置成功");
+                        MyLog.d(TAG, "密码重置成功");
                         view.showToast(mContext.getString(R.string.reset_toast_reset_success));
                         Intent intent = new Intent(mContext, LoginActivity.class);
                         mContext.startActivity(intent);
@@ -77,7 +78,7 @@ public class ResetPwdPresenter {
 
                     @Override
                     public void onError(String code, String error) {
-                        Log.d(TAG, "密码重置失败:" + error);
+                        MyLog.d(TAG, "密码重置失败:" + error);
                         view.showToast(mContext.getString(R.string.reset_toast_reset_error) + error);
                     }
                 });

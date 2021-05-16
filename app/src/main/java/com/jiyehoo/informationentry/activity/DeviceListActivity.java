@@ -31,6 +31,7 @@ import com.jiyehoo.informationentry.adapter.DeviceListAdapter;
 import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.presenter.DeviceListPresenter;
 import com.jiyehoo.informationentry.util.LoadingDialogUtil;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IDeviceListView;
 
 import org.jetbrains.annotations.NotNull;
@@ -160,11 +161,11 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
             HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
             if (obj != null) {
                 // 展示解码结果
-                Log.d(TAG, "内容:" + obj.originalValue);
+                MyLog.d(TAG, "内容:" + obj.originalValue);
                 // todo 在这里开始获取经纬度，用于配网
 //                double lon = HomeModel.getLon(context);
 //                double lat = HomeModel.getLat(context);
-//                Log.d(TAG, "SP获取GPS：" + lon + "," + lat);
+//                MyLog.d(TAG, "SP获取GPS：" + lon + "," + lat);
                 presenter.qrGetUuid(obj.originalValue);
 
             }
@@ -230,7 +231,7 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
      */
     @Override
     public void onPermissionsGranted(int requestCode, @NotNull List<String> perms) {
-        Log.d(TAG, "权限申请成功");
+        MyLog.d(TAG, "权限申请成功");
         // 开始扫码
         presenter.startQR();
     }
@@ -242,7 +243,7 @@ public class DeviceListActivity extends AppCompatActivity implements IDeviceList
      */
     @Override
     public void onPermissionsDenied(int requestCode, @NotNull List<String> perms) {
-        Log.d(TAG, "权限申请失败");
+        MyLog.d(TAG, "权限申请失败");
         showToast("缺少权限");
     }
 

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
 import com.jiyehoo.informationentry.R;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.tuya.smart.android.device.bean.SchemaBean;
 import com.tuya.smart.sdk.api.ITuyaDevice;
 
@@ -33,7 +34,7 @@ public class DpEnumItem extends CardView {
         if (!TextUtils.isEmpty(dpValue) && dpValue.length() > 0) {
             mTvValue.setText(dpValue);
         } else {
-            Log.d(TAG, "value 为空:" + dpValue);
+            MyLog.d(TAG, "value 为空:" + dpValue);
             mTvValue.setText("null");
         }
 

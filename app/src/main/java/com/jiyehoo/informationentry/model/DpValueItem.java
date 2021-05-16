@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import com.jiyehoo.informationentry.R;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.tuya.smart.android.device.bean.SchemaBean;
 import com.tuya.smart.sdk.api.ITuyaDevice;
 
@@ -34,7 +35,7 @@ public class DpValueItem extends CardView {
         if (!TextUtils.isEmpty(valueStr)) {
             mTvValue.setText(setUnit(dpName, valueStr));
         } else {
-            Log.d(TAG, "value 为空:" + dpName);
+            MyLog.d(TAG, "value 为空:" + dpName);
             mTvValue.setText("null");
         }
 
@@ -44,7 +45,7 @@ public class DpValueItem extends CardView {
     // 根据name处理单位
     private String setUnit(String dpName, String valueStr) {
         if (dpName.equals("电池电量")) {
-            Log.d(TAG, "找到电量");
+            MyLog.d(TAG, "找到电量");
             valueStr = valueStr + " %";
             return valueStr;
         }

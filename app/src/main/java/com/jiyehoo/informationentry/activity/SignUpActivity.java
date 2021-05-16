@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.jiyehoo.informationentry.LoginActivity;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.presenter.SignUpPresenter;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.ISignUpView;
 
 import net.frakbot.jumpingbeans.JumpingBeans;
@@ -148,7 +149,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
             if (validateAccount(getEmail())) {
                 presenter.getSignCode(getEmail());
             } else {
-                Log.d(TAG, "邮箱为空");
+                MyLog.d(TAG, "邮箱为空");
                 Toast.makeText(this, getString(R.string.sign_in_toast_email_error), Toast.LENGTH_SHORT).show();
             }
         });
@@ -179,7 +180,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpView {
         if (!TextUtils.isEmpty(msg)) {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } else {
-            Log.d(TAG, "Toast is null");
+            MyLog.d(TAG, "Toast is null");
         }
     }
 

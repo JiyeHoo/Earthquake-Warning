@@ -3,6 +3,7 @@ package com.jiyehoo.informationentry.model;
 import android.util.Log;
 
 import com.jiyehoo.informationentry.bean.HistoryBean;
+import com.jiyehoo.informationentry.util.MyLog;
 
 /**
  * @author JiyeHoo
@@ -36,7 +37,7 @@ public class ChartModel implements IChartModel{
         if (null != historyBean) {
             return historyBean;
         } else {
-            Log.d(TAG, "model 中 bean 为空");
+            MyLog.d(TAG, "model 中 bean 为空");
             return null;
         }
     }

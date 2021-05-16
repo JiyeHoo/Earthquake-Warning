@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.jiyehoo.informationentry.LoginActivity;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.presenter.ResetPwdPresenter;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IResetPwdView;
 
 import java.util.Objects;
@@ -212,7 +213,7 @@ public class ResetPwdActivity extends AppCompatActivity implements IResetPwdView
         if (!TextUtils.isEmpty(msg)) {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } else {
-            Log.d(TAG, "Toast is null");
+            MyLog.d(TAG, "Toast is null");
         }
     }
 

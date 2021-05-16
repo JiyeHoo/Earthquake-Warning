@@ -15,6 +15,7 @@ import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.model.IMainModel;
 import com.jiyehoo.informationentry.model.MainModel;
 import com.jiyehoo.informationentry.util.HttpUtil;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IMainView;
 import com.tuya.smart.android.user.api.IReNickNameCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
@@ -63,7 +64,7 @@ public class MainPresenter {
                     double lon = aMapLocation.getLongitude();
                     double lat = aMapLocation.getLatitude();
                     //解析定位结果
-                    Log.d(TAG, "定位成功:" + lon + "," + lat);
+                    MyLog.d(TAG, "定位成功:" + lon + "," + lat);
 //                    model.setLon(lon);
 //                    model.setLat(lat);
                     HomeModel.INSTANCE.setLon(mContext, lon);
@@ -116,7 +117,7 @@ public class MainPresenter {
 
             @Override
             public void onError(String errorCode, String error) {
-                Log.d(TAG, "获取 homeList 失败");
+                MyLog.d(TAG, "获取 homeList 失败");
                 view.showToast("初始化失败");
             }
         });
@@ -136,7 +137,7 @@ public class MainPresenter {
                     @Override
                     public void onSuccess(HomeBean bean) {
                         // homeId 写入 sp
-                        Log.d(TAG, "创建 home 成功:" + bean.getHomeId());
+                        MyLog.d(TAG, "创建 home 成功:" + bean.getHomeId());
 //                        HomeModel.INSTANCE.setHomeId(mContext, bean.getHomeId());
 
                         // 成功之后开始加载
@@ -145,7 +146,7 @@ public class MainPresenter {
 
                     @Override
                     public void onError(String errorCode, String errorMsg) {
-                        Log.d(TAG, "创建 home 失败");
+                        MyLog.d(TAG, "创建 home 失败");
                         view.showToast("创建默认组织失败");
                     }
                 }
@@ -167,14 +168,14 @@ public class MainPresenter {
                         TuyaHomeSdk.getUserInstance().updateNickName(name, new IReNickNameCallback() {
                             @Override
                             public void onSuccess() {
-                                Log.d(TAG, "修改昵称成功");
+                                MyLog.d(TAG, "修改昵称成功");
                                 view.showToast("修改成功");
                                 setUserInfo();
                             }
 
                             @Override
                             public void onError(String code, String error) {
-                                Log.d(TAG, "修改昵称失败");
+                                MyLog.d(TAG, "修改昵称失败");
                                 view.showToast("修改失败：" + error);
                             }
                         });
@@ -190,7 +191,7 @@ public class MainPresenter {
         HttpUtil.sendOkHttpRequest(url, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.d(TAG, "一言请求失败");
+                MyLog.d(TAG, "一言请求失败");
             }
 
             @Override
@@ -220,12 +221,12 @@ public class MainPresenter {
                 new IIGetHomeWetherSketchCallBack() {
             @Override
             public void onSuccess(WeatherBean result) {
-                Log.d(TAG, "获取天气成功:" + result.getCondition() + ",Url:" + result.getInIconUrl());
+                MyLog.d(TAG, "获取天气成功:" + result.getCondition() + ",Url:" + result.getInIconUrl());
                 view.showWeatherIcon(result.getInIconUrl());
             }
             @Override
             public void onFailure(String errorCode, String errorMsg) {
-                Log.d(TAG, "获取天气失败:" + errorMsg);
+                MyLog.d(TAG, "获取天气失败:" + errorMsg);
             }
         });
     }

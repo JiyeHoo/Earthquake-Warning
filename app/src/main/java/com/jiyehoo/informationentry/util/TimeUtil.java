@@ -48,7 +48,7 @@ public class TimeUtil {
         try {
             return simpleDateFormat.parse(dateStr);
         } catch (Exception e) {
-            Log.d(TAG, "Str 转 date 失败:" + e);
+            MyLog.d(TAG, "Str 转 date 失败:" + e);
         }
         return null;
     }

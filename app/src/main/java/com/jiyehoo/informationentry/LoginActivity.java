@@ -29,6 +29,7 @@ import com.jiyehoo.informationentry.activity.SignUpActivity;
 import com.jiyehoo.informationentry.model.SetSpModel;
 import com.jiyehoo.informationentry.presenter.LoginPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.util.OnSwipeTouchListener;
 import com.jiyehoo.informationentry.view.ILoginView;
 
@@ -59,6 +60,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         super.onCreate(savedInstanceState);
         // 全屏
         fullScreen();
+
         // 加载布局
         setContentView(R.layout.activity_login);
         setupWindowAnimations();
@@ -149,10 +151,10 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     private void autoPic() {
 //        过时
 //        Date date = new Date();
-//        Log.d("Time", String.valueOf(date.getHours()));
+//        MyLog.d("Time", String.valueOf(date.getHours()));
         Calendar cal = Calendar.getInstance();
         int hours = cal.get( Calendar.HOUR_OF_DAY );
-        Log.d("Time", String.valueOf(hours));
+        MyLog.d("Time", String.valueOf(hours));
 
         if (hours < 12) {
             //上午
@@ -205,7 +207,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         if (!TextUtils.isEmpty(msg)) {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } else {
-            Log.d(TAG, "Toast is null");
+            MyLog.d(TAG, "Toast is null");
         }
     }
 

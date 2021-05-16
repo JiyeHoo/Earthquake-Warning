@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.jiyehoo.informationentry.R;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.ISignUpView;
 import com.tuya.smart.android.user.api.IRegisterCallback;
 import com.tuya.smart.android.user.bean.User;
@@ -30,13 +31,13 @@ public class SignUpPresenter {
         TuyaHomeSdk.getUserInstance().sendVerifyCodeWithUserName(email, "", mContext.getString(R.string.country_code), 1, new IResultCallback() {
             @Override
             public void onError(String code, String error) {
-                Log.d(TAG, "发送验证码失败:" + error);
+                MyLog.d(TAG, "发送验证码失败:" + error);
                 mSignUpView.showToast(mContext.getString(R.string.sign_up_toast_code_error) + error);
             }
 
             @Override
             public void onSuccess() {
-                Log.d(TAG, "发送验证码成功:");
+                MyLog.d(TAG, "发送验证码成功:");
                 mSignUpView.showToast(mContext.getString(R.string.sign_up_toast_code_success));
             }
         });

@@ -18,6 +18,7 @@ import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.model.SetSpModel;
 import com.jiyehoo.informationentry.util.FingerUtil;
 import com.jiyehoo.informationentry.util.HttpUtil;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.ISetView;
 import com.tuya.smart.android.user.api.ILogoutCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
@@ -119,13 +120,13 @@ public class SetPresenter {
      */
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void openFinger() {
-        Log.d(TAG, "开启指纹");
+        MyLog.d(TAG, "开启指纹");
         BiometricPrompt.AuthenticationCallback callback = new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
                 // 5次属于错误
-                Log.d(TAG, "指纹错误 " + errString);
+                MyLog.d(TAG, "指纹错误 " + errString);
                 view.setSbFinger(false);
                 view.showToast("指纹开启失败，过段时间再试吧！");
                 view.finishSetActivity();
@@ -135,10 +136,10 @@ public class SetPresenter {
             public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 // 成功
-                Log.d(TAG, "指纹通过 " + result.toString());
+                MyLog.d(TAG, "指纹通过 " + result.toString());
                 view.showToast("设置成功");
                 // todo 记录 sp
-                Log.d(TAG, "记录指纹开启");
+                MyLog.d(TAG, "记录指纹开启");
                 SetSpModel.INSTANCE.setIsFingerOpen(mContext, true);
             }
 
@@ -146,13 +147,13 @@ public class SetPresenter {
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
                 // 单次失败
-                Log.d(TAG, "指纹失败");
+                MyLog.d(TAG, "指纹失败");
             }
         };
 
         DialogInterface.OnClickListener cancelCallback = (dialog, which) -> {
             view.setSbFinger(false);
-            Log.d(TAG, "取消了指纹认证");
+            MyLog.d(TAG, "取消了指纹认证");
             view.showToast("取消打开指纹保护");
 
         };
@@ -167,14 +168,14 @@ public class SetPresenter {
      */
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void closeFinger() {
-        Log.d(TAG, "开始认证，企图关闭指纹");
+        MyLog.d(TAG, "开始认证，企图关闭指纹");
 
         BiometricPrompt.AuthenticationCallback callback = new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
                 // 5次属于错误
-                Log.d(TAG, "指纹错误 " + errString);
+                MyLog.d(TAG, "指纹错误 " + errString);
                 view.setSbFinger(true);
                 view.showToast("指纹关闭失败，过段时间再试吧！");
             }
@@ -185,7 +186,7 @@ public class SetPresenter {
                 // 成功
                 view.showToast("设置成功");
                 // todo 记录 sp
-                Log.d(TAG, "记录指纹关闭");
+                MyLog.d(TAG, "记录指纹关闭");
 
                 SetSpModel.INSTANCE.setIsFingerOpen(mContext, false);
             }
@@ -194,13 +195,13 @@ public class SetPresenter {
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
                 // 单次失败
-                Log.d(TAG, "指纹失败");
+                MyLog.d(TAG, "指纹失败");
             }
         };
 
         DialogInterface.OnClickListener cancelCallback = (dialog, which) -> {
             view.setSbFinger(true);
-            Log.d(TAG, "取消了指纹认证");
+            MyLog.d(TAG, "取消了指纹认证");
             view.showToast("取消关闭指纹保护");
 
         };
@@ -215,7 +216,7 @@ public class SetPresenter {
         TuyaHomeSdk.getUserInstance().logout(new ILogoutCallback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "退出成功");
+                MyLog.d(TAG, "退出成功");
                 // 清除 sp 中的 homeId
                 HomeModel.INSTANCE.clearHomeId(mContext);
                 Intent intent = new Intent("com.jiyehoo.broadcastoffline.OFFLINE");
@@ -233,29 +234,30 @@ public class SetPresenter {
      * 更新
      */
     public void updateVersion() {
-        Log.d(TAG, "开始更新");
+        MyLog.d(TAG, "开始更新");
         HttpUtil.sendOkHttpRequest("http://bs.jiyehoo.com:81/version", new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.d(TAG, "请求新版本失败");
+                MyLog.d(TAG, "请求新版本失败");
+                view.showToast("网络请求失败");
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String cloudVersion = Objects.requireNonNull(response.body()).string();
-                Log.d(TAG, "云端 version:" + cloudVersion);
+                MyLog.d(TAG, "云端 version:" + cloudVersion);
 
                 PackageInfo pInfo = null;
                 try {
                     pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-                    Log.d(TAG, "本地 version:" + pInfo.versionName);
+                    MyLog.d(TAG, "本地 version:" + pInfo.versionName);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
                 if (!TextUtils.isEmpty(cloudVersion)) {
                     assert pInfo != null;
                     if (!cloudVersion.equals(pInfo.versionName)) {
-                        Log.d(TAG, "发现新版本 " + cloudVersion);
+                        MyLog.d(TAG, "发现新版本 " + cloudVersion);
                         view.showUpdateDialog("发现新版本 v" + cloudVersion,
                                 "当前版本 v" + pInfo.versionName + "，请尽快更新！");
                     }

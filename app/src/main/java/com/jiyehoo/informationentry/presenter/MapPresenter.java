@@ -17,6 +17,7 @@ import com.jiyehoo.informationentry.activity.DeviceListActivity;
 import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.model.IMapModel;
 import com.jiyehoo.informationentry.model.MapModel;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IMapView;
 import com.tuya.smart.android.device.bean.SchemaBean;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
@@ -79,7 +80,7 @@ public class MapPresenter {
 
         mAMap.setOnMyLocationChangeListener(location -> {
             // 从location对象中获取经纬度信息，地址描述信息，拿到位置之后调用逆地理编码接口获取
-            Log.d(TAG, "经度:" + location.getLongitude() + "，纬度:" + location.getLatitude());
+            MyLog.d(TAG, "经度:" + location.getLongitude() + "，纬度:" + location.getLatitude());
         });
 
         // 设置标记点 气泡
@@ -96,15 +97,16 @@ public class MapPresenter {
             @Override
             public void onSuccess(HomeBean bean) {
                 List<DeviceBean> deviceBeanList = bean.getDeviceList();
-                deviceBeanList.forEach(deviceBean -> {
-
-                    setInfoAndMarker(deviceBean);
-                });
+                if (deviceBeanList.isEmpty()) {
+                    MyLog.d(TAG, "设备列表为空,return");
+                    return;
+                }
+                deviceBeanList.forEach(deviceBean -> setInfoAndMarker(deviceBean));
             }
 
             @Override
             public void onError(String errorCode, String errorMsg) {
-
+                MyLog.d(TAG, "设备列表获取失败" + errorMsg);
             }
         });
     }
@@ -113,7 +115,7 @@ public class MapPresenter {
      * 根据传入的DeviceBean，获取这个设备的信息，绘制这个标记点
      */
     private void setInfoAndMarker(DeviceBean deviceBean) {
-        Log.d(TAG, "设备信息:" + deviceBean.getName());
+        MyLog.d(TAG, "设备信息:" + deviceBean.getName());
 
         // 获取经度
         String lonStr = (String) deviceBean.getDps().get("110");
@@ -122,7 +124,7 @@ public class MapPresenter {
         }
         assert lonStr != null;
         double lon = Double.parseDouble(lonStr);
-        Log.d(TAG, "设备 dps 经度:" + lonStr);
+        MyLog.d(TAG, "设备 dps 经度:" + lonStr);
 
         // 获取纬度
         String latStr = (String) deviceBean.getDps().get("109");
@@ -131,7 +133,7 @@ public class MapPresenter {
         }
         assert latStr != null;
         double lat = Double.parseDouble(latStr);
-        Log.d(TAG, "设备 dps 纬度:" + latStr);
+        MyLog.d(TAG, "设备 dps 纬度:" + latStr);
 
         // 存入经纬度类
         LatLng latLng = new LatLng(lon, lat);
@@ -140,7 +142,7 @@ public class MapPresenter {
         int electric = 0;
         if (null != deviceBean.getDps().get("1")) {
             electric = (int) deviceBean.getDps().get("1");
-            Log.d(TAG, "电量:" + electric);
+            MyLog.d(TAG, "电量:" + electric);
         }
         String electricStr = String.valueOf(electric);
 
@@ -160,7 +162,7 @@ public class MapPresenter {
         // 返回 true 则表示接口已响应事件，否则返回false
         mAMap.setOnMarkerClickListener(markerClick -> {
             if (markerClick.getId().equals(marker.getId())) {
-                Log.d(TAG, "标记点击：" + title);
+                MyLog.d(TAG, "标记点击：" + title);
                 Intent intent = new Intent(context, DeviceListActivity.class);
                 context.startActivity(intent);
                 return true;

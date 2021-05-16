@@ -25,6 +25,7 @@ import com.jiyehoo.informationentry.model.DeviceListModel;
 import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.model.IDeviceListModel;
 import com.jiyehoo.informationentry.util.LoadingDialogUtil;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.util.TyDeviceActiveBusiness;
 import com.jiyehoo.informationentry.view.IDeviceListView;
 import com.tuya.smart.android.network.Business;
@@ -88,13 +89,13 @@ public class DeviceListPresenter {
                     // 存List
                     model.setDeviceList(bean.getDeviceList());
                     model.getDeviceList().forEach(deviceBean ->
-                            Log.d(TAG, "设备名:" + deviceBean.getName() + " devId:" + deviceBean.getDevId()));
+                            MyLog.d(TAG, "设备名:" + deviceBean.getName() + " devId:" + deviceBean.getDevId()));
 
                     // 显示 rv
 //                    view.showRv(model.getDeviceList());
                     adapterSetListener(model.getDeviceList());
                 } else {
-                    Log.d(TAG, "设备列表为空");
+                    MyLog.d(TAG, "设备列表为空");
                     // 需要考虑删除设备之后会调用到这里，所以需要将 rv 清空
                     view.rvRemoveAll();
                     view.showNoDeviceTip(true);
@@ -105,7 +106,7 @@ public class DeviceListPresenter {
 
             @Override
             public void onError(String errorCode, String errorMsg) {
-                Log.d(TAG, "设备列表获取失败");
+                MyLog.d(TAG, "设备列表获取失败");
                 view.showToast("获取设备列表失败");
                 view.showSwipeRefresh(false);
             }
@@ -120,7 +121,7 @@ public class DeviceListPresenter {
         adapter.setOnDeviceItemClickListener(new OnDeviceItemClickListener() {
             @Override
             public void onItemClick(DeviceBean deviceBean) {
-                Log.d(TAG, "点击");
+                MyLog.d(TAG, "点击");
                 // 跳转到设备控制，将 devId 传入获取 device 实例，用于控制设备：
                 // 用法： ITuyaDevice mDevice = TuyaHomeSdk.newDeviceInstance(deviceBean.getDevId());
                 Intent intent = new Intent(context, DeviceCtrlActivity.class);
@@ -130,7 +131,7 @@ public class DeviceListPresenter {
 
             @Override
             public void onItemLongClick(DeviceBean deviceBean) {
-                Log.d(TAG, "长按");
+                MyLog.d(TAG, "长按");
                 // 删除设备的 dialog
                 view.showDialog(deviceBean.getName(), "是否移除设备？移除之后需要重新配网", deviceBean.getDevId());
             }
@@ -147,12 +148,12 @@ public class DeviceListPresenter {
         mDevice.removeDevice(new IResultCallback() {
             @Override
             public void onError(String code, String msg) {
-                Log.d(TAG, "移除失败:" + msg);
+                MyLog.d(TAG, "移除失败:" + msg);
             }
 
             @Override
             public void onSuccess() {
-                Log.d(TAG, "移除成功");
+                MyLog.d(TAG, "移除成功");
                 view.showToast("移除成功");
                 // 刷新，重新拉 deviceList
                 getDeviceList();
@@ -174,7 +175,7 @@ public class DeviceListPresenter {
                 new Business.ResultListener<DeviceBean>() {
                     @Override
                     public void onFailure(BusinessResponse businessResponse, DeviceBean deviceBean, String msg) {
-                        Log.d(TAG, "配网失败");
+                        MyLog.d(TAG, "配网失败");
 
                         AlertDialog alertDialog = new AlertDialog.Builder(context)
                                 .setTitle("配网失败")
@@ -187,7 +188,7 @@ public class DeviceListPresenter {
                     @Override
                     public void onSuccess(BusinessResponse businessResponse, DeviceBean deviceBean, String msg) {
                         if (deviceBean != null) {
-                            Log.d(TAG, "配网成功:" + deviceBean.getName());
+                            MyLog.d(TAG, "配网成功:" + deviceBean.getName());
                             // todo 配网成功下发 经纬度
 
                             new Thread(() -> {
@@ -195,7 +196,7 @@ public class DeviceListPresenter {
                                     Thread.sleep(1000); // 休眠 1 秒
                                     String lonStr = String.valueOf(HomeModel.getLon(context));
                                     String latStr = String.valueOf(HomeModel.getLat(context));
-                                    Log.d(TAG, "SP获取GPS：" + lonStr + "," + latStr);
+                                    MyLog.d(TAG, "SP获取GPS：" + lonStr + "," + latStr);
                                     sendDps(deviceBean.getDevId(), lonStr, latStr);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
@@ -209,7 +210,7 @@ public class DeviceListPresenter {
                             getDeviceList();
 //                            adapter.notifyDataSetChanged();
                         } else {
-                            Log.d(TAG, "deviceBean is null");
+                            MyLog.d(TAG, "deviceBean is null");
                         }
                     }
                 }
@@ -229,17 +230,17 @@ public class DeviceListPresenter {
                 "tuya.m.qrcode.parse", "4.0", postData, String.class, new ITuyaDataCallback<String>() {
                     @Override
                     public void onSuccess(String info) {
-                        Log.d(TAG, "获取 NBInfo 成功:" + info);
+                        MyLog.d(TAG, "获取 NBInfo 成功:" + info);
                         // 返回的是 json，需要获取其中 id 用于配网
                         NBInfoBean nbInfoBean = new Gson().fromJson(info, NBInfoBean.class);
                         String nbId = nbInfoBean.getActionData().getId();
-                        Log.d(TAG, "NB_ID:" + nbId);
+                        MyLog.d(TAG, "NB_ID:" + nbId);
                         activatorNB(nbId);
                     }
 
                     @Override
                     public void onError(String errorCode, String errorMessage) {
-                        Log.d(TAG, "获取 NB_info 失败:" + errorMessage);
+                        MyLog.d(TAG, "获取 NB_info 失败:" + errorMessage);
 
                         AlertDialog alertDialog = new AlertDialog.Builder(context)
                                 .setTitle("扫码失败")
@@ -257,11 +258,11 @@ public class DeviceListPresenter {
      * 摄像头、储存
      */
     public void startQR() {
-        Log.d(TAG, "开始权限检测");
+        MyLog.d(TAG, "开始权限检测");
 
         if (EasyPermissions.hasPermissions(context, PERMS)) {
             // 已经申请过权限，做想做的事
-            Log.d(TAG, "拍照和储存权限拥有,开始扫码");
+            MyLog.d(TAG, "拍照和储存权限拥有,开始扫码");
             HmsScanAnalyzerOptions options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE ).create();
             ScanUtil.startScan((Activity) context, ACTIVITY_RESULT, options);
         } else {
@@ -272,7 +273,7 @@ public class DeviceListPresenter {
              @param requestCode 请求权限的唯一标识码
              @param perms 一系列权限
              */
-            Log.d(TAG, "没有权限，开始申请");
+            MyLog.d(TAG, "没有权限，开始申请");
             EasyPermissions.requestPermissions((Activity) context, PERMISSION_STORAGE_MSG, PERMISSION_STORAGE_CODE, PERMS);
         }
     }
@@ -282,27 +283,27 @@ public class DeviceListPresenter {
      */
     private void sendDps(String devId, String id, String ctl) {
         ITuyaDevice device = TuyaHomeSdk.newDeviceInstance(devId);
-        Log.d(TAG, "开始发送经纬度DPS,devIdL" + devId);
+        MyLog.d(TAG, "开始发送经纬度DPS,devIdL" + devId);
         HashMap<String, String> map = new HashMap<>();
         map.put(id, ctl);
         String dps = JSONObject.toJSONString(map);
-        Log.d(TAG, "发送的DPS:" + dps);
+        MyLog.d(TAG, "发送的DPS:" + dps);
         device.publishDps(dps, new IResultCallback() {
             @Override
             public void onError(String code, String msg) {
-                Log.d(TAG, "发送DPS失败:" + msg);
+                MyLog.d(TAG, "发送DPS失败:" + msg);
             }
 
             @Override
             public void onSuccess() {
-                Log.d(TAG, "发送DPS成功");
+                MyLog.d(TAG, "发送DPS成功");
             }
         });
     }
 
 
 //    public void startQR() {
-//        Log.d(TAG, "开始权限检测");
+//        MyLog.d(TAG, "开始权限检测");
 //        List<String> permissionList = new ArrayList<>();
 //
 //        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -319,7 +320,7 @@ public class DeviceListPresenter {
 //            ActivityCompat.requestPermissions((Activity) context, permissionArray, REQUEST_CODE);
 //        } else {
 //            // 有权限，扫码
-//            Log.d(TAG, "有权限,开始扫码");
+//            MyLog.d(TAG, "有权限,开始扫码");
 //            HmsScanAnalyzerOptions options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(HmsScan.QRCODE_SCAN_TYPE ).create();
 //            ScanUtil.startScan((Activity) context, ACTIVITY_RESULT, options);
 //        }

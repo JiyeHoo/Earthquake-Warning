@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.jiyehoo.informationentry.bean.HistoryBean;
 import com.jiyehoo.informationentry.model.ChartModel;
 import com.jiyehoo.informationentry.model.IChartModel;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IChartView;
 import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
@@ -46,7 +47,7 @@ public class ChartPresenter {
      */
     public void getDataLine() {
         // 获取 土壤湿度 和 降雨量指数 两个 dp 的历史数据
-        Log.d(TAG, "获取 line 的数据");
+        MyLog.d(TAG, "获取 line 的数据");
 
         Map<String, Object> map = new HashMap<>();
         map.put("devId", "6ca4f3101238542849bago");
@@ -60,7 +61,7 @@ public class ChartPresenter {
                 new ITuyaDataCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d(TAG, "请求湿度历史成功:" + result);
+                        MyLog.d(TAG, "请求湿度历史成功:" + result);
                         HistoryBean humidityBean = new Gson().fromJson(result, HistoryBean.class);
                         // 存入
                         mModel.setHumidityBean(humidityBean);
@@ -70,7 +71,7 @@ public class ChartPresenter {
 
                     @Override
                     public void onError(String s, String s1) {
-                        Log.d(TAG, "请求湿度历史失败");
+                        MyLog.d(TAG, "请求湿度历史失败");
                     }
                 });
 
@@ -81,7 +82,7 @@ public class ChartPresenter {
                 new ITuyaDataCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d(TAG, "请求降水量历史成功:" + result);
+                        MyLog.d(TAG, "请求降水量历史成功:" + result);
                         HistoryBean rainBean = new Gson().fromJson(result, HistoryBean.class);
                         // 存入 bean
                         mModel.setRainHistoryBean(rainBean);
@@ -93,7 +94,7 @@ public class ChartPresenter {
 
                     @Override
                     public void onError(String s, String s1) {
-                        Log.d(TAG, "请求降水量历史失败");
+                        MyLog.d(TAG, "请求降水量历史失败");
                     }
                 });
     }
@@ -102,7 +103,7 @@ public class ChartPresenter {
      * 获取 bar 图表所需数据
      */
     public void getDataBar() {
-        Log.d(TAG, "获取 bar 数据");
+        MyLog.d(TAG, "获取 bar 数据");
         Map<String, Object> map = new HashMap<>();
         map.put("devId", "6ca4f3101238542849bago");
         map.put("dpIds", "101"); // dp 点
@@ -115,7 +116,7 @@ public class ChartPresenter {
                 new ITuyaDataCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d(TAG, "请求地磁 X 历史成功:" + result);
+                        MyLog.d(TAG, "请求地磁 X 历史成功:" + result);
                         // json 解析到实体类 HistoryBean
                         Gson gson = new Gson();
                         HistoryBean bean = gson.fromJson(result, HistoryBean.class);
@@ -127,7 +128,7 @@ public class ChartPresenter {
 
                     @Override
                     public void onError(String s, String s1) {
-                        Log.d(TAG, "请求 地磁 X 历史失败");
+                        MyLog.d(TAG, "请求 地磁 X 历史失败");
                     }
                 });
 
@@ -138,7 +139,7 @@ public class ChartPresenter {
                 new ITuyaDataCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d(TAG, "请求地磁 Y 历史成功:" + result);
+                        MyLog.d(TAG, "请求地磁 Y 历史成功:" + result);
                         // json 解析到实体类 HistoryBean
                         Gson gson = new Gson();
                         HistoryBean bean = gson.fromJson(result, HistoryBean.class);
@@ -150,7 +151,7 @@ public class ChartPresenter {
 
                     @Override
                     public void onError(String s, String s1) {
-                        Log.d(TAG, "请求 地磁 Y 历史失败");
+                        MyLog.d(TAG, "请求 地磁 Y 历史失败");
                     }
                 });
     }
@@ -161,13 +162,13 @@ public class ChartPresenter {
     public void getHistory() {
         // 返回的数据是从近到远
         // 设备2 devId:6ca4f3101238542849bago
-        Log.d(TAG, "开始查询历史");
+        MyLog.d(TAG, "开始查询历史");
         // 测试时间工具，这里需要加上000(ms)，放在了 Util 里了
-//        Log.d(TAG, "stamp to time:" + TimeUtil.stampToDate(1620570646));
+//        MyLog.d(TAG, "stamp to time:" + TimeUtil.stampToDate(1620570646));
 //        try {
-//            Log.d(TAG, "time to stamp:" + TimeUtil.dateToStamp("2021-05-09 22:30:46"));
+//            MyLog.d(TAG, "time to stamp:" + TimeUtil.dateToStamp("2021-05-09 22:30:46"));
 //        } catch (Exception e) {
-//            Log.d(TAG, "time to stamp error");
+//            MyLog.d(TAG, "time to stamp error");
 //        }
         Map<String, Object> map = new HashMap<>();
         map.put("devId", "6ca4f3101238542849bago");
@@ -186,9 +187,9 @@ public class ChartPresenter {
                 new ITuyaDataCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d(TAG, "请求历史成功:" + result);
+                        MyLog.d(TAG, "请求历史成功:" + result);
                         // json 解析到实体类 HistoryBean
-                        Log.d(TAG, "开始解析 JSON");
+                        MyLog.d(TAG, "开始解析 JSON");
                         Gson gson = new Gson();
                         HistoryBean historyBean = gson.fromJson(result, HistoryBean.class);
                         // 将数据放入 model
@@ -197,7 +198,7 @@ public class ChartPresenter {
 
                     @Override
                     public void onError(String s, String s1) {
-                        Log.d(TAG, "请求历史失败");
+                        MyLog.d(TAG, "请求历史失败");
                     }
                 });
     }
@@ -207,15 +208,15 @@ public class ChartPresenter {
      */
     public void showBarChartMore() {
         if (!isMagXGetDate || !isMagYGetDate) {
-            Log.d(TAG, "bar 数据未获取完");
+            MyLog.d(TAG, "bar 数据未获取完");
             return;
         } else {
-            Log.d(TAG, "bar 数据获取完整");
+            MyLog.d(TAG, "bar 数据获取完整");
             isMagYGetDate = false;
             isMagXGetDate = false;
         }
 
-        Log.d(TAG, "开始处理 bar 图表");
+        MyLog.d(TAG, "开始处理 bar 图表");
 
         List<Float> xAxisValues = new ArrayList<>();
         List<List<Float>> yAxisValues = new ArrayList<>();
@@ -233,18 +234,18 @@ public class ChartPresenter {
         List<HistoryBean.Dps> magXDpsList = mModel.getMagnetismX().getDps();
         magXDpsList.forEach(dps -> {
             // 处理每一个 地磁 x 数据
-            Log.d(TAG, "地磁x数据:" + dps.getValue());
+            MyLog.d(TAG, "地磁x数据:" + dps.getValue());
             x1.add(Float.parseFloat(dps.getValue()) * -1);
 
             String timeStr = dps.getTimeStr().substring(11);
-            Log.d(TAG, "日期:" + timeStr);
+            MyLog.d(TAG, "日期:" + timeStr);
             labelList.add(timeStr);
         });
 
         List<HistoryBean.Dps> maxYDpsList = mModel.getMagnetismY().getDps();
         maxYDpsList.forEach(dps -> {
             // 处理每一个 地磁 Y 数据
-            Log.d(TAG, "地磁y数据:" + dps.getValue());
+            MyLog.d(TAG, "地磁y数据:" + dps.getValue());
             x2.add(Float.parseFloat(dps.getValue()) * -1);
         });
 
@@ -276,14 +277,14 @@ public class ChartPresenter {
     public void showLineChartMore() {
         if (!isRainGetDate || !isHumidityGetDate) {
             // 判断两个数据是否都获取，只要有一个没有获取到，就不加载图表
-            Log.d(TAG, "line 数据未获取完");
+            MyLog.d(TAG, "line 数据未获取完");
             return;
         } else {
-            Log.d(TAG, "line 数据获取完整");
+            MyLog.d(TAG, "line 数据获取完整");
             isHumidityGetDate = false;
             isRainGetDate = false;
         }
-        Log.d(TAG, "开始处理 Line 图表");
+        MyLog.d(TAG, "开始处理 Line 图表");
 
         // todo x文字载入，这里使用日期时间
         List<String> xLabels = new ArrayList<>();
@@ -298,11 +299,11 @@ public class ChartPresenter {
         rainList.forEach(dps -> {
             // 遍历 dps
             String rainTime = dps.getTimeStr().substring(11);
-            Log.d(TAG, rainTime);
+            MyLog.d(TAG, rainTime);
             xLabels.add(rainTime);
 
             String rainValue = dps.getValue();
-//            Log.d(TAG, "降雨量：" + rainValue);
+//            MyLog.d(TAG, "降雨量：" + rainValue);
             y2Value.add(Float.parseFloat(rainValue));
         });
 
@@ -311,7 +312,7 @@ public class ChartPresenter {
         List<Float> y1Value = new ArrayList<>();
         humidityList.forEach(dps -> {
             String humidityValue = dps.getValue();
-//            Log.d(TAG, "湿度：" + humidityValue);
+//            MyLog.d(TAG, "湿度：" + humidityValue);
             y1Value.add(Float.parseFloat(humidityValue));
         });
 
@@ -339,7 +340,7 @@ public class ChartPresenter {
      * 显示饼图
      */
     public void showPieChart() {
-        Log.d(TAG, "开始处理 Pie 图表");
+        MyLog.d(TAG, "开始处理 Pie 图表");
 
         //设置每份所占数量
         List<PieEntry> yVals = new ArrayList<>();
@@ -363,7 +364,7 @@ public class ChartPresenter {
      * 显示雷达图
      */
     public void showRadarChart() {
-        Log.d(TAG, "开始处理 Radar 图表");
+        MyLog.d(TAG, "开始处理 Radar 图表");
 
         List<String> xData = new ArrayList<>();
         List<List<Float>> yDatas = new ArrayList<>();

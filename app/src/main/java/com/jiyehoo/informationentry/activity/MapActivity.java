@@ -16,6 +16,7 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.presenter.MapPresenter;
+import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IMapView;
 
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +60,7 @@ public class MapActivity extends AppCompatActivity implements IMapView, EasyPerm
 
         if (EasyPermissions.hasPermissions(this, PERMS)) {
             // 已经申请过权限，做想做的事
-            Log.d(TAG, "定位权限拥有");
+            MyLog.d(TAG, "定位权限拥有");
             // 初始化地图视图
             presenter.initMapView();
         } else {
@@ -70,7 +71,7 @@ public class MapActivity extends AppCompatActivity implements IMapView, EasyPerm
              @param requestCode 请求权限的唯一标识码
              @param perms 一系列权限
              */
-            Log.d(TAG, "没有权限，开始申请");
+            MyLog.d(TAG, "没有权限，开始申请");
             EasyPermissions.requestPermissions(this, PERMISSION_STORAGE_MSG, PERMISSION_STORAGE_CODE, PERMS);
         }
     }
@@ -89,7 +90,7 @@ public class MapActivity extends AppCompatActivity implements IMapView, EasyPerm
      */
     @Override
     public void onPermissionsGranted(int requestCode, @NotNull List<String> perms) {
-        Log.d(TAG, "权限申请成功");
+        MyLog.d(TAG, "权限申请成功");
         // 初始化地图视图
         presenter.initMapView();
     }
@@ -101,7 +102,7 @@ public class MapActivity extends AppCompatActivity implements IMapView, EasyPerm
      */
     @Override
     public void onPermissionsDenied(int requestCode, @NotNull List<String> perms) {
-        Log.d(TAG, "权限申请失败");
+        MyLog.d(TAG, "权限申请失败");
         Toast.makeText(this, "没有定位权限", Toast.LENGTH_LONG).show();
     }
 

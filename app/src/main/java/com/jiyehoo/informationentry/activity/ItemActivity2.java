@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jiyehoo.informationentry.R;
+import com.jiyehoo.informationentry.util.MyLog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -150,7 +151,7 @@ public class ItemActivity2 extends AppCompatActivity {
                 }
                 break;
             case CHOOSE_PHOTO:
-                Log.d("onActivityResult", "返回成功，已经选择了图片，开始处理");
+                MyLog.d("onActivityResult", "返回成功，已经选择了图片，开始处理");
                 if (resultCode == RESULT_OK) {
                     handleImageOnKitKat(data);
                 }
@@ -186,7 +187,7 @@ public class ItemActivity2 extends AppCompatActivity {
             imagePath = uri.getPath();
         }
         //根据路径显示图片
-        Log.d("handleImageOnKitKat", imagePath);
+        MyLog.d("handleImageOnKitKat", imagePath);
         displayImage(imagePath);
     }
 
@@ -204,7 +205,7 @@ public class ItemActivity2 extends AppCompatActivity {
     }
 
     private void displayImage(String imagePath) {
-        Log.d("IMAGE_PATH", imagePath);
+        MyLog.d("IMAGE_PATH", imagePath);
         if (imagePath != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 
