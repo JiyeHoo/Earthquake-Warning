@@ -23,7 +23,10 @@ import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IResetPwdView;
 
 import java.util.Objects;
-
+/**
+ * @author JiyeHoo
+ * @description: 找回密码界面
+ */
 public class ResetPwdActivity extends AppCompatActivity implements IResetPwdView {
     private final String TAG = "ResetPwdActivity";
 

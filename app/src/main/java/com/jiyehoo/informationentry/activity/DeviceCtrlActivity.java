@@ -23,7 +23,10 @@ import com.jiyehoo.informationentry.R;
 import com.jiyehoo.informationentry.presenter.CtrlPresenter;
 import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.ICtrlView;
-
+/**
+ * @author JiyeHoo
+ * @description: 设备控制界面
+ */
 public class DeviceCtrlActivity extends AppCompatActivity implements ICtrlView, View.OnClickListener {
 
     private final String TAG = "###DeviceCtrlActivity";

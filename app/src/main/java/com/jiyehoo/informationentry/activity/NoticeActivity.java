@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.jiyehoo.informationentry.R;
-
+/**
+ * @author JiyeHoo
+ * @description: 通知界面
+ */
 public class NoticeActivity extends AppCompatActivity {
 
     @Override

@@ -1,17 +1,12 @@
 package com.jiyehoo.informationentry;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.transition.Fade;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,7 +19,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.jiyehoo.informationentry.activity.ChartActivity;
 import com.jiyehoo.informationentry.activity.DeviceListActivity;
-import com.jiyehoo.informationentry.activity.ItemActivity4;
+import com.jiyehoo.informationentry.activity.DisasterActivity;
 import com.jiyehoo.informationentry.activity.MapActivity;
 import com.jiyehoo.informationentry.activity.NoticeActivity;
 import com.jiyehoo.informationentry.activity.SetActivity;
@@ -35,7 +30,6 @@ import com.jiyehoo.informationentry.util.TimeUtil;
 import com.jiyehoo.informationentry.view.IMainView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
-import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.ITuyaDataCallback;
 
@@ -51,7 +45,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * @author JiyeHoo
- * @description: 程序主界面
+ * @description: 主界面
  */
 public class MainActivity extends BaseActivity implements IMainView, EasyPermissions.PermissionCallbacks {
 
@@ -71,7 +65,6 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
     String PERMISSION_STORAGE_MSG = "请授予权限，否则影响部分使用功能";
     int PERMISSION_STORAGE_CODE = 10001;
     String[] PERMS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +90,6 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
         // 获取经纬度
 //        getGps();
     }
-
 
     //    private void getDeviceList() {
 //        long homeId = HomeModel.getHomeId(this);
@@ -136,41 +128,55 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
     }
     private void FBtnClick() {
         mFBtnMap.setOnClickListener(v -> {
-            // todo 临时用于查询历史 上报
+            // todo 临时用于查询历史
             // devID: 6ca4f3101238542849bago
             floatingActionsMenu.collapse();
 
-            MyLog.d(TAG, "开始查询历史");
-            MyLog.d(TAG, "ime stamp:" + TimeUtil.stampToDate(1620570646));
-            Map<String, Object> map = new HashMap<>();
-            map.put("devId", "6ca4f3101238542849bago");
-            map.put("dpIds", "1,101,102,103,104,105,106,107,108,109,110"); // dp 点
-            map.put("offset", 0); // 分页偏移量
-            map.put("limit", 10); // 分页大小
-
-            TuyaHomeSdk.getRequestInstance().requestWithApiName(
-                    "tuya.m.smart.operate.all.log",
-                    "1.0", map, String.class,
-                    new ITuyaDataCallback<String>() {
-                        @Override
-                        public void onSuccess(String result) {
-                            MyLog.d(TAG, "请求历史成功:" + result);
-                        }
-
-                        @Override
-                        public void onError(String s, String s1) {
-                            MyLog.d(TAG, "请求历史失败");
-                        }
-            });
+//            MyLog.d(TAG, "开始查询历史");
+//            MyLog.d(TAG, "ime stamp:" + TimeUtil.stampToDate(1620570646));
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("devId", "6ca4f3101238542849bago");
+//            map.put("dpIds", "1,101,102,103,104,105,106,107,108,109,110"); // dp 点
+//            map.put("offset", 0); // 分页偏移量
+//            map.put("limit", 10); // 分页大小
+//
+//            TuyaHomeSdk.getRequestInstance().requestWithApiName(
+//                    "tuya.m.smart.operate.all.log",
+//                    "1.0", map, String.class,
+//                    new ITuyaDataCallback<String>() {
+//                        @Override
+//                        public void onSuccess(String result) {
+//                            MyLog.d(TAG, "请求历史成功:" + result);
+//                        }
+//
+//                        @Override
+//                        public void onError(String s, String s1) {
+//                            MyLog.d(TAG, "请求历史失败");
+//                        }
+//            });
         });
 
         mFBtnShow.setOnClickListener(v -> {
-            // todo 临时用于获取设备列表
+            // todo 临时用于获取天气
             floatingActionsMenu.collapse();
 
-//            getDeviceList();
-//            Intent intent = new Intent(this, ShowActivity.class);
-//            startActivity(intent);
+//            QWeather.getWarning(this, "110.303916,25.058919", new QWeather.OnResultWarningListener() {
+//                @Override
+//                public void onError(Throwable throwable) {
+//                    MyLog.d(TAG, "请求灾害数据失败");
+//                }
+//
+//                @Override
+//                public void onSuccess(WarningBean warningBean) {
+//                    MyLog.d(TAG, "请求灾害数据成功");
+//                    warningBean.getWarningList().forEach(warningBeanBase -> {
+//                        Log.d(TAG, "灾害时间：" + warningBeanBase.getPubTime());
+//                        Log.d(TAG, "灾害标题：" + warningBeanBase.getTitle());
+//
+//                    });
+//                }
+//            }) ;
+
         });
 
         mFBtnSet.setOnClickListener(v -> {
@@ -241,7 +247,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
 //        cardView_2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity2.class)));
         cardView_2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapActivity.class)));
         cardView_3.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ChartActivity.class)));
-        cardView_4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ItemActivity4.class)));
+        cardView_4.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, DisasterActivity.class)));
 
         mTvNavName.setOnClickListener(v -> presenter.updateNickName());
 
@@ -354,7 +360,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
     @Override
     public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //将结果转发给EasyPermissions
+        // 将结果转发给EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 

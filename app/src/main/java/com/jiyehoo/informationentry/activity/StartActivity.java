@@ -16,6 +16,10 @@ import com.jiyehoo.informationentry.R;
 
 import me.wangyuwei.particleview.ParticleView;
 
+/**
+ * @author JiyeHoo
+ * @description: 开启闪屏界面
+ */
 public class StartActivity extends AppCompatActivity {
 
     @Override
@@ -44,7 +48,6 @@ public class StartActivity extends AppCompatActivity {
 //            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
 //            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
         });
 
     }

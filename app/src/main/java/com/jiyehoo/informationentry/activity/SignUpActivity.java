@@ -25,7 +25,10 @@ import com.jiyehoo.informationentry.view.ISignUpView;
 import net.frakbot.jumpingbeans.JumpingBeans;
 
 import java.util.Objects;
-
+/**
+ * @author JiyeHoo
+ * @description: 注册界面
+ */
 public class SignUpActivity extends AppCompatActivity implements ISignUpView {
     private final String TAG = "SignUpActivity";
 

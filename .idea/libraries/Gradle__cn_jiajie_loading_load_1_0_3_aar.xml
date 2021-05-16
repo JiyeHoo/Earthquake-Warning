@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: cn.jiajie.loading:load:1.0.3@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1c7b327e985e0aab1158210ae8fa9c4a/jetified-load-1.0.3/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1c7b327e985e0aab1158210ae8fa9c4a/jetified-load-1.0.3/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1c7b327e985e0aab1158210ae8fa9c4a/jetified-load-1.0.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/caf2a7ecec83e3dcc8b34255590e0d03/jetified-load-1.0.3/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/caf2a7ecec83e3dcc8b34255590e0d03/jetified-load-1.0.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/caf2a7ecec83e3dcc8b34255590e0d03/jetified-load-1.0.3/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.jiajie.loading/load/1.0.3/7bdbe17a10dc2c33da126cd3b1341b7074481680/load-1.0.3-javadoc.jar!/" />

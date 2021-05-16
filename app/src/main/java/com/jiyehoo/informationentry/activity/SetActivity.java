@@ -26,7 +26,10 @@ import com.jiyehoo.informationentry.util.FingerUtil;
 import com.jiyehoo.informationentry.view.ISetView;
 import com.nightonke.jellytogglebutton.JellyToggleButton;
 import com.nightonke.jellytogglebutton.State;
-
+/**
+ * @author JiyeHoo
+ * @description: 设置界面
+ */
 public class SetActivity extends BaseActivity implements ISetView, View.OnClickListener {
 
     private final String TAG = "###SetActivity";

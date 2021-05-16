@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.tuya.smart:tuyasmart-scenelib:3.25.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/797c5746aa6668f8e1ecc06c9238afc4/jetified-tuyasmart-scenelib-3.25.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/797c5746aa6668f8e1ecc06c9238afc4/jetified-tuyasmart-scenelib-3.25.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/797c5746aa6668f8e1ecc06c9238afc4/jetified-tuyasmart-scenelib-3.25.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/19c0df79dbd23fe6c519b6220e781e72/jetified-tuyasmart-scenelib-3.25.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/19c0df79dbd23fe6c519b6220e781e72/jetified-tuyasmart-scenelib-3.25.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/19c0df79dbd23fe6c519b6220e781e72/jetified-tuyasmart-scenelib-3.25.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

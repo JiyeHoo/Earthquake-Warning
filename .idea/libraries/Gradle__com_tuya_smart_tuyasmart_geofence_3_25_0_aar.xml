@@ -1,10 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.tuya.smart:tuyasmart-geofence:3.25.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dabfa4ac71d745d13553fc3433f0f44e/jetified-tuyasmart-geofence-3.25.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dabfa4ac71d745d13553fc3433f0f44e/jetified-tuyasmart-geofence-3.25.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dabfa4ac71d745d13553fc3433f0f44e/jetified-tuyasmart-geofence-3.25.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dabfa4ac71d745d13553fc3433f0f44e/jetified-tuyasmart-geofence-3.25.0/jars/libs/r-classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/49a95121857c2d0a62278d864217836e/jetified-tuyasmart-geofence-3.25.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/49a95121857c2d0a62278d864217836e/jetified-tuyasmart-geofence-3.25.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/49a95121857c2d0a62278d864217836e/jetified-tuyasmart-geofence-3.25.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/49a95121857c2d0a62278d864217836e/jetified-tuyasmart-geofence-3.25.0/jars/libs/r-classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

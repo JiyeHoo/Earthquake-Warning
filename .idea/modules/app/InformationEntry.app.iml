@@ -4,8 +4,8 @@
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
         <option name="GRADLE_PROJECT_PATH" value=":app" />
-        <option name="LAST_SUCCESSFUL_SYNC_AGP_VERSION" value="4.2.0" />
-        <option name="LAST_KNOWN_AGP_VERSION" value="4.2.0" />
+        <option name="LAST_SUCCESSFUL_SYNC_AGP_VERSION" value="4.2.1" />
+        <option name="LAST_KNOWN_AGP_VERSION" value="4.2.1" />
       </configuration>
     </facet>
     <facet type="android" name="Android">
@@ -60,6 +60,7 @@
     <orderEntry type="library" name="Gradle: ./app/libs/MPAndroidChart-v3.0.3.jar" level="project" />
     <orderEntry type="library" name="Gradle: ./app/libs/Android_Map3D_SDK_V7.8.0_20201231.jar" level="project" />
     <orderEntry type="library" name="Gradle: ./app/libs/AMap_Location_V5.3.1_20210331.jar" level="project" />
+    <orderEntry type="library" name="Gradle: ./app/libs/QWeather_Public_Android_V4.5.jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.1.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.2.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-common:2.1.0" level="project" />

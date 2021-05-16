@@ -4,7 +4,7 @@ import android.util.Log;
 
 /**
  * @author JiyeHoo
- * @description:
+ * @description: Log 工具，isLogOpen 控制整个 App 是否打印日志
  * @date :2021/5/16 下午6:55
  */
 public class MyLog {
