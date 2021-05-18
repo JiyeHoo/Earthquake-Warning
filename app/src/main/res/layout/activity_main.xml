@@ -106,7 +106,7 @@
                     android:id="@+id/fab_map"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:fab_icon="@drawable/map"
+                    app:fab_icon="@drawable/ic_map"
                     app:fab_colorNormal="@color/accent_material_light"
                     app:fab_colorPressed="#016358"/>
 
@@ -114,7 +114,7 @@
                     android:id="@+id/fab_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:fab_icon="@drawable/show"
+                    app:fab_icon="@drawable/ic_chart"
                     app:fab_colorNormal="@color/accent_material_light"
                     app:fab_colorPressed="#016358"/>
 

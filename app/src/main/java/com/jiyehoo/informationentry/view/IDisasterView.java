@@ -13,7 +13,7 @@ public interface IDisasterView {
     // 没有信息时候显示 Tv 的提示
     void showNoDisasterTip(boolean isShow);
     // 下拉刷新显示
-    void showLoading(boolean isSHow);
+    void showLoading(boolean isShow);
     // 吐司
     void showToast(String msg);
 }

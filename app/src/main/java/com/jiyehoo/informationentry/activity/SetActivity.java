@@ -1,14 +1,12 @@
 package com.jiyehoo.informationentry.activity;
 
 import android.graphics.Color;
-import android.hardware.biometrics.BiometricPrompt;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,10 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jiyehoo.informationentry.R;
-import com.jiyehoo.informationentry.model.SetSpModel;
 import com.jiyehoo.informationentry.presenter.SetPresenter;
 import com.jiyehoo.informationentry.util.BaseActivity;
-import com.jiyehoo.informationentry.util.FingerUtil;
 import com.jiyehoo.informationentry.view.ISetView;
 import com.nightonke.jellytogglebutton.JellyToggleButton;
 import com.nightonke.jellytogglebutton.State;
@@ -47,7 +43,6 @@ public class SetActivity extends BaseActivity implements ISetView, View.OnClickL
         setListener();
         presenter = new SetPresenter(this);
         initSwitch();
-
     }
 
     /**
@@ -77,7 +72,6 @@ public class SetActivity extends BaseActivity implements ISetView, View.OnClickL
                 presenter.closeFinger();
             }
         });
-
 
 //        mSbFinger.setOnStateChangeListener((process, state, jtb) -> {
 //            if (state == State.LEFT) {

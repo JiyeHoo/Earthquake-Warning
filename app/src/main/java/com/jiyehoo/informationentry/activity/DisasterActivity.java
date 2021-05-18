@@ -86,7 +86,8 @@ public class DisasterActivity extends AppCompatActivity implements IDisasterView
 
     @Override
     public void showRv(DisasterAdapter adapter) {
-        mRvDisasterList.setAdapter(adapter);
+        runOnUiThread(() ->
+                mRvDisasterList.setAdapter(adapter));
     }
 
     /**
@@ -95,11 +96,14 @@ public class DisasterActivity extends AppCompatActivity implements IDisasterView
      */
     @Override
     public void showNoDisasterTip(boolean isShow) {
-        if (isShow) {
-            mTvNoDisasterTip.setVisibility(View.VISIBLE);
-        } else {
-            mTvNoDisasterTip.setVisibility(View.GONE);
-        }
+        runOnUiThread(() -> {
+            if (isShow) {
+                mTvNoDisasterTip.setVisibility(View.VISIBLE);
+            } else {
+                mTvNoDisasterTip.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     /**

@@ -131,6 +131,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
             // todo 临时用于查询历史
             // devID: 6ca4f3101238542849bago
             floatingActionsMenu.collapse();
+            startActivity(new Intent(this, MapActivity.class));
 
 //            MyLog.d(TAG, "开始查询历史");
 //            MyLog.d(TAG, "ime stamp:" + TimeUtil.stampToDate(1620570646));
@@ -159,7 +160,7 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
         mFBtnShow.setOnClickListener(v -> {
             // todo 临时用于获取天气
             floatingActionsMenu.collapse();
-
+            startActivity(new Intent(this, ChartActivity.class));
 //            QWeather.getWarning(this, "110.303916,25.058919", new QWeather.OnResultWarningListener() {
 //                @Override
 //                public void onError(Throwable throwable) {

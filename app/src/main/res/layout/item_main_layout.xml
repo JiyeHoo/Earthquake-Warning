@@ -31,7 +31,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:src="@drawable/item_icon_1"/>
 
                 <TextView
@@ -40,7 +40,7 @@
                     android:text="设备列表"
                     android:textSize="20sp"
                     android:textColor="@color/white"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:fontFamily="@font/gotham"
                     android:layout_gravity="center_vertical"/>
 
@@ -74,7 +74,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:src="@drawable/item_icon_2"/>
 
                 <TextView
@@ -83,7 +83,7 @@
                     android:text="卫星地图"
                     android:textSize="20sp"
                     android:textColor="@color/white"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:fontFamily="@font/gotham"
                     android:layout_gravity="center_vertical"/>
 
@@ -117,8 +117,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="30dp"
-                    android:src="@drawable/chem"/>
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_chart"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
                     android:text="数据分析"
                     android:textSize="20sp"
                     android:textColor="@color/white"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:fontFamily="@font/gotham"
                     android:layout_gravity="center_vertical"/>
 
@@ -160,8 +160,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="30dp"
-                    android:src="@drawable/water"/>
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_disaster"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
                     android:text="灾害发布"
                     android:textSize="20sp"
                     android:textColor="@color/white"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:fontFamily="@font/gotham"
                     android:layout_gravity="center_vertical"/>
 

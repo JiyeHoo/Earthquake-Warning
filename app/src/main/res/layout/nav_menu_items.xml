@@ -25,7 +25,7 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/show"
+            android:src="@drawable/ic_chart"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/menu_item_1"/>
 
@@ -57,7 +57,7 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/map"
+            android:src="@drawable/ic_map"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/menu_item_2"/>
 

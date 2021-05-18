@@ -30,7 +30,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name=".activity.DeviceCtrlActivity"></activity>
+        <activity android:name=".activity.DeviceCtrlActivity" />
         <activity android:name=".activity.ResetPwdActivity" />
 
         <meta-data

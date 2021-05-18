@@ -2,12 +2,10 @@ package com.jiyehoo.informationentry.presenter;
 
 import android.content.Context;
 
-import com.google.android.material.tabs.TabLayout;
 import com.jiyehoo.informationentry.adapter.DisasterAdapter;
 import com.jiyehoo.informationentry.model.DisasterModel;
 import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.model.IDisasterModel;
-import com.jiyehoo.informationentry.model.MainModel;
 import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IDisasterView;
 import com.qweather.sdk.bean.WarningBean;
@@ -74,7 +72,6 @@ public class DisasterPresenter {
 //                    MyLog.d(TAG, "预警状态：" + warningBeanBase.getStatus());
 //                    MyLog.d(TAG, "预警详情：" + warningBeanBase.getText());
 //                    MyLog.d(TAG, "预警等级：" + warningBeanBase.getLevel());
-//
 //                });
             }
         });
