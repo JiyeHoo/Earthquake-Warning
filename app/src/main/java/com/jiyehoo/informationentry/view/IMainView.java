@@ -5,5 +5,6 @@ public interface IMainView {
     void showToast(String msg);
     void showUserInfo(String nickname, String email, String headPicUrl);
     void showWeatherIcon(String url);
-
+    void setWeather(String weatherText);
+    void setTemp(String tempText);
 }

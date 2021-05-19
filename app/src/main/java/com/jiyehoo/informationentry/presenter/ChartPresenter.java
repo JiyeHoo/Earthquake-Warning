@@ -102,7 +102,7 @@ public class ChartPresenter {
             MyLog.d(TAG, "保存文件成功");
 //            mView.showToast("保存文件成功");
             dialogBuilder.setTitle("导出成功")
-                    .setMessage("数据文件：/data/data/com.jiyehoo.Information/files/raw_data")
+                    .setMessage("数据文件：/data/data/com.jiyehoo.InformationEntry/files/raw_data")
                     .setPositiveButton("OK", null)
                     .show();
         } catch (Exception e) {
@@ -135,13 +135,13 @@ public class ChartPresenter {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
         if (TextUtils.isEmpty(stringBuilder.toString()) || stringBuilder.toString().length() == 0) {
 //            mView.showToast("文件为空");
-            dialogBuilder.setTitle("文件不存在")
-                    .setMessage("请先将数据导出至文件！")
+            dialogBuilder.setTitle("查看文件")
+                    .setMessage("文件不存在，请先将数据导出至文件！")
                     .setPositiveButton("OK", null)
                     .show();
         } else {
             // 显示文件内容
-            dialogBuilder.setTitle("读取文件\n/data/data/com.jiyehoo.InformationEntry/files/")
+            dialogBuilder.setTitle("查看文件\n/data/data/com.jiyehoo.InformationEntry/files/")
                     .setMessage(stringBuilder.toString())
                     .setPositiveButton("确定", null)
                     .setNegativeButton("删除", (dialog, which) -> deleteDataFile())
@@ -194,8 +194,8 @@ public class ChartPresenter {
 
         if (!file.exists()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            builder.setTitle("文件不存在")
-                    .setMessage("请先将数据导出至文件")
+            builder.setTitle("分享文件")
+                    .setMessage("文件不存在，请先将数据导出至文件")
                     .setPositiveButton("确定", null)
                     .show();
         } else {
@@ -204,6 +204,7 @@ public class ChartPresenter {
             //pdf文件要被读取所以加入读取权限
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(uri, "text/plain");
+
             try {
                 mContext.startActivity(intent);
             } catch (Exception e) {

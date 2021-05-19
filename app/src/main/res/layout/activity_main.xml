@@ -111,10 +111,10 @@
                     app:fab_colorPressed="#016358"/>
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_show"
+                    android:id="@+id/fab_notice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:fab_icon="@drawable/ic_chart"
+                    app:fab_icon="@drawable/ic_notice"
                     app:fab_colorNormal="@color/accent_material_light"
                     app:fab_colorPressed="#016358"/>
 

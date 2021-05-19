@@ -54,11 +54,12 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
 //    private RelativeLayout mRlMain;
     private BlurLayout blurLayout;
     private FloatingActionsMenu floatingActionsMenu;
-    private FloatingActionButton mFBtnMap, mFBtnShow, mFBtnSet;
+    private FloatingActionButton mFBtnMap, mFBtnNotice, mFBtnSet;
     private TextView mTvNavName, mTvNavEmail;
     private ImageView mIvWeatherIcon;
     private CircleImageView mCivHeadPic;
     private MainPresenter presenter;
+    private TextView mTvTemp, mTvWeather;
 //    private LoadingDialogUtil loadingDialogUtil;
 
     // 权限
@@ -157,10 +158,9 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
 //            });
         });
 
-        mFBtnShow.setOnClickListener(v -> {
-            // todo 临时用于获取天气
+        mFBtnNotice.setOnClickListener(v -> {
             floatingActionsMenu.collapse();
-            startActivity(new Intent(this, ChartActivity.class));
+            startActivity(new Intent(this, NoticeActivity.class));
 //            QWeather.getWarning(this, "110.303916,25.058919", new QWeather.OnResultWarningListener() {
 //                @Override
 //                public void onError(Throwable throwable) {
@@ -236,10 +236,13 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
         blurLayout = findViewById(R.id.blurLayout);
         floatingActionsMenu = findViewById(R.id.floating_menu);
         mFBtnMap = findViewById(R.id.fab_map);
-        mFBtnShow = findViewById(R.id.fab_show);
+        mFBtnNotice = findViewById(R.id.fab_notice);
         mFBtnSet = findViewById(R.id.fab_set);
         FlowingDrawer mDrawer = findViewById(R.id.drawerlayout);
         mIvWeatherIcon = findViewById(R.id.iv_weather);
+
+        mTvTemp = findViewById(R.id.tv_home_temp);
+        mTvWeather = findViewById(R.id.tv_home_weather);
 
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_FULLSCREEN);
 
@@ -334,6 +337,16 @@ public class MainActivity extends BaseActivity implements IMainView, EasyPermiss
     public void showWeatherIcon(String url) {
         Glide.with(this).load(url).into(mIvWeatherIcon);
         mIvWeatherIcon.setColorFilter(Color.WHITE);
+    }
+
+    @Override
+    public void setWeather(String weatherText) {
+        mTvWeather.setText(weatherText);
+    }
+
+    @Override
+    public void setTemp(String tempText) {
+        mTvTemp.setText(tempText);
     }
 
 

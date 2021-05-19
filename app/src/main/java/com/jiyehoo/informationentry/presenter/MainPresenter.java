@@ -221,8 +221,10 @@ public class MainPresenter {
                 new IIGetHomeWetherSketchCallBack() {
             @Override
             public void onSuccess(WeatherBean result) {
-                MyLog.d(TAG, "获取天气成功:" + result.getCondition() + ",Url:" + result.getInIconUrl());
+                MyLog.d(TAG, "获取天气成功:" + result.getCondition()+ result.getTemp() + ",Url:" + result.getInIconUrl());
                 view.showWeatherIcon(result.getInIconUrl());
+                view.setWeather(result.getCondition());
+                view.setTemp(result.getTemp());
             }
             @Override
             public void onFailure(String errorCode, String errorMsg) {
