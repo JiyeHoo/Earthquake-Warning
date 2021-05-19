@@ -16,7 +16,13 @@ public class DpValueItem extends CardView {
 
     public DpValueItem(Context context, SchemaBean schemaBean, Object intValue, ITuyaDevice device) {
         super(context);
-        int dpValue = (int)intValue;
+        int dpValue;
+        if (null == intValue) {
+            dpValue = 0;
+        } else {
+            dpValue = (int)intValue;
+        }
+
 
         CardView.inflate(context, R.layout.item_ctrl_value, this);
 

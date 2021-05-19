@@ -138,7 +138,7 @@ public class SetPresenter {
                 // 成功
                 MyLog.d(TAG, "指纹通过 " + result.toString());
                 view.showToast("设置成功");
-                // todo 记录 sp
+                // 记录 sp
                 MyLog.d(TAG, "记录指纹开启");
                 SetSpModel.INSTANCE.setIsFingerOpen(mContext, true);
             }
@@ -185,7 +185,7 @@ public class SetPresenter {
                 super.onAuthenticationSucceeded(result);
                 // 成功
                 view.showToast("设置成功");
-                // todo 记录 sp
+                // sp
                 MyLog.d(TAG, "记录指纹关闭");
 
                 SetSpModel.INSTANCE.setIsFingerOpen(mContext, false);

@@ -2,7 +2,10 @@ package com.jiyehoo.informationentry.presenter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.gson.Gson;
@@ -15,6 +18,9 @@ import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.ITuyaDataCallback;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +46,108 @@ public class ChartPresenter {
         mContext = (Context) view;
         mView = view;
         mModel = new ChartModel();
+    }
+
+    /**
+     * 导出数据到文件
+     */
+    public void shareDataFile() {
+        // todo 获取用于导出的数据，这里没有判断 null
+        List<HistoryBean.Dps> rainList = mModel.getRainHistoryBean().getDps();
+        List<HistoryBean.Dps> humidityList = mModel.getHumidityBean().getDps();
+        List<HistoryBean.Dps> xList = mModel.getMagnetismX().getDps();
+        List<HistoryBean.Dps> yList = mModel.getMagnetismY().getDps();
+
+        StringBuilder builder = new StringBuilder();
+        rainList.forEach(dps -> {
+            builder.append("时间：").append(dps.getTimeStr())
+                    .append("，DPId:").append(dps.getDpId())
+                    .append("，Value：").append(dps.getValue()).append("\n");
+
+            MyLog.d(TAG, "时间：" + dps.getTimeStr() + "，DpId:" + dps.getDpId() + "，内容：" + dps.getValue());
+        });
+        humidityList.forEach(dps -> {
+            builder.append("时间：").append(dps.getTimeStr())
+                    .append("，DPId:").append(dps.getDpId())
+                    .append("，Value：").append(dps.getValue()).append("\n");
+
+            MyLog.d(TAG, "时间：" + dps.getTimeStr() + "，DpId:" + dps.getDpId() + "，内容：" + dps.getValue());
+        });
+        xList.forEach(dps -> {
+            builder.append("时间：").append(dps.getTimeStr())
+                    .append("，DPId:").append(dps.getDpId())
+                    .append("，Value：").append(dps.getValue()).append("\n");
+
+            MyLog.d(TAG, "时间：" + dps.getTimeStr() + "，DpId:" + dps.getDpId() + "，内容：" + dps.getValue());
+        });
+        yList.forEach(dps -> {
+            builder.append("时间：").append(dps.getTimeStr())
+                    .append("，DPId:").append(dps.getDpId())
+                    .append("，Value：").append(dps.getValue()).append("\n");
+
+            MyLog.d(TAG, "时间：" + dps.getTimeStr() + "，DpId:" + dps.getDpId() + "，内容：" + dps.getValue());
+        });
+
+        FileOutputStream fos;
+        try {
+            fos = mContext.openFileOutput("chart_data", Context.MODE_APPEND);
+            fos.write(builder.toString().getBytes());
+            fos.close();
+            MyLog.d(TAG, "保存文件成功");
+            mView.showToast("保存文件成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            MyLog.d(TAG, "保存文件失败");
+            mView.showToast("保存文件失败");
+        }
+    }
+
+    /**
+     * 读取文件数据
+     */
+    public void readDataFile() {
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            FileInputStream fis = mContext.openFileInput("chart_data");
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            stringBuilder.append(new String(buffer));
+        } catch (Exception e) {
+            e.printStackTrace();
+            MyLog.d(TAG, "读取失败");
+        }
+        MyLog.d(TAG, stringBuilder.toString());
+        // 为空则不显示
+        if (TextUtils.isEmpty(stringBuilder.toString()) || stringBuilder.toString().length() == 0) {
+            mView.showToast("文件为空");
+            return;
+        }
+        // 显示文件内容
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("读取文件\n/data/data/com.jiyehoo.Information/files/")
+                .setMessage(stringBuilder.toString())
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
+    /**
+     * 删除保存文件
+     */
+    public void deleteDataFile() {
+
+        FileOutputStream fos;
+        String s = "";
+        try {
+            fos = mContext.openFileOutput("chart_data", Context.MODE_PRIVATE);
+            fos.write(s.getBytes());
+            fos.close();
+            MyLog.d(TAG, "清空文件成功");
+            mView.showToast("清空文件成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            MyLog.d(TAG, "清空文件失败");
+            mView.showToast("保存文件失败");
+        }
     }
 
     /**

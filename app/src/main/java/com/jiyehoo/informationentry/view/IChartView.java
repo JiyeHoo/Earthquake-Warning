@@ -30,4 +30,6 @@ public interface IChartView {
                         List<List<Float>> yDatas,
                         List<String> names,
                         List<Integer> colors);
+
+    void showToast(String msg);
 }

@@ -52,4 +52,41 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/fab_share_data"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:backgroundTint="@color/blue"-->
+<!--        android:src="@drawable/ic_share"-->
+<!--        app:layout_anchor="@id/abl_app_bar_show"-->
+<!--        app:layout_anchorGravity="bottom|end" />-->
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/abl_app_bar_show"
+        app:layout_anchorGravity="bottom|end"
+        app:fab_expandDirection="left">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_share_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/ic_download"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_read_share_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/ic_read"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_delete_share_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/ic_del"/>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

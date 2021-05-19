@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -31,10 +32,9 @@ import java.util.List;
  * @author JiyeHoo
  * @description: 图表界面
  */
-public class ChartActivity extends AppCompatActivity implements IChartView {
+public class ChartActivity extends AppCompatActivity implements IChartView, View.OnClickListener {
 
     private final String TAG = "###ShowActivity";
-
     private RadarChart mRadarChart;
     private BarChart mBarChart;
     private LineChart mLineChart;
@@ -83,6 +83,10 @@ public class ChartActivity extends AppCompatActivity implements IChartView {
             mActionBar.setDisplayHomeAsUpEnabled(true);
         }
         mCollapsingToolbarLayout.setTitle("数据分析");
+
+        findViewById(R.id.fab_share_data).setOnClickListener(this);
+        findViewById(R.id.fab_delete_share_data).setOnClickListener(this);
+        findViewById(R.id.fab_read_share_data).setOnClickListener(this);
     }
 
     @Override
@@ -118,5 +122,26 @@ public class ChartActivity extends AppCompatActivity implements IChartView {
     public void showRadarChart(List<String> xData, List<List<Float>> yDatas, List<String> names, List<Integer> colors) {
         RadarChartManager radarChartManager = new RadarChartManager(this, mRadarChart);
         radarChartManager.showRadarChart(xData, yDatas, names, colors);
+    }
+
+    @Override
+    public void showToast(String msg) {
+        runOnUiThread(() -> Toast.makeText(this, msg, Toast.LENGTH_LONG).show());
+    }
+
+    @Override
+    public void onClick(View v) {
+        // 导出数据到文件
+        if (v.getId() == R.id.fab_share_data) {
+            mPresenter.shareDataFile();
+        }
+        // 删除保存的文件
+        if (v.getId() == R.id.fab_delete_share_data) {
+            mPresenter.deleteDataFile();
+        }
+        // 读取保存的文件
+        if (v.getId() == R.id.fab_read_share_data) {
+            mPresenter.readDataFile();
+        }
     }
 }

@@ -1,5 +1,6 @@
 # Earthquake-Warning
 工程改名：Pre Disaster
+
 地质灾害检测系统，Android 端，硬件使用 Tuya 的 NB-IoT 作为通信板。
 
 # 当前版本
