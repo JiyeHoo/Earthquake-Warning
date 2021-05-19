@@ -86,9 +86,10 @@ public class ChartActivity extends AppCompatActivity implements IChartView, View
         }
         mCollapsingToolbarLayout.setTitle("数据分析");
 
-        findViewById(R.id.fab_share_data).setOnClickListener(this);
-        findViewById(R.id.fab_delete_share_data).setOnClickListener(this);
+        findViewById(R.id.fab_write_share_data).setOnClickListener(this);
+//        findViewById(R.id.fab_delete_share_data).setOnClickListener(this);
         findViewById(R.id.fab_read_share_data).setOnClickListener(this);
+        findViewById(R.id.fab_share_file).setOnClickListener(this);
 
         mSrlChart = findViewById(R.id.srl_chart_list);
         mSrlChart.setOnRefreshListener(refreshListener);
@@ -137,16 +138,21 @@ public class ChartActivity extends AppCompatActivity implements IChartView, View
     @Override
     public void onClick(View v) {
         // 导出数据到文件
-        if (v.getId() == R.id.fab_share_data) {
+        if (v.getId() == R.id.fab_write_share_data) {
             mPresenter.shareDataFile();
         }
         // 删除保存的文件
-        if (v.getId() == R.id.fab_delete_share_data) {
-            mPresenter.deleteDataFile();
-        }
+//        if (v.getId() == R.id.fab_delete_share_data) {
+//            mPresenter.deleteDataFile();
+//        }
         // 读取保存的文件
         if (v.getId() == R.id.fab_read_share_data) {
             mPresenter.readDataFile();
+        }
+
+        // 分享、打开文件
+        if (v.getId() == R.id.fab_share_file) {
+            mPresenter.openDataFile();
         }
     }
 

@@ -80,7 +80,7 @@
         app:fab_expandDirection="left">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_share_data"
+            android:id="@+id/fab_write_share_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/ic_download"/>
@@ -91,11 +91,17 @@
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/ic_read"/>
 
+<!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/fab_delete_share_data"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:fab_icon="@drawable/ic_del"/>-->
+
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_delete_share_data"
+            android:id="@+id/fab_share_file"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_icon="@drawable/ic_del"/>
+            app:fab_icon="@drawable/ic_share"/>
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

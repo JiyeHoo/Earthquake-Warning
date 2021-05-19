@@ -1,11 +1,16 @@
 package com.jiyehoo.informationentry.presenter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.gson.Gson;
@@ -89,16 +94,25 @@ public class ChartPresenter {
         });
 
         FileOutputStream fos;
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
         try {
-            fos = mContext.openFileOutput("chart_data", Context.MODE_APPEND);
+            fos = mContext.openFileOutput("raw_data", Context.MODE_APPEND);
             fos.write(builder.toString().getBytes());
             fos.close();
             MyLog.d(TAG, "保存文件成功");
-            mView.showToast("保存文件成功");
+//            mView.showToast("保存文件成功");
+            dialogBuilder.setTitle("导出成功")
+                    .setMessage("数据文件：/data/data/com.jiyehoo.Information/files/raw_data")
+                    .setPositiveButton("OK", null)
+                    .show();
         } catch (Exception e) {
             e.printStackTrace();
             MyLog.d(TAG, "保存文件失败");
-            mView.showToast("保存文件失败");
+//            mView.showToast("保存文件失败");
+            dialogBuilder.setTitle("导出失败")
+                    .setMessage("保存文件发生错误！")
+                    .setPositiveButton("确定", null)
+                    .show();
         }
     }
 
@@ -108,7 +122,7 @@ public class ChartPresenter {
     public void readDataFile() {
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            FileInputStream fis = mContext.openFileInput("chart_data");
+            FileInputStream fis = mContext.openFileInput("raw_data");
             byte[] buffer = new byte[fis.available()];
             fis.read(buffer);
             stringBuilder.append(new String(buffer));
@@ -118,36 +132,85 @@ public class ChartPresenter {
         }
         MyLog.d(TAG, stringBuilder.toString());
         // 为空则不显示
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
         if (TextUtils.isEmpty(stringBuilder.toString()) || stringBuilder.toString().length() == 0) {
-            mView.showToast("文件为空");
-            return;
+//            mView.showToast("文件为空");
+            dialogBuilder.setTitle("文件不存在")
+                    .setMessage("请先将数据导出至文件！")
+                    .setPositiveButton("OK", null)
+                    .show();
+        } else {
+            // 显示文件内容
+            dialogBuilder.setTitle("读取文件\n/data/data/com.jiyehoo.InformationEntry/files/")
+                    .setMessage(stringBuilder.toString())
+                    .setPositiveButton("确定", null)
+                    .setNegativeButton("删除", (dialog, which) -> deleteDataFile())
+                    .show();
         }
-        // 显示文件内容
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle("读取文件\n/data/data/com.jiyehoo.Information/files/")
-                .setMessage(stringBuilder.toString())
-                .setPositiveButton("OK", null)
-                .show();
+
     }
 
     /**
      * 删除保存文件
      */
     public void deleteDataFile() {
-
-        FileOutputStream fos;
-        String s = "";
-        try {
-            fos = mContext.openFileOutput("chart_data", Context.MODE_PRIVATE);
-            fos.write(s.getBytes());
-            fos.close();
-            MyLog.d(TAG, "清空文件成功");
-            mView.showToast("清空文件成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            MyLog.d(TAG, "清空文件失败");
-            mView.showToast("保存文件失败");
+        MyLog.d(TAG, "开始删除文件");
+        File file = new File(mContext.getFilesDir(), "raw_data");
+        boolean isDelete = false;
+        if (file.exists()) {
+            isDelete = file.delete();
         }
+        if (isDelete) {
+            mView.showToast("删除文件成功");
+        } else {
+            mView.showToast("删除文件失败");
+        }
+
+
+//        FileOutputStream fos;
+//        String s = "";
+//        try {
+//            fos = mContext.openFileOutput("chart_data", Context.MODE_PRIVATE);
+//            fos.write(s.getBytes());
+//            fos.close();
+//            MyLog.d(TAG, "清空文件成功");
+//            mView.showToast("清空文件成功");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            MyLog.d(TAG, "清空文件失败");
+//            mView.showToast("保存文件失败");
+//        }
+    }
+
+    /**
+     * 分享/打开文件
+     */
+    public void openDataFile() {
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri uri;
+        File file = new File(mContext.getFilesDir(), "raw_data");
+
+        if (!file.exists()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle("文件不存在")
+                    .setMessage("请先将数据导出至文件")
+                    .setPositiveButton("确定", null)
+                    .show();
+        } else {
+            // /data/data/com.jiyehoo.informationentry/files/chart_data
+            uri = FileProvider.getUriForFile(mContext, "com.jiyehoo.informationentry.datafile", file);
+            //pdf文件要被读取所以加入读取权限
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(uri, "text/plain");
+            try {
+                mContext.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**
