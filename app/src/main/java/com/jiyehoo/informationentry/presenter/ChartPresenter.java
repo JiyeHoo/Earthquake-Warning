@@ -180,6 +180,8 @@ public class ChartPresenter {
                     @Override
                     public void onError(String s, String s1) {
                         MyLog.d(TAG, "请求湿度历史失败");
+                        mView.showToast("请求湿度历史失败");
+                        mView.showLoading(false);
                     }
                 });
 
@@ -203,6 +205,8 @@ public class ChartPresenter {
                     @Override
                     public void onError(String s, String s1) {
                         MyLog.d(TAG, "请求降水量历史失败");
+                        mView.showToast("请求降水量历史失败");
+                        mView.showLoading(false);
                     }
                 });
     }
@@ -237,6 +241,8 @@ public class ChartPresenter {
                     @Override
                     public void onError(String s, String s1) {
                         MyLog.d(TAG, "请求 地磁 X 历史失败");
+                        mView.showToast("请求 地磁 X 历史失败");
+                        mView.showLoading(false);
                     }
                 });
 
@@ -260,6 +266,8 @@ public class ChartPresenter {
                     @Override
                     public void onError(String s, String s1) {
                         MyLog.d(TAG, "请求 地磁 Y 历史失败");
+                        mView.showToast("请求 地磁 Y 历史失败");
+                        mView.showLoading(false);
                     }
                 });
     }
@@ -322,6 +330,7 @@ public class ChartPresenter {
             MyLog.d(TAG, "bar 数据获取完整");
             isMagYGetDate = false;
             isMagXGetDate = false;
+            mView.showLoading(false);
         }
 
         MyLog.d(TAG, "开始处理 bar 图表");
@@ -391,6 +400,7 @@ public class ChartPresenter {
             MyLog.d(TAG, "line 数据获取完整");
             isHumidityGetDate = false;
             isRainGetDate = false;
+            mView.showLoading(false);
         }
         MyLog.d(TAG, "开始处理 Line 图表");
 

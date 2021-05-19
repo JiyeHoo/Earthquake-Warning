@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -41,6 +42,7 @@ public class ChartActivity extends AppCompatActivity implements IChartView, View
     private PieChart mPieChart;
 
     private ChartPresenter mPresenter;
+    private SwipeRefreshLayout mSrlChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,9 @@ public class ChartActivity extends AppCompatActivity implements IChartView, View
         findViewById(R.id.fab_share_data).setOnClickListener(this);
         findViewById(R.id.fab_delete_share_data).setOnClickListener(this);
         findViewById(R.id.fab_read_share_data).setOnClickListener(this);
+
+        mSrlChart = findViewById(R.id.srl_chart_list);
+        mSrlChart.setOnRefreshListener(refreshListener);
     }
 
     @Override
@@ -144,4 +149,25 @@ public class ChartActivity extends AppCompatActivity implements IChartView, View
             mPresenter.readDataFile();
         }
     }
+
+    /**
+     * 显示下拉刷新
+     * @param isShow 是否显示
+     */
+    @Override
+    public void showLoading(boolean isShow) {
+        runOnUiThread(() -> mSrlChart.setRefreshing(isShow));
+    }
+
+    /**
+     * 下拉刷新监听
+     */
+    private final SwipeRefreshLayout.OnRefreshListener refreshListener = () -> {
+        // 下拉刷新
+        showLoading(true);
+        mPresenter.getDataBar();
+        mPresenter.getDataLine();
+        mPresenter.showPieChart();
+        mPresenter.showRadarChart();
+    };
 }

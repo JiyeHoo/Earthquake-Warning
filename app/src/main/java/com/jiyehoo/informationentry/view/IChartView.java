@@ -32,4 +32,5 @@ public interface IChartView {
                         List<Integer> colors);
 
     void showToast(String msg);
+    void showLoading(boolean isShow);
 }
