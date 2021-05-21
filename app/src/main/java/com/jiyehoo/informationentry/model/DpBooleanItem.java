@@ -17,7 +17,12 @@ public class DpBooleanItem extends CardView {
 
     public DpBooleanItem(Context context, SchemaBean schemaBean, Object boolValue, ITuyaDevice device) {
         super(context);
-        boolean dpValue = (Boolean)boolValue;
+        boolean dpValue;
+        if (null == boolValue) {
+            dpValue = false;
+        } else {
+            dpValue = (Boolean)boolValue;
+        }
 
         CardView.inflate(context, R.layout.item_ctrl_boolean, this);
 
@@ -27,9 +32,10 @@ public class DpBooleanItem extends CardView {
 
         // 绑定布局
         TextView mTvName = findViewById(R.id.tv_ctrl_item_boolean_name);
-
+        TextView mTvValue = findViewById(R.id.tv_ctrl_item_boolean_value);
         // 显示
         mTvName.setText(dpName);
+        mTvValue.setText(String.valueOf(dpValue));
 
     }
 }

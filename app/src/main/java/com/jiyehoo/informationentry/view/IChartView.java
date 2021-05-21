@@ -1,5 +1,7 @@
 package com.jiyehoo.informationentry.view;
 
+import android.content.DialogInterface;
+
 import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
@@ -33,4 +35,7 @@ public interface IChartView {
 
     void showToast(String msg);
     void showLoading(boolean isShow);
+    void showDialog(String title, String msg, DialogInterface.OnClickListener listener);
+    void finishActivity();
 }
+

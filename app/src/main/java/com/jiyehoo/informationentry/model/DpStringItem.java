@@ -20,9 +20,19 @@ import com.tuya.smart.sdk.api.ITuyaDevice;
 public class DpStringItem extends CardView {
     private final String TAG = "###DpStringItem";
 
-    public DpStringItem(Context context, SchemaBean schemaBean, Object intValue, ITuyaDevice device) {
+    public DpStringItem(Context context, SchemaBean schemaBean, Object strValue, ITuyaDevice device) {
         super(context);
-        String dpValue = (String) intValue;
+        String dpValue = "null";
+        if (null == strValue) {
+            dpValue = "null";
+            MyLog.d(TAG, "dp 为空：" + schemaBean.getName());
+        } else {
+            try {
+                dpValue = String.valueOf(strValue);
+            } catch (Exception e) {
+                MyLog.e(TAG, "数据类型错误:" + schemaBean.getName() + strValue);
+            }
+        }
 
         CardView.inflate(context, R.layout.item_ctrl_string, this);
 
@@ -36,12 +46,7 @@ public class DpStringItem extends CardView {
 
         // 显示
         mTvName.setText(dpName);
-        if (!TextUtils.isEmpty(String.valueOf(dpValue))) {
-            mTvValue.setText(String.valueOf(dpValue));
-        } else {
-            MyLog.d(TAG, "value 为空:" + dpName);
-            mTvValue.setText("null");
-        }
+        mTvValue.setText(dpValue);
 
     }
 

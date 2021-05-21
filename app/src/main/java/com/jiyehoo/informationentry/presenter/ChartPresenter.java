@@ -14,13 +14,17 @@ import androidx.core.content.FileProvider;
 
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.gson.Gson;
+import com.jiyehoo.informationentry.activity.ChartActivity;
 import com.jiyehoo.informationentry.bean.HistoryBean;
 import com.jiyehoo.informationentry.model.ChartModel;
+import com.jiyehoo.informationentry.model.HomeModel;
 import com.jiyehoo.informationentry.model.IChartModel;
 import com.jiyehoo.informationentry.util.MyLog;
 import com.jiyehoo.informationentry.view.IChartView;
 import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
+import com.tuya.smart.home.sdk.bean.HomeBean;
+import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
 import com.tuya.smart.sdk.api.ITuyaDataCallback;
 
 import java.io.File;
@@ -46,11 +50,42 @@ public class ChartPresenter {
 
     private boolean isRainGetDate = false, isHumidityGetDate = false;
     private boolean isMagXGetDate = false, isMagYGetDate = false;
+    private String devId = "6c0bd58978e0b41a66epyi";
 
     public ChartPresenter(IChartView view) {
         mContext = (Context) view;
         mView = view;
         mModel = new ChartModel();
+    }
+
+    /**
+     * 获取设备 id
+     */
+    public void setDevId() {
+        TuyaHomeSdk.newHomeInstance(HomeModel.getHomeId(mContext)).getHomeDetail(new ITuyaHomeResultCallback() {
+            @Override
+            public void onSuccess(HomeBean bean) {
+                if (bean.getDeviceList() != null && bean.getDeviceList().size() > 0) {
+                    devId = bean.getDeviceList().get(0).getDevId();
+                    MyLog.d(TAG, "图表所用设备 devId:" + devId);
+                    // 绘制图表
+                    getDataBar();
+                    getDataLine();
+                    showPieChart();
+                    showRadarChart();
+                } else {
+                    MyLog.d(TAG, "设备列表为null");
+                    mView.showDialog("无数据",
+                            "当前账号下未找到设备，请前往设备管理添加新设备",
+                            (dialog, which) -> mView.finishActivity());
+                }
+            }
+
+            @Override
+            public void onError(String errorCode, String errorMsg) {
+                MyLog.d(TAG, "设备列表获取失败");
+            }
+        });
     }
 
     /**
@@ -222,7 +257,7 @@ public class ChartPresenter {
         MyLog.d(TAG, "获取 line 的数据");
 
         Map<String, Object> map = new HashMap<>();
-        map.put("devId", "6ca4f3101238542849bago");
+        map.put("devId", devId);
         map.put("dpIds", "104"); // dp 点
         map.put("offset", 0); // 分页偏移量
         map.put("limit", 5); // 分页大小,即多少个 dp 数据
@@ -281,7 +316,7 @@ public class ChartPresenter {
     public void getDataBar() {
         MyLog.d(TAG, "获取 bar 数据");
         Map<String, Object> map = new HashMap<>();
-        map.put("devId", "6ca4f3101238542849bago");
+        map.put("devId", devId);
         map.put("dpIds", "101"); // dp 点
         map.put("offset", 0); // 分页偏移量
         map.put("limit", 5); // 分页大小,即多少个 dp 数据
@@ -296,6 +331,10 @@ public class ChartPresenter {
                         // json 解析到实体类 HistoryBean
                         Gson gson = new Gson();
                         HistoryBean bean = gson.fromJson(result, HistoryBean.class);
+                        if (bean.getTotal() < 5) {
+                            MyLog.d(TAG, "X 数据不足5");
+                            return;
+                        }
                         // 将数据放入 model
                         mModel.setMagnetismX(bean);
                         isMagXGetDate = true;
@@ -351,7 +390,7 @@ public class ChartPresenter {
 //            MyLog.d(TAG, "time to stamp error");
 //        }
         Map<String, Object> map = new HashMap<>();
-        map.put("devId", "6ca4f3101238542849bago");
+        map.put("devId", devId);
         map.put("dpIds", "1,101,102,103,104,105,106,107,108,109,110"); // dp 点
         map.put("offset", 0); // 分页偏移量
         map.put("limit", 20); // 分页大小,即多少个 dp 数据

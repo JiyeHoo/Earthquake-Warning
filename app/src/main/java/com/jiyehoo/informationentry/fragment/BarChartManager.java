@@ -181,7 +181,7 @@ public class BarChartManager {
 
 
 
-        final String[] xValues = {"南方向", "东方向", "山顶", "西方向", "北方向"};
+//        final String[] xValues = {"南方向", "东方向", "山顶", "西方向", "北方向"};
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {

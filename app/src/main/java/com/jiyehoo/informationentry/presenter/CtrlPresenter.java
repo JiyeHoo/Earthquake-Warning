@@ -168,7 +168,7 @@ public class CtrlPresenter {
 
             Object value = model.getDeviceBean().getDps().get(bean.getId());
             if (bean.type.equals(DataTypeEnum.OBJ.getType())) {
-//                MyLog.d(TAG, "类型:" + bean.getSchemaType());
+                MyLog.d(TAG, "类型:" + bean.getSchemaType());
                 switch (bean.getSchemaType()) {
                     // boolean
                     case BoolSchemaBean.type:
@@ -188,14 +188,14 @@ public class CtrlPresenter {
                     // string
                     case StringSchemaBean.type:
                         DpStringItem stringItem = new DpStringItem(context, bean, value ,model.getDevice());
-                        // todo 点击
-                        if (bean.getMode().contains("w")) {
-                            stringItem.setOnClickListener(v -> {
-                                MyLog.d(TAG, "cardView 点击,id:" + bean.getId());
-                                String ctl = "123.0";
-                                sendDps(bean.getId(), ctl);
-                            });
-                        }
+//                        // 点击
+//                        if (bean.getMode().contains("w")) {
+//                            stringItem.setOnClickListener(v -> {
+//                                MyLog.d(TAG, "cardView 点击,id:" + bean.getId());
+//                                String ctl = "123.0";
+//                                sendDps(bean.getId(), ctl);
+//                            });
+//                        }
                         view.addView(stringItem);
                         break;
                     default:

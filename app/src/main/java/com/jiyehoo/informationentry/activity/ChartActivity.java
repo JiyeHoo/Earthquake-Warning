@@ -1,5 +1,6 @@
 package com.jiyehoo.informationentry.activity;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -57,11 +59,11 @@ public class ChartActivity extends AppCompatActivity implements IChartView, View
 //        mPresenter.getHistory();
 
         // 显示图表
-//        mPresenter.showBarChartMore();
-        mPresenter.getDataBar();
-        mPresenter.getDataLine();
-        mPresenter.showPieChart();
-        mPresenter.showRadarChart();
+        mPresenter.setDevId();
+//        mPresenter.getDataBar();
+//        mPresenter.getDataLine();
+//        mPresenter.showPieChart();
+//        mPresenter.showRadarChart();
     }
 
     private void fullScreen() {
@@ -163,6 +165,23 @@ public class ChartActivity extends AppCompatActivity implements IChartView, View
     @Override
     public void showLoading(boolean isShow) {
         runOnUiThread(() -> mSrlChart.setRefreshing(isShow));
+    }
+
+    @Override
+    public void showDialog(String title, String msg, DialogInterface.OnClickListener listener) {
+        runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(title)
+                    .setMessage(msg)
+                    .setPositiveButton("OK", listener)
+                    .show();
+        });
+
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
     }
 
     /**
