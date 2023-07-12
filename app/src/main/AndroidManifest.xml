@@ -36,10 +36,10 @@
 
         <meta-data
             android:name="TUYA_SMART_APPKEY"
-            android:value="g5fpnf9prk8kqdraddgd" />
+            android:value="xxxxx" />
         <meta-data
             android:name="TUYA_SMART_SECRET"
-            android:value="3ycf4gdhfvdf7svc5a3hksumfthdhce5" />
+            android:value="xxxxx" />
 
         <activity
             android:name=".activity.SignUpActivity"
